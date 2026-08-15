@@ -1,0 +1,77 @@
+{
+  "ci": {
+    "githubActions": true,
+    "workflowFiles": [
+      ".github/workflows/ci.yml"
+    ]
+  },
+  "dependencies": {
+    "development": [
+      "@types/node",
+      "@types/react",
+      "@types/react-dom",
+      "eslint",
+      "eslint-config-next",
+      "prettier",
+      "typescript"
+    ],
+    "production": [
+      "next",
+      "react",
+      "react-dom"
+    ]
+  },
+  "generatedAt": "2026-08-15T19:03:36.458Z",
+  "project": {
+    "databaseLibraries": [],
+    "frameworks": [
+      "nextjs",
+      "react"
+    ],
+    "languages": [
+      "javascript",
+      "typescript"
+    ],
+    "name": "maru-web",
+    "packageManager": "npm",
+    "root": "."
+  },
+  "routes": [
+    {
+      "kind": "api",
+      "path": "/api/health",
+      "source": "src/app/api/health/route.ts",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "kind": "page",
+      "path": "/",
+      "source": "src/app/page.tsx"
+    }
+  ],
+  "schemaVersion": 1,
+  "source": {
+    "directories": [
+      "src"
+    ],
+    "fileCount": 4,
+    "files": [
+      "src/app/api/health/route.ts",
+      "src/app/globals.css",
+      "src/app/layout.tsx",
+      "src/app/page.tsx"
+    ],
+    "filesByExtension": {
+      ".css": 1,
+      ".ts": 1,
+      ".tsx": 2
+    }
+  },
+  "tests": {
+    "directories": [],
+    "files": [],
+    "frameworks": []
+  }
+}
