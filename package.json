@@ -1,0 +1,34 @@
+{
+  "name": "maru-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MaruCheck hosted dashboard and API",
+  "scripts": {
+    "build": "next build",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run build",
+    "dev": "next dev",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=24",
+    "npm": ">=11"
+  },
+  "dependencies": {
+    "next": "^16.2.11",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.1",
+    "prettier": "^3.9.6",
+    "typescript": "^6.0.3"
+  }
+}
