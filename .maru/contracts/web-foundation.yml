@@ -1,0 +1,36 @@
+version: 1
+id: web-foundation
+title: Web Foundation
+status: draft
+criticality: medium
+intent: The root page must identify the product as MaruCheck and explain that it independently verifies AI-generated software. The health endpoint must respond to GET requests with a successful JSON status without exposing configuration or secrets. The web application must remain independently buildable and deployable from the MaruCheck CLI repository.
+owners:
+  - product
+  - engineering
+requirements:
+  - id: WF-001
+    statement: The root page must identify the product as MaruCheck and explain that it independently verifies AI-generated software.
+    priority: required
+  - id: WF-002
+    statement: The health endpoint must respond to GET requests with a successful JSON status without exposing configuration or secrets.
+    priority: required
+  - id: WF-003
+    statement: The web application must remain independently buildable and deployable from the MaruCheck CLI repository.
+    priority: required
+invariants:
+  - id: WF-INV-001
+    statement: Authorization and validation must be enforced by a trusted server boundary.
+  - id: WF-INV-002
+    statement: Retries and duplicate requests must not create contradictory state.
+edge_cases:
+  - the operation is retried or submitted concurrently
+  - a dependent service succeeds but local persistence fails
+security:
+  - enforce authorization and input validation at the server boundary
+data_integrity:
+  - duplicate or failed operations must not create duplicate or partially committed state
+evidence_policy:
+  blocking_requirements:
+    - WF-001
+    - WF-INV-001
+    - WF-INV-002
