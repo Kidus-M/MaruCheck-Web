@@ -32,3 +32,17 @@ Open `http://localhost:3000`. The initial server health endpoint is available at
 - A separate worker repository will be introduced only when independent scaling is required.
 
 See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md).
+
+## Codex and MCP
+
+This repository includes an optional project-scoped Codex configuration at `.codex/config.toml`. With the documented sibling layout, Codex can start the MaruCheck MCP server from `../maru-cli` while keeping both projects in independent Git repositories.
+
+Build the CLI once before using the integration:
+
+```bash
+cd ../maru-cli
+npm install
+npm run build
+```
+
+The server is not marked as required, so contributors who clone only the web repository or use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Claude Code, Cursor, and custom MCP setup instructions are in the [Phase 3 MCP guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).
