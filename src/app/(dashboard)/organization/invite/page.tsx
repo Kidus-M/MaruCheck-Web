@@ -1,36 +1,20 @@
-import { PageHeader, SecondaryLink } from "@/components/dashboard-ui";
+import { redirect } from "next/navigation";
+import { PageHeader } from "@/components/dashboard-ui";
+import { InviteMemberForm } from "@/components/invite-member-form";
+import { requireWorkspaceContext } from "@/lib/session";
 
-export default function InviteMemberPage() {
+export default async function InviteMemberPage() {
+  const { organization, viewer } = await requireWorkspaceContext();
+  if (viewer.role !== "Owner") redirect("/organization");
+
   return (
     <div className="page-stack page-stack--narrow">
       <PageHeader
-        description="Invite someone to review evidence and manage contracts in Maru Labs."
+        description={`Invite someone to review evidence and manage contracts in ${organization.name}.`}
         eyebrow="Organization / Members"
         title="Invite a member"
       />
-      <form className="form-card panel">
-        <label>
-          <span>Work email</span>
-          <input type="email" placeholder="teammate@company.com" />
-        </label>
-        <label>
-          <span>Role</span>
-          <select defaultValue="Member">
-            <option>Member</option>
-            <option>Owner</option>
-          </select>
-        </label>
-        <p className="form-note">
-          Members can inspect projects, contracts, runs, findings, coverage, and QA memory. Owners
-          can also manage organization settings.
-        </p>
-        <div className="form-actions">
-          <SecondaryLink href="/organization">Cancel</SecondaryLink>
-          <button className="button button--primary" type="button">
-            Send invitation
-          </button>
-        </div>
-      </form>
+      <InviteMemberForm organizationId={organization.id} />
     </div>
   );
 }
