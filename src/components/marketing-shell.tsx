@@ -1,83 +1,94 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Icon } from "@/components/icon";
 import { MaruMark } from "@/components/maru-mark";
 import { MarketingMotion } from "@/components/marketing-motion";
+import { MarketingNavigation } from "@/components/marketing-navigation";
 
-const links = [
-  { href: "/product", label: "Product" },
-  { href: "/#how-it-works", label: "How it works" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/docs", label: "Docs" },
+const footerGroups = [
+  {
+    title: "Product",
+    links: [
+      ["Overview", "/product"],
+      ["Proof dashboard", "/dashboard"],
+      ["Pricing", "/pricing"],
+      ["Sign in", "/sign-in"],
+    ],
+  },
+  {
+    title: "Developers",
+    links: [
+      ["Documentation", "/docs"],
+      ["Getting started", "/docs/getting-started"],
+      ["Quality Contracts", "/docs/quality-contracts"],
+      ["MCP integration", "/docs/mcp"],
+    ],
+  },
+  {
+    title: "System",
+    links: [
+      ["CI verification", "/docs/ci"],
+      ["About", "/about"],
+      ["Service health", "/api/health"],
+      ["GitHub", "https://github.com/Kidus-M/MaruCheck"],
+    ],
+  },
 ] as const;
 
 export function MarketingShell({ children }: { readonly children: ReactNode }) {
   return (
     <div className="marketing-site">
       <MarketingMotion />
-      <header className="marketing-header">
-        <div className="marketing-container marketing-header__inner">
-          <MaruMark />
-          <nav className="marketing-nav" aria-label="Primary navigation">
-            {links.map((link) => (
-              <Link href={link.href} key={link.href}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="marketing-header__actions">
-            <Link className="text-link" href="/sign-in">
-              Sign in
-            </Link>
-            <Link className="button button--ink button--small" href="/dashboard">
-              Explore dashboard
-            </Link>
-          </div>
-          <details className="marketing-menu">
-            <summary>Menu</summary>
-            <nav aria-label="Mobile navigation">
-              {links.map((link) => (
-                <Link href={link.href} key={link.href}>
-                  {link.label}
-                </Link>
-              ))}
-              <Link href="/sign-in">Sign in</Link>
-              <Link href="/dashboard">Explore dashboard</Link>
-            </nav>
-          </details>
-        </div>
-      </header>
-
+      <MarketingNavigation />
       <main id="main-content">{children}</main>
-
       <footer className="marketing-footer">
+        <section className="footer-proof">
+          <div className="marketing-container footer-proof__inner" data-reveal>
+            <p className="signal-label">
+              <span /> Final verification
+            </p>
+            <h2>
+              The coding agent builds.
+              <span>MaruCheck proves.</span>
+            </h2>
+            <div className="footer-proof__actions">
+              <Link className="marketing-button marketing-button--signal" href="/sign-in">
+                Start with MaruCheck <Icon name="arrow" />
+              </Link>
+              <Link className="marketing-button marketing-button--ghost-dark" href="/docs">
+                Read the system docs
+              </Link>
+            </div>
+          </div>
+          <div className="footer-proof__trace" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </div>
+        </section>
         <div className="marketing-container marketing-footer__grid">
           <div className="marketing-footer__brand">
             <MaruMark />
-            <p>Independent release proof for software built at AI speed.</p>
-            <span>Intent → challenge → evidence → release.</span>
+            <p>Independent verification for software built at AI speed.</p>
+            <span className="system-state">
+              <i /> Local-first core operational
+            </span>
           </div>
-          <div>
-            <strong>Product</strong>
-            <Link href="/product">Overview</Link>
-            <Link href="/pricing">Pricing</Link>
-            <Link href="/dashboard">Live dashboard</Link>
-          </div>
-          <div>
-            <strong>Learn</strong>
-            <Link href="/docs">Documentation</Link>
-            <Link href="/docs/getting-started">Getting started</Link>
-            <Link href="/docs/quality-contracts">Quality Contracts</Link>
-          </div>
-          <div>
-            <strong>Company</strong>
-            <Link href="/about">About</Link>
-            <Link href="/docs/ci">CI integration</Link>
-            <Link href="/docs/mcp">MCP workflow</Link>
-          </div>
+          {footerGroups.map((group) => (
+            <nav aria-label={`${group.title} links`} key={group.title}>
+              <strong>{group.title}</strong>
+              {group.links.map(([label, href]) => (
+                <Link href={href} key={href}>
+                  {label}
+                </Link>
+              ))}
+            </nav>
+          ))}
         </div>
         <div className="marketing-container marketing-footer__bottom">
           <span>© {new Date().getFullYear()} MaruCheck</span>
-          <span>Built around proof, not promises.</span>
+          <span>Intent → risk → verification → evidence</span>
+          <span>Built for the failure path.</span>
         </div>
       </footer>
     </div>
