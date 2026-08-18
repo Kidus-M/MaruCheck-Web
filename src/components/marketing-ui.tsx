@@ -47,7 +47,7 @@ export function MarketingPageHeader({
     <section className="marketing-page-hero">
       <div className="marketing-container marketing-page-hero__grid">
         <div data-reveal>
-          <Eyebrow>{eyebrow}</Eyrow>
+          <Eyebrow>{eyebrow}</Eyebrow>
           <h1>{title}</h1>
         </div>
         <div className="marketing-page-hero__aside" data-reveal>
