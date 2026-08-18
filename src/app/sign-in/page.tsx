@@ -1,10 +1,15 @@
 import Link from "next/link";
-import { Icon } from "@/components/icon";
+import { redirect } from "next/navigation";
+import { AuthPanel } from "@/components/auth-panel";
 import { MaruMark } from "@/components/maru-mark";
+import { isAuthConfigured, isGithubAuthConfigured } from "@/lib/auth";
+import { getSession } from "@/lib/session";
 
-export default function SignInPage() {
+export default async function SignInPage() {
+  if (isAuthConfigured() && (await getSession()) !== null) redirect("/dashboard");
+
   return (
-    <main className="auth-page">
+    <main className="auth-page" id="main-content">
       <section className="auth-story">
         <MaruMark />
         <div className="auth-orbit" aria-hidden="true">
@@ -27,36 +32,10 @@ export default function SignInPage() {
         </footer>
       </section>
       <section className="auth-form">
-        <div>
-          <p className="eyebrow">Welcome to MaruCheck</p>
-          <h2>Sign in to your workspace</h2>
-          <p>Use your work account to review contracts, runs, and release evidence.</p>
-          <button className="auth-provider" type="button">
-            <span>G</span>Continue with Google
-            <Icon name="arrow" />
-          </button>
-          <button className="auth-provider" type="button">
-            <span>GH</span>Continue with GitHub
-            <Icon name="arrow" />
-          </button>
-          <div className="auth-divider">
-            <span>or</span>
-          </div>
-          <label>
-            <span>Work email</span>
-            <input type="email" placeholder="you@company.com" />
-          </label>
-          <button className="button button--primary auth-submit" type="button">
-            Continue with email
-            <Icon name="arrow" />
-          </button>
-          <small>
-            Authentication provider will be connected after the hosted stack is selected.
-          </small>
-        </div>
+        <AuthPanel configured={isAuthConfigured()} githubConfigured={isGithubAuthConfigured()} />
         <footer>
           By continuing, you agree to the Terms and Privacy Policy.{" "}
-          <Link href="/">View demo dashboard</Link>
+          <Link href="/">Return to the product site</Link>
         </footer>
       </section>
     </main>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { AccountMenu } from "@/components/account-menu";
 import { DashboardNavigation, MobileNavigation } from "@/components/dashboard-nav";
 import { navigationGroups } from "@/components/dashboard-navigation-data";
 import { Icon } from "@/components/icon";
@@ -68,13 +69,7 @@ export function DashboardShell({
             <span className="sync-state">
               <i /> All evidence synced
             </span>
-            <Link
-              className="avatar"
-              href="/organization"
-              aria-label={`${viewer.name}, ${viewer.role}`}
-            >
-              {viewer.initials}
-            </Link>
+            <AccountMenu initials={viewer.initials} label={`${viewer.name}, ${viewer.role}`} />
             <details className="mobile-menu">
               <summary aria-label="Open all navigation">All</summary>
               <div>
