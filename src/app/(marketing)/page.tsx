@@ -143,25 +143,70 @@ export default function HomePage() {
             </header>
             <div className="contract-inspector__body">
               <div className="contract-code">
-                <span className="code-row"><i>01</i><code><b>id:</b> subscription-management</code></span>
-                <span className="code-row"><i>02</i><code><b>criticality:</b> high</code></span>
-                <span className="code-row"><i>03</i><code><b>owners:</b> [product, engineering]</code></span>
-                <span className="code-row code-row--focus"><i>04</i><code><b>requirements:</b></code></span>
-                <span className="code-row code-row--focus"><i>05</i><code>  - id: SUB-004</code></span>
-                <span className="code-row code-row--focus"><i>06</i><code>    statement: Cancellation keeps</code></span>
-                <span className="code-row code-row--focus"><i>07</i><code>      Pro active until period_end.</code></span>
-                <span className="code-row"><i>08</i><code><b>evidence_policy:</b></code></span>
-                <span className="code-row"><i>09</i><code>  blocking: [SUB-004]</code></span>
+                <span className="code-row">
+                  <i>01</i>
+                  <code>
+                    <b>id:</b> subscription-management
+                  </code>
+                </span>
+                <span className="code-row">
+                  <i>02</i>
+                  <code>
+                    <b>criticality:</b> high
+                  </code>
+                </span>
+                <span className="code-row">
+                  <i>03</i>
+                  <code>
+                    <b>owners:</b> [product, engineering]
+                  </code>
+                </span>
+                <span className="code-row code-row--focus">
+                  <i>04</i>
+                  <code>
+                    <b>requirements:</b>
+                  </code>
+                </span>
+                <span className="code-row code-row--focus">
+                  <i>05</i>
+                  <code> - id: SUB-004</code>
+                </span>
+                <span className="code-row code-row--focus">
+                  <i>06</i>
+                  <code> statement: Cancellation keeps</code>
+                </span>
+                <span className="code-row code-row--focus">
+                  <i>07</i>
+                  <code> Pro active until period_end.</code>
+                </span>
+                <span className="code-row">
+                  <i>08</i>
+                  <code>
+                    <b>evidence_policy:</b>
+                  </code>
+                </span>
+                <span className="code-row">
+                  <i>09</i>
+                  <code> blocking: [SUB-004]</code>
+                </span>
               </div>
               <aside className="contract-evidence">
                 <p>REQUIREMENT TRACE</p>
                 <strong>SUB-004</strong>
                 <span>Protected behavior</span>
                 <ol>
-                  <li className="is-pass"><i /> Contract approved</li>
-                  <li className="is-pass"><i /> Vitest selected</li>
-                  <li className="is-pass"><i /> Playwright selected</li>
-                  <li className="is-alert"><i /> Observed: access ended immediately</li>
+                  <li className="is-pass">
+                    <i /> Contract approved
+                  </li>
+                  <li className="is-pass">
+                    <i /> Vitest selected
+                  </li>
+                  <li className="is-pass">
+                    <i /> Playwright selected
+                  </li>
+                  <li className="is-alert">
+                    <i /> Observed: access ended immediately
+                  </li>
                 </ol>
                 <b>REQUIREMENT FAILED</b>
               </aside>
@@ -184,23 +229,53 @@ export default function HomePage() {
         </div>
         <div className="marketing-container risk-map" data-reveal>
           <section className="risk-map__column risk-map__files">
-            <header>CHANGED FILES <span>+41 −12</span></header>
-            <div><i />src/api/invoices/[id]/route.ts <span>AUTH</span></div>
-            <div><i />src/services/invoices.ts <span>DATA</span></div>
-            <div><i />tests/invoices.test.ts <span>TEST</span></div>
+            <header>
+              CHANGED FILES <span>+41 −12</span>
+            </header>
+            <div>
+              <i />
+              src/api/invoices/[id]/route.ts <span>AUTH</span>
+            </div>
+            <div>
+              <i />
+              src/services/invoices.ts <span>DATA</span>
+            </div>
+            <div>
+              <i />
+              tests/invoices.test.ts <span>TEST</span>
+            </div>
           </section>
-          <div className="risk-map__connector" aria-hidden="true"><i /><i /><i /></div>
+          <div className="risk-map__connector" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </div>
           <section className="risk-map__column risk-map__signals">
             <header>IMPACT SIGNALS</header>
-            <div><span>Quality Contract</span><b>invoice-access#INV-001</b></div>
-            <div><span>Criticality</span><b>Critical authorization boundary</b></div>
-            <div><span>QA Memory</span><b>MEM-0143 · prior IDOR</b></div>
+            <div>
+              <span>Quality Contract</span>
+              <b>invoice-access#INV-001</b>
+            </div>
+            <div>
+              <span>Criticality</span>
+              <b>Critical authorization boundary</b>
+            </div>
+            <div>
+              <span>QA Memory</span>
+              <b>MEM-0143 · prior IDOR</b>
+            </div>
           </section>
-          <div className="risk-map__connector risk-map__connector--single" aria-hidden="true"><i /></div>
+          <div className="risk-map__connector risk-map__connector--single" aria-hidden="true">
+            <i />
+          </div>
           <section className="risk-score">
             <p>CHANGE RISK</p>
-            <strong>92<span>/100</span></strong>
-            <div><i /></div>
+            <strong>
+              92<span>/100</span>
+            </strong>
+            <div>
+              <i />
+            </div>
             <b>CRITICAL</b>
             <small>Security + API + historical regression selected</small>
           </section>
@@ -252,20 +327,38 @@ export default function HomePage() {
             <span className="section-coordinate">06 / SEMANTIC DRIFT</span>
             <Eyebrow>Tests may adapt. Meaning may not.</Eyebrow>
           </div>
-          <p>MaruCheck never rewrites approved intent just to make a changed implementation green.</p>
+          <p>
+            MaruCheck never rewrites approved intent just to make a changed implementation green.
+          </p>
         </div>
         <div className="marketing-container drift-console" data-reveal>
           <div className="drift-console__diff">
-            <header><span>src/uploads/limits.ts</span><b>1 semantic change</b></header>
-            <code><span>−</span> FREE_LIMIT = 5</code>
-            <code className="is-added"><span>+</span> FREE_LIMIT = 10</code>
+            <header>
+              <span>src/uploads/limits.ts</span>
+              <b>1 semantic change</b>
+            </header>
+            <code>
+              <span>−</span> FREE_LIMIT = 5
+            </code>
+            <code className="is-added">
+              <span>+</span> FREE_LIMIT = 10
+            </code>
           </div>
           <div className="drift-console__analysis">
-            <div className="alert-beacon" aria-hidden="true"><i /><i /></div>
+            <div className="alert-beacon" aria-hidden="true">
+              <i />
+              <i />
+            </div>
             <p>SEMANTIC CHANGE DETECTED</p>
             <dl>
-              <div><dt>Expected</dt><dd>Free users may upload 5 files.</dd></div>
-              <div><dt>Observed</dt><dd>Free users may upload 10 files.</dd></div>
+              <div>
+                <dt>Expected</dt>
+                <dd>Free users may upload 5 files.</dd>
+              </div>
+              <div>
+                <dt>Observed</dt>
+                <dd>Free users may upload 10 files.</dd>
+              </div>
             </dl>
             <strong>CONTRACT UNCHANGED · OWNER APPROVAL REQUIRED</strong>
           </div>
@@ -280,8 +373,8 @@ export default function HomePage() {
             <h2>Your agent can ask MaruCheck to verify its work.</h2>
             <p>
               Codex, Claude Code, Cursor, and any compatible MCP client receive the same closed tool
-              schemas and structured evidence. Agents can run checks and propose changes. They cannot
-              approve product intent.
+              schemas and structured evidence. Agents can run checks and propose changes. They
+              cannot approve product intent.
             </p>
             <Link className="text-action text-action--light" href="/docs/mcp">
               Configure the MCP server <Icon name="arrow" />
@@ -290,7 +383,9 @@ export default function HomePage() {
           <div className="agent-transcript" data-reveal>
             <header>
               <span>CODEX / MARU MCP</span>
-              <b><i /> CONNECTED</b>
+              <b>
+                <i /> CONNECTED
+              </b>
             </header>
             <div className="agent-message">
               <small>CODING AGENT</small>
@@ -306,9 +401,18 @@ export default function HomePage() {
             </div>
             <div className="tool-result">
               <span>STRUCTURED RESULT · 1.42s</span>
-              <div><b>gate</b><strong>blocked</strong></div>
-              <div><b>finding</b><code>invoice-access#INV-001</code></div>
-              <div><b>severity</b><code>critical</code></div>
+              <div>
+                <b>gate</b>
+                <strong>blocked</strong>
+              </div>
+              <div>
+                <b>finding</b>
+                <code>invoice-access#INV-001</code>
+              </div>
+              <div>
+                <b>severity</b>
+                <code>critical</code>
+              </div>
               <p>Cross-account regression reproduced. Release blocked.</p>
             </div>
           </div>
@@ -336,24 +440,64 @@ export default function HomePage() {
         <div className="marketing-container proof-console-section__heading" data-reveal>
           <span className="section-coordinate">09 / HOSTED PROOF</span>
           <h2>A decision first. The entire proof trail behind it.</h2>
-          <MarketingCta href="/dashboard" secondary>Open the dashboard</MarketingCta>
+          <MarketingCta href="/dashboard" secondary>
+            Open the dashboard
+          </MarketingCta>
         </div>
         <div className="marketing-container release-console" data-reveal>
           <aside>
-            <span className="release-console__brand"><i /> MARU</span>
+            <span className="release-console__brand">
+              <i /> MARU
+            </span>
             <nav aria-label="Dashboard preview navigation">
-              <b>Overview</b><span>Projects</span><span>Contracts</span><span>Runs</span><span>Findings</span><span>Coverage</span><span>QA memory</span>
+              <b>Overview</b>
+              <span>Projects</span>
+              <span>Contracts</span>
+              <span>Runs</span>
+              <span>Findings</span>
+              <span>Coverage</span>
+              <span>QA memory</span>
             </nav>
           </aside>
           <div className="release-console__main">
-            <header><span>Release overview / maru-web</span><b>commit 8f2c1a7</b></header>
+            <header>
+              <span>Release overview / maru-web</span>
+              <b>commit 8f2c1a7</b>
+            </header>
             <section className="release-decision">
-              <div className="decision-orbit" aria-hidden="true"><i /><span>86%</span></div>
-              <div><small>RELEASE DECISION</small><h3>One proof gap needs attention.</h3><p>Invoice ownership failed against an approved critical requirement.</p></div>
+              <div className="decision-orbit" aria-hidden="true">
+                <i />
+                <span>86%</span>
+              </div>
+              <div>
+                <small>RELEASE DECISION</small>
+                <h3>One proof gap needs attention.</h3>
+                <p>Invoice ownership failed against an approved critical requirement.</p>
+              </div>
               <strong>BLOCKED</strong>
             </section>
-            <div className="release-console__metrics"><div><span>Risk</span><b>92/100</b></div><div><span>Evidence</span><b>38</b></div><div><span>Requirements</span><b>26/33</b></div></div>
-            <div className="release-finding"><span>FIND-0092</span><div><b>Invoice ownership check can be bypassed</b><small>invoice-access#INV-001 · Critical</small></div><strong>OPEN →</strong></div>
+            <div className="release-console__metrics">
+              <div>
+                <span>Risk</span>
+                <b>92/100</b>
+              </div>
+              <div>
+                <span>Evidence</span>
+                <b>38</b>
+              </div>
+              <div>
+                <span>Requirements</span>
+                <b>26/33</b>
+              </div>
+            </div>
+            <div className="release-finding">
+              <span>FIND-0092</span>
+              <div>
+                <b>Invoice ownership check can be bypassed</b>
+                <small>invoice-access#INV-001 · Critical</small>
+              </div>
+              <strong>OPEN →</strong>
+            </div>
           </div>
         </div>
       </section>
@@ -362,10 +506,21 @@ export default function HomePage() {
         <div className="marketing-container local-boundary__grid" data-reveal>
           <span className="section-coordinate">10 / BOUNDARY</span>
           <h2>Your source stays where it runs.</h2>
-          <div className="boundary-diagram" aria-label="Local execution and hosted evidence boundary">
-            <div><span>REPOSITORY / CI</span><strong>Source · tests · secrets</strong><b>LOCAL</b></div>
+          <div
+            className="boundary-diagram"
+            aria-label="Local execution and hosted evidence boundary"
+          >
+            <div>
+              <span>REPOSITORY / CI</span>
+              <strong>Source · tests · secrets</strong>
+              <b>LOCAL</b>
+            </div>
             <i aria-hidden="true" />
-            <div><span>MARUCHECK CLOUD</span><strong>Contracts · findings · evidence</strong><b>CONFIGURED</b></div>
+            <div>
+              <span>MARUCHECK CLOUD</span>
+              <strong>Contracts · findings · evidence</strong>
+              <b>CONFIGURED</b>
+            </div>
           </div>
           <p>
             Execution happens in the repository or CI runner. Teams choose which metadata and

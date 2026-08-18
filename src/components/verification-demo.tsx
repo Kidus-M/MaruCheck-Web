@@ -23,11 +23,11 @@ export function VerificationDemo() {
           </div>
           <pre aria-label="Code change">
             <code>
-              <span className="line-context">  export const limits = &#123;</span>
-              <span className="line-removed">-   FREE_LIMIT: 5,</span>
-              <span className="line-added">+   FREE_LIMIT: 10,</span>
-              <span className="line-context">    PRO_LIMIT: Infinity</span>
-              <span className="line-context">  &#125;</span>
+              <span className="line-context"> export const limits = &#123;</span>
+              <span className="line-removed">- FREE_LIMIT: 5,</span>
+              <span className="line-added">+ FREE_LIMIT: 10,</span>
+              <span className="line-context"> PRO_LIMIT: Infinity</span>
+              <span className="line-context"> &#125;</span>
             </code>
           </pre>
           <div className="agent-note">

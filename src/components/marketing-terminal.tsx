@@ -78,7 +78,10 @@ export function MarketingTerminal() {
         </div>
         <div className="cli-output" key={session.command} aria-live="polite">
           {session.output.map((line, index) => (
-            <p className={line.includes("BLOCKED") || line.includes("CRITICAL") ? "is-alert" : ""} key={line}>
+            <p
+              className={line.includes("BLOCKED") || line.includes("CRITICAL") ? "is-alert" : ""}
+              key={line}
+            >
               <span>{String(index + 1).padStart(2, "0")}</span>
               {line}
             </p>
