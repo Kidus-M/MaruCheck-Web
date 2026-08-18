@@ -1,16 +1,23 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export function MarketingMotion() {
+  const pathname = usePathname();
+
   useEffect(() => {
     document.documentElement.classList.add("motion-ready");
+    return () => document.documentElement.classList.remove("motion-ready");
+  }, []);
+
+  useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
 
     if (reducedMotion || !("IntersectionObserver" in window)) {
       revealTargets.forEach((target) => target.classList.add("is-visible"));
-      return () => document.documentElement.classList.remove("motion-ready");
+      return;
     }
 
     const observer = new IntersectionObserver(
@@ -27,9 +34,10 @@ export function MarketingMotion() {
     revealTargets.forEach((target) => observer.observe(target));
     return () => {
       observer.disconnect();
-      document.documentElement.classList.remove("motion-ready");
     };
-  }, []);
+    // The marketing layout persists across App Router navigations. Re-register
+    // the new route's reveal targets whenever its pathname changes.
+  }, [pathname]);
 
   return null;
 }
