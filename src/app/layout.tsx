@@ -4,9 +4,10 @@ import "./globals.css";
 import "./marketing.css";
 
 export const metadata: Metadata = {
-  description: "Independent release proof for AI-built software.",
+  description:
+    "MaruCheck independently verifies that AI-generated software still satisfies approved product behavior.",
   title: {
-    default: "MaruCheck — Release with proof",
+    default: "MaruCheck — Test what your AI didn't",
     template: "%s · MaruCheck",
   },
 };

@@ -70,6 +70,41 @@
   background: var(--marketing-line-dark);
 }
 
+.marketing-header.is-light-context {
+  background: rgba(243, 244, 239, 0.86);
+  color: var(--marketing-ink);
+  backdrop-filter: blur(20px) saturate(130%);
+}
+
+.marketing-header.is-light-context::after {
+  background: var(--marketing-line);
+}
+
+.marketing-header.is-light-context .marketing-nav a,
+.marketing-header.is-light-context .nav-sign-in {
+  color: #59656b;
+}
+
+.marketing-header.is-light-context .marketing-nav a:hover,
+.marketing-header.is-light-context .nav-sign-in:hover {
+  color: var(--marketing-ink);
+}
+
+.marketing-header.is-light-context .nav-console-link {
+  border-color: rgba(16, 23, 32, 0.2);
+  background: var(--marketing-panel);
+  color: white;
+}
+
+.marketing-header.is-light-context .marketing-menu-button {
+  border-color: rgba(16, 23, 32, 0.2);
+  background: rgba(16, 23, 32, 0.04);
+}
+
+.marketing-header.is-light-context .marketing-menu-button span {
+  background: var(--marketing-ink);
+}
+
 .marketing-header__inner {
   display: flex;
   min-height: 4.5rem;
@@ -2651,6 +2686,93 @@
   text-align: center;
 }
 
+.pricing-ledger {
+  border-top: 1px solid var(--marketing-line);
+}
+
+.pricing-ledger > header,
+.pricing-ledger article {
+  display: grid;
+  grid-template-columns: 1.1fr 0.72fr 1.45fr 0.65fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.pricing-ledger > header {
+  padding: 0 1rem 0.9rem;
+  color: #778287;
+  font-family: "Cascadia Mono", monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.09em;
+}
+
+.pricing-ledger article {
+  min-height: 10rem;
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid var(--marketing-line);
+  transition: background 180ms ease;
+}
+
+.pricing-ledger article:hover {
+  background: white;
+}
+
+.pricing-ledger__name {
+  display: grid;
+  grid-template-columns: 1.7rem 1fr;
+  gap: 0.7rem;
+}
+
+.pricing-ledger__name > span {
+  padding-top: 0.25rem;
+  color: var(--coral);
+  font-family: "Cascadia Mono", monospace;
+  font-size: 0.55rem;
+}
+
+.pricing-ledger__name h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: -0.04em;
+}
+
+.pricing-ledger__name b {
+  display: block;
+  margin-top: 0.55rem;
+  color: var(--indigo);
+  font-family: "Cascadia Mono", monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+}
+
+.pricing-ledger article > strong {
+  color: #4f5b61;
+  font-size: 0.73rem;
+}
+
+.pricing-ledger article > p {
+  margin: 0;
+  color: #687379;
+  font-size: 0.74rem;
+  line-height: 1.65;
+}
+
+.pricing-ledger article > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  color: var(--indigo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-align: right;
+  text-decoration: none;
+}
+
+.pricing-ledger article > a svg {
+  width: 0.85rem;
+}
+
 /* About */
 .about-story__grid {
   display: grid;
@@ -2713,15 +2835,24 @@
 }
 
 .belief-section .marketing-container > div {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
+  border-top: 1px solid var(--marketing-line-dark);
 }
 
 .belief-section article {
-  padding-top: 2rem;
-  border-top: 1px solid var(--marketing-line-dark);
-  border-bottom: 0;
+  display: grid;
+  grid-template-columns: 2rem 1fr 1.15fr;
+  gap: 2rem;
+  align-items: start;
+  padding: 1.8rem 0;
+  border-bottom: 1px solid var(--marketing-line-dark);
+}
+
+.belief-section article span {
+  position: static;
+}
+
+.belief-section article p {
+  margin: 0;
 }
 
 /* Documentation */
@@ -2868,6 +2999,55 @@
   color: #687379;
   font-size: 0.74rem;
   line-height: 1.55;
+}
+
+.docs-index {
+  display: grid;
+  border-top: 1px solid var(--marketing-line);
+}
+
+.docs-index a {
+  display: grid;
+  grid-template-columns: 2.2rem 0.8fr 1.3fr auto;
+  gap: 1.3rem;
+  align-items: center;
+  min-height: 7rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--marketing-line);
+  text-decoration: none;
+  transition:
+    padding 180ms ease,
+    background 180ms ease;
+}
+
+.docs-index a:hover {
+  padding-inline: 1rem;
+  background: white;
+}
+
+.docs-index a > span {
+  color: var(--coral);
+  font-family: "Cascadia Mono", monospace;
+  font-size: 0.54rem;
+}
+
+.docs-index h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  letter-spacing: -0.035em;
+}
+
+.docs-index p {
+  margin: 0;
+  color: #677379;
+  font-size: 0.73rem;
+  line-height: 1.6;
+}
+
+.docs-index b {
+  color: var(--indigo);
+  font-family: "Cascadia Mono", monospace;
+  font-size: 0.65rem;
 }
 
 .docs-section {
@@ -3455,12 +3635,37 @@
     grid-template-columns: 1fr;
   }
 
+  .pricing-ledger > header {
+    display: none;
+  }
+
+  .pricing-ledger article {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pricing-ledger article > p {
+    grid-column: 1 / -1;
+  }
+
+  .pricing-ledger article > a {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
   .pricing-card {
     min-height: 30rem;
   }
 
   .belief-section .marketing-container > div {
-    grid-template-columns: 1fr;
+    display: block;
+  }
+
+  .belief-section article {
+    grid-template-columns: 2rem 1fr;
+  }
+
+  .belief-section article p {
+    grid-column: 2;
   }
 
   .docs-shell {
@@ -3475,6 +3680,10 @@
   .docs-sidebar nav {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .docs-index a {
+    grid-template-columns: 2rem 0.8fr 1.2fr auto;
   }
 
   .docs-sidebar__help {
@@ -3750,6 +3959,24 @@
   .docs-sidebar nav,
   .docs-card-grid {
     grid-template-columns: 1fr;
+  }
+
+  .pricing-ledger article {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding-block: 2rem;
+  }
+
+  .pricing-ledger article > p {
+    grid-column: auto;
+  }
+
+  .docs-index a {
+    grid-template-columns: 1.5rem 1fr auto;
+  }
+
+  .docs-index p {
+    grid-column: 2 / -1;
   }
 
   .docs-article h1 {

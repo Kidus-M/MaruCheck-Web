@@ -5,51 +5,36 @@ import { MarketingPageHeader } from "@/components/marketing-ui";
 
 export const metadata: Metadata = {
   title: "Pricing",
-  description: "Start with MaruCheck locally, then add shared proof workflows as your team grows.",
+  description: "The current availability of MaruCheck local and hosted workflows.",
 };
 
-const tiers = [
+const stages = [
   {
-    name: "Local",
-    price: "Free preview",
-    note: "For individual projects and local evaluation.",
-    items: [
-      "Quality Contracts",
-      "Risk-directed local runs",
-      "CLI and MCP workflow",
-      "Local evidence reports",
-    ],
-    cta: "Read the quickstart",
+    access: "Available from source",
+    action: "Open the quickstart",
     href: "/docs/getting-started",
-    featured: false,
+    name: "Local verification",
+    scope:
+      "Quality Contracts, deterministic diff risk, plans, Vitest and Playwright execution, evidence, semantic drift, QA memory, MCP, and GitHub Actions.",
+    status: "FREE PREVIEW",
   },
   {
-    name: "Team",
-    price: "Private beta",
-    note: "For teams that need shared release evidence.",
-    items: [
-      "Everything in Local",
-      "Hosted proof dashboard",
-      "GitHub pull-request gates",
-      "Shared findings and QA memory",
-    ],
-    cta: "Explore the dashboard",
+    access: "Founding teams",
+    action: "Inspect the dashboard",
     href: "/dashboard",
-    featured: true,
+    name: "Shared proof",
+    scope:
+      "Organizations, protected dashboard access, shared contracts, run history, findings, requirement coverage, and team QA memory.",
+    status: "PRIVATE BETA",
   },
   {
-    name: "Enterprise",
-    price: "Design partner",
-    note: "For organizations shaping advanced controls.",
-    items: [
-      "Everything in Team",
-      "Organization-level controls",
-      "Custom retention requirements",
-      "Migration and workflow support",
-    ],
-    cta: "Review the architecture",
+    access: "Selected design partners",
+    action: "Review the architecture",
     href: "/docs",
-    featured: false,
+    name: "Controlled deployment",
+    scope:
+      "Organization policy, custom retention, deployment boundaries, workflow integration, and future enterprise identity controls.",
+    status: "DESIGN PARTNER",
   },
 ] as const;
 
@@ -57,42 +42,37 @@ export default function PricingPage() {
   return (
     <>
       <MarketingPageHeader
-        eyebrow="Simple stages, honest status"
-        title="Start local. Add shared proof when the team needs it."
-        description="The local workflow is available to evaluate now. Hosted team billing is not active yet, so we show the product stage instead of pretending there is a finished price sheet."
+        eyebrow="Availability, not theater"
+        title="Use the local system now. Add shared proof when the team is ready."
+        description="Hosted billing is not active. This page states exactly what exists and who can access it instead of publishing fictional prices."
       />
-      <section className="marketing-section pricing-section">
-        <div className="marketing-container pricing-grid">
-          {tiers.map((tier) => (
-            <article
-              className={tier.featured ? "pricing-card pricing-card--featured" : "pricing-card"}
-              data-reveal
-              key={tier.name}
-            >
-              {tier.featured && <span className="pricing-card__flag">Current focus</span>}
-              <p>{tier.name}</p>
-              <h2>{tier.price}</h2>
-              <span>{tier.note}</span>
-              <ul>
-                {tier.items.map((item) => (
-                  <li key={item}>
-                    <Icon name="check" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                className={tier.featured ? "button button--coral" : "button button--paper"}
-                href={tier.href}
-              >
-                {tier.cta}
-                <Icon name="arrow" />
+      <section className="marketing-section pricing-ledger-section">
+        <div className="marketing-container pricing-ledger">
+          <header data-reveal>
+            <span>OPERATING MODE</span>
+            <span>CURRENT ACCESS</span>
+            <span>SYSTEM SCOPE</span>
+            <span>NEXT STEP</span>
+          </header>
+          {stages.map((stage, index) => (
+            <article data-reveal key={stage.name}>
+              <div className="pricing-ledger__name">
+                <span>0{index + 1}</span>
+                <div>
+                  <h2>{stage.name}</h2>
+                  <b>{stage.status}</b>
+                </div>
+              </div>
+              <strong>{stage.access}</strong>
+              <p>{stage.scope}</p>
+              <Link href={stage.href}>
+                {stage.action} <Icon name="arrow" />
               </Link>
             </article>
           ))}
         </div>
         <p className="pricing-note marketing-container">
-          No payment flow is connected in this build. Final hosted pricing will be published before
+          No payment flow is connected in this build. Hosted prices will be published before any
           billing is enabled.
         </p>
       </section>

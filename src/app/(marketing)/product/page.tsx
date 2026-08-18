@@ -10,27 +10,39 @@ export const metadata: Metadata = {
 const layers = [
   {
     icon: "contracts",
-    label: "Define",
+    label: "Protect intent",
     title: "Quality Contracts",
     body: "Capture the invariants, permissions, limits, and edge cases a feature must preserve. Contracts are versioned, reviewable, and designed to survive implementation changes.",
   },
   {
     icon: "branch",
-    label: "Select",
+    label: "Read the change",
     title: "Change-risk analysis",
     body: "Map a diff to the requirements it can affect. Spend verification effort on the paths with the greatest potential release impact.",
   },
   {
     icon: "runs",
-    label: "Challenge",
-    title: "Independent verification",
-    body: "Run deterministic checks and generated adversarial scenarios outside the implementation agent's own reasoning loop.",
+    label: "Plan",
+    title: "Requirement-linked plans",
+    body: "Select affected requirements, existing regression tests, and risk-appropriate adapters. Missing coverage remains explicit instead of becoming an implied pass.",
+  },
+  {
+    icon: "runs",
+    label: "Execute",
+    title: "Local test adapters",
+    body: "Run the repository's installed Vitest and Playwright checks without downloading tools at verification time. Raw artifacts remain local and inspectable.",
+  },
+  {
+    icon: "memory",
+    label: "Remember",
+    title: "Historical QA memory",
+    body: "Match new diffs against confirmed incidents, add explainable risk, and force available recorded regression tests back into the plan.",
   },
   {
     icon: "findings",
     label: "Decide",
     title: "Evidence-backed gates",
-    body: "Block, warn, or pass with a traceable reason. Findings point to the exact contract, run, and retained evidence behind the decision.",
+    body: "Pass or block with a traceable reason. Every blocking finding includes the contract, requirement, expected behavior, actual result, reproduction, and evidence.",
   },
 ] as const;
 
@@ -38,9 +50,9 @@ export default function ProductPage() {
   return (
     <>
       <MarketingPageHeader
-        eyebrow="The product"
-        title="A release system that remembers what the software promised."
-        description="MaruCheck connects approved behavior to changed code, targeted challenges, and durable evidence—so fast delivery does not depend on blind trust."
+        eyebrow="Verification system"
+        title="A verifier with a contract, a memory, and the authority to say no."
+        description="MaruCheck connects approved behavior to the real Git diff, targeted local checks, historical regressions, and durable release evidence."
       />
       <section className="marketing-section product-layers">
         <div className="marketing-container">
@@ -67,7 +79,7 @@ export default function ProductPage() {
         <div className="marketing-container" data-reveal>
           <div>
             <Eyebrow>Designed for trust</Eyebrow>
-            <h2>The verifier should not grade its own homework.</h2>
+            <h2>The implementation agent does not grade its own work.</h2>
           </div>
           <div className="principle-list">
             <article>
@@ -82,10 +94,10 @@ export default function ProductPage() {
             </article>
             <article>
               <span>03</span>
-              <h3>Local where code is sensitive</h3>
+              <h3>Conservative when proof is missing</h3>
               <p>
-                Execution belongs in your repository and CI environment; collaboration can live in
-                the cloud.
+                Unavailable tools, missing tests, and uncovered requirements remain visible and can
+                block. Inconclusive never becomes passed.
               </p>
             </article>
           </div>

@@ -3,7 +3,7 @@ import { MarketingCta, MarketingPageHeader } from "@/components/marketing-ui";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Why MaruCheck exists and what the circle in its name means.",
+  description: "Why MaruCheck is built to test software under pressure.",
 };
 
 export default function AboutPage() {
@@ -11,35 +11,38 @@ export default function AboutPage() {
     <>
       <MarketingPageHeader
         eyebrow="Why MaruCheck"
-        title="A check mark says a task ran. A circle says the answer is right."
-        description="MaruCheck exists to make that stronger claim inspectable: not merely that software was tested, but that the behavior people approved is still true."
+        title="Software does not fail on the path everyone rehearsed."
+        description="MaruCheck is named for the idea of a difficult, failure-inducing test: a scenario designed to reveal how a system behaves when assumptions stop cooperating."
       />
       <section className="marketing-section about-story">
         <div className="marketing-container about-story__grid">
           <div className="about-orbit" aria-hidden="true">
             <i />
             <i />
-            <span>正</span>
+            <span>PRESSURE / TEST</span>
           </div>
           <div data-reveal>
-            <span className="marketing-eyebrow">The name</span>
-            <h2>Maru is the circle of approval.</h2>
+            <span className="signal-label">
+              <span />
+              The name
+            </span>
+            <h2>Built for the failure path.</h2>
             <p>
-              In Japanese marking, a maru (○) indicates that something is correct or good. A double
-              circle strengthens that approval. Our identity turns that idea into a proof orbit:
-              intent at the center, evidence around it, and visible gaps when the circle cannot
-              close.
+              The Kobayashi Maru idea is not about predicting one specific failure. It is about
+              testing judgment and system behavior when the comfortable assumptions break. MaruCheck
+              applies that pressure-test mindset to AI-generated software.
             </p>
             <p>
-              That is the product standard too. MaruCheck should never hide uncertainty behind a
-              green badge. If the evidence is incomplete, the circle remains open.
+              The visual system borrows from diagnostic and command interfaces: calm information,
+              explicit state, traceable sequences, and a clear red alert when evidence contradicts
+              approved behavior. It does not borrow franchise imagery or branding.
             </p>
           </div>
         </div>
       </section>
       <section className="belief-section">
         <div className="marketing-container" data-reveal>
-          <h2>What we believe</h2>
+          <h2>Operating principles</h2>
           <div>
             <article>
               <span>01</span>
@@ -49,15 +52,14 @@ export default function AboutPage() {
             <article>
               <span>02</span>
               <h3>Evidence beats confidence theater.</h3>
-              <p>A release gate is valuable only when a person can inspect why it passed.</p>
+              <p>
+                A release gate is useful only when a person can inspect why it passed or failed.
+              </p>
             </article>
             <article>
               <span>03</span>
               <h3>AI speed needs independent judgment.</h3>
-              <p>
-                The faster implementation becomes, the more important a separate verification loop
-                becomes.
-              </p>
+              <p>The system that wrote the change should not be the only system evaluating it.</p>
             </article>
           </div>
         </div>
@@ -65,10 +67,10 @@ export default function AboutPage() {
       <section className="inline-cta">
         <div className="marketing-container" data-reveal>
           <div>
-            <h2>See the circle in motion.</h2>
-            <p>Walk through the release decision, findings, contracts, and evidence.</p>
+            <h2>See the pressure test reach a release decision.</h2>
+            <p>Follow one blocked finding from approved intent to reproducible evidence.</p>
           </div>
-          <MarketingCta href="/dashboard">Explore the dashboard</MarketingCta>
+          <MarketingCta href="/dashboard">Open the proof console</MarketingCta>
         </div>
       </section>
     </>

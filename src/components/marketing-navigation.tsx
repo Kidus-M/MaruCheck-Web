@@ -15,6 +15,7 @@ const links = [
 
 export function MarketingNavigation() {
   const pathname = usePathname();
+  const lightPage = pathname.startsWith("/docs");
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -28,7 +29,9 @@ export function MarketingNavigation() {
   useEffect(() => setOpen(false), [pathname]);
 
   return (
-    <header className={`marketing-header${scrolled ? " is-scrolled" : ""}`}>
+    <header
+      className={`marketing-header${scrolled ? " is-scrolled" : ""}${lightPage ? " is-light-context" : ""}`}
+    >
       <div className="marketing-container marketing-header__inner">
         <MaruMark />
         <nav aria-label="Primary navigation" className="marketing-nav">

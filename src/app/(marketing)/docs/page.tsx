@@ -3,8 +3,35 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Documentation",
-  description: "Learn the MaruCheck model and connect its local verification workflow.",
+  description: "Learn the MaruCheck contract, verification, CI, and MCP workflows.",
 };
+
+const entries = [
+  [
+    "01",
+    "Getting started",
+    "Build the current CLI, initialize a repository, and produce the first local verification report.",
+    "/docs/getting-started",
+  ],
+  [
+    "02",
+    "Quality Contracts",
+    "Record durable behavior, protected invariants, ownership, and evidence policy in a reviewed contract.",
+    "/docs/quality-contracts",
+  ],
+  [
+    "03",
+    "CI integration",
+    "Install the least-privilege pull-request workflow and retain evidence even when the gate blocks.",
+    "/docs/ci",
+  ],
+  [
+    "04",
+    "MCP workflow",
+    "Connect Codex, Claude Code, Cursor, or another compatible client to the local MaruCheck server.",
+    "/docs/mcp",
+  ],
+] as const;
 
 export default function DocsHomePage() {
   return (
@@ -12,31 +39,18 @@ export default function DocsHomePage() {
       <span className="docs-kicker">MaruCheck documentation</span>
       <h1>Build a release proof loop.</h1>
       <p className="docs-lead">
-        Learn how Quality Contracts, change-risk analysis, verification runs, findings, and retained
-        evidence fit together.
+        Start with product intent. End with a release decision that links back to concrete evidence.
       </p>
-      <div className="docs-card-grid">
-        <Link href="/docs/getting-started">
-          <span>01</span>
-          <h2>Getting started</h2>
-          <p>Run the current CLI locally and inspect the generated project structure.</p>
-        </Link>
-        <Link href="/docs/quality-contracts">
-          <span>02</span>
-          <h2>Quality Contracts</h2>
-          <p>Write behavior that remains precise enough to verify across implementations.</p>
-        </Link>
-        <Link href="/docs/ci">
-          <span>03</span>
-          <h2>CI integration</h2>
-          <p>Use verification as an inspectable pull-request and release gate.</p>
-        </Link>
-        <Link href="/docs/mcp">
-          <span>04</span>
-          <h2>MCP workflow</h2>
-          <p>Let Codex and other MCP clients use the same structured MaruCheck tools.</p>
-        </Link>
-      </div>
+      <nav className="docs-index" aria-label="Documentation topics">
+        {entries.map(([number, title, description, href]) => (
+          <Link href={href} key={href}>
+            <span>{number}</span>
+            <h2>{title}</h2>
+            <p>{description}</p>
+            <b aria-hidden="true">↗</b>
+          </Link>
+        ))}
+      </nav>
       <section className="docs-section">
         <h2>The model in one minute</h2>
         <ol className="docs-steps">
@@ -49,12 +63,12 @@ export default function DocsHomePage() {
             <span>identifies affected risk</span>
           </li>
           <li>
-            <b>Run</b>
-            <span>challenges the risky paths</span>
+            <b>Plan</b>
+            <span>selects requirements and checks</span>
           </li>
           <li>
             <b>Evidence</b>
-            <span>supports the release decision</span>
+            <span>supports or blocks the release</span>
           </li>
         </ol>
       </section>
