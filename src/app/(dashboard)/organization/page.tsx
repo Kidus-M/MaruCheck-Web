@@ -2,7 +2,7 @@ import { PageHeader, PrimaryLink } from "@/components/dashboard-ui";
 import { requireWorkspaceContext } from "@/lib/session";
 
 export default async function OrganizationPage() {
-  const { organization, viewer } = await requireWorkspaceContext();
+  const { members, organization, viewer } = await requireWorkspaceContext();
   return (
     <div className="page-stack">
       <PageHeader
@@ -36,30 +36,20 @@ export default async function OrganizationPage() {
         </section>
         <section className="panel">
           <h2>Members</h2>
-          <div className="member-row">
-            <span className="avatar">{viewer.initials}</span>
-            <span>
-              <strong>{viewer.name}</strong>
-              <small>{viewer.email}</small>
-            </span>
-            <b>{viewer.role}</b>
-          </div>
-          <div className="member-row">
-            <span className="avatar avatar--muted">AR</span>
-            <span>
-              <strong>Ari R.</strong>
-              <small>ari@marucheck.dev</small>
-            </span>
-            <b>Member</b>
-          </div>
-          <div className="member-row">
-            <span className="avatar avatar--muted">NT</span>
-            <span>
-              <strong>Noah T.</strong>
-              <small>noah@marucheck.dev</small>
-            </span>
-            <b>Member</b>
-          </div>
+          {members.map((member) => (
+            <div className="member-row" key={member.id}>
+              <span
+                className={member.email === viewer.email ? "avatar" : "avatar avatar--muted"}
+              >
+                {member.initials}
+              </span>
+              <span>
+                <strong>{member.name}</strong>
+                <small>{member.email}</small>
+              </span>
+              <b>{member.role}</b>
+            </div>
+          ))}
         </section>
       </div>
       <section className="panel data-boundary">

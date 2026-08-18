@@ -12,6 +12,13 @@ export const getSession = cache(async () => {
 
 export const getWorkspaceContext = cache(
   async (): Promise<{
+    readonly members: readonly {
+      readonly email: string;
+      readonly id: string;
+      readonly initials: string;
+      readonly name: string;
+      readonly role: "Owner" | "Member";
+    }[];
     readonly organization: Organization;
     readonly viewer: Viewer;
   } | null> => {
@@ -38,6 +45,15 @@ export const getWorkspaceContext = cache(
     const normalizedRole = currentMember?.role.split(",")[0];
 
     return {
+      members:
+        fullOrganization?.members.map((member) => ({
+          email: member.user.email,
+          id: member.id,
+          initials: initialsFor(member.user.name),
+          name: member.user.name,
+          role:
+            member.role.includes("owner") || member.role.includes("admin") ? "Owner" : "Member",
+        })) ?? [],
       organization: {
         id: activeOrganization.id,
         memberCount: fullOrganization?.members.length ?? 1,

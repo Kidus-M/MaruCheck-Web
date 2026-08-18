@@ -12,3 +12,6 @@ async function handleAuthRequest(request: Request): Promise<Response> {
 
 export const GET = handleAuthRequest;
 export const POST = handleAuthRequest;
+export const PATCH = handleAuthRequest;
+export const PUT = handleAuthRequest;
+export const DELETE = handleAuthRequest;
