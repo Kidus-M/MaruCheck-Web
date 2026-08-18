@@ -23,7 +23,9 @@ export function DashboardShell({
         </div>
 
         <button className="organization-switcher" type="button" aria-label="Switch organization">
-          <span className="organization-switcher__seal" aria-hidden="true">M</span>
+          <span className="organization-switcher__seal" aria-hidden="true">
+            M
+          </span>
           <span>
             <strong>{organization.name}</strong>
             <small>{organization.plan}</small>
@@ -39,37 +41,58 @@ export function DashboardShell({
             <span>Organization</span>
           </Link>
           <div className="sidebar__proof">
-            <span className="proof-mini" aria-hidden="true"><span /></span>
-            <p><strong>Local execution</strong><small>Source stays in your CI</small></p>
+            <span className="proof-mini" aria-hidden="true">
+              <span />
+            </span>
+            <p>
+              <strong>Local execution</strong>
+              <small>Source stays in your CI</small>
+            </p>
           </div>
         </div>
       </aside>
 
       <div className="app-main">
         <header className="topbar">
-          <div className="topbar__mobile-brand"><MaruMark compact /></div>
+          <div className="topbar__mobile-brand">
+            <MaruMark compact />
+          </div>
           <button className="command-search" type="button">
             <Icon name="search" />
             <span>Search proof, projects, memory…</span>
-            <kbd><Icon name="command" /> K</kbd>
+            <kbd>
+              <Icon name="command" /> K
+            </kbd>
           </button>
           <div className="topbar__actions">
-            <span className="sync-state"><i /> All evidence synced</span>
-            <Link className="avatar" href="/organization" aria-label={`${viewer.name}, ${viewer.role}`}>
+            <span className="sync-state">
+              <i /> All evidence synced
+            </span>
+            <Link
+              className="avatar"
+              href="/organization"
+              aria-label={`${viewer.name}, ${viewer.role}`}
+            >
               {viewer.initials}
             </Link>
             <details className="mobile-menu">
               <summary aria-label="Open all navigation">All</summary>
               <div>
-                {navigationGroups.flatMap((group) => group.items).map((item) => (
-                  <Link href={item.href} key={item.href}>{item.label}</Link>
-                ))}
+                {navigationGroups
+                  .flatMap((group) => group.items)
+                  .map((item) => (
+                    <Link href={item.href} key={item.href}>
+                      {item.label}
+                    </Link>
+                  ))}
                 <Link href="/organization">Organization</Link>
               </div>
             </details>
           </div>
         </header>
-        <main className="page-canvas" id="main-content">{children}</main>
+        <main className="page-canvas" id="main-content">
+          {children}
+        </main>
       </div>
       <MobileNavigation />
     </div>

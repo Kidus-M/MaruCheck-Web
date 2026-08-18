@@ -55,26 +55,59 @@ export function SectionHeading({
         {description === undefined ? null : <p>{description}</p>}
       </div>
       {action === undefined ? null : (
-        <Link href={action.href}>{action.label}<Icon name="arrow" /></Link>
+        <Link href={action.href}>
+          {action.label}
+          <Icon name="arrow" />
+        </Link>
       )}
     </div>
   );
 }
 
-export function PrimaryLink({ children, href }: { readonly children: ReactNode; readonly href: string }) {
-  return <Link className="button button--primary" href={href}>{children}<Icon name="arrow" /></Link>;
+export function PrimaryLink({
+  children,
+  href,
+}: {
+  readonly children: ReactNode;
+  readonly href: string;
+}) {
+  return (
+    <Link className="button button--primary" href={href}>
+      {children}
+      <Icon name="arrow" />
+    </Link>
+  );
 }
 
-export function SecondaryLink({ children, href }: { readonly children: ReactNode; readonly href: string }) {
-  return <Link className="button button--secondary" href={href}>{children}</Link>;
+export function SecondaryLink({
+  children,
+  href,
+}: {
+  readonly children: ReactNode;
+  readonly href: string;
+}) {
+  return (
+    <Link className="button button--secondary" href={href}>
+      {children}
+    </Link>
+  );
 }
 
-export function ProofOrbit({ coverage, score }: { readonly coverage: number; readonly score: number }) {
+export function ProofOrbit({
+  coverage,
+  score,
+}: {
+  readonly coverage: number;
+  readonly score: number;
+}) {
   const circumference = 2 * Math.PI * 48;
   const covered = circumference * (coverage / 100);
   const uncovered = circumference - covered;
   return (
-    <figure className="proof-orbit" aria-label={`${score} quality score with ${coverage}% requirement coverage`}>
+    <figure
+      className="proof-orbit"
+      aria-label={`${score} quality score with ${coverage}% requirement coverage`}
+    >
       <svg viewBox="0 0 120 120" role="img" aria-hidden="true">
         <circle className="proof-orbit__track" cx="60" cy="60" r="48" />
         <circle
@@ -87,7 +120,10 @@ export function ProofOrbit({ coverage, score }: { readonly coverage: number; rea
         <circle className="proof-orbit__inner" cx="60" cy="60" r="36" />
         <circle className="proof-orbit__issue" cx="26" cy="26" r="4" />
       </svg>
-      <figcaption><strong>{score}</strong><span>quality score</span></figcaption>
+      <figcaption>
+        <strong>{score}</strong>
+        <span>quality score</span>
+      </figcaption>
     </figure>
   );
 }

@@ -34,7 +34,9 @@ const paths: Record<IconName, React.ReactNode> = {
   ),
   findings: <path d="M12 3 3 7v5c0 5 3.5 8 9 9 5.5-1 9-4 9-9V7l-9-4Zm0 5v5m0 3v.1" />,
   memory: <path d="M5 5h14v14H5V5Zm3-2v4m8-4v4M8 11h8m-8 4h5" />,
-  organization: <path d="M12 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM6 20v-2a6 6 0 0 1 12 0v2M4 9a2.5 2.5 0 0 0 0 5m16-5a2.5 2.5 0 0 1 0 5" />,
+  organization: (
+    <path d="M12 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM6 20v-2a6 6 0 0 1 12 0v2M4 9a2.5 2.5 0 0 0 0 5m16-5a2.5 2.5 0 0 1 0 5" />
+  ),
   overview: <path d="M4 4h6v6H4V4Zm10 0h6v10h-6V4ZM4 14h6v6H4v-6Zm10 4h6v2h-6v-2Z" />,
   projects: <path d="M4 6h6l2 2h8v11H4V6Zm0 5h16" />,
   runs: (
