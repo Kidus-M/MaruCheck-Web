@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { DashboardNavigation, MobileNavigation, navigationGroups } from "@/components/dashboard-nav";
+import { DashboardNavigation, MobileNavigation } from "@/components/dashboard-nav";
+import { navigationGroups } from "@/components/dashboard-navigation-data";
 import { Icon } from "@/components/icon";
 import { MaruMark } from "@/components/maru-mark";
 import type { Organization, Viewer } from "@/lib/dashboard-data";
