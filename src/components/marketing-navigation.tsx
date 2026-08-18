@@ -26,8 +26,6 @@ export function MarketingNavigation() {
     return () => window.removeEventListener("scroll", update);
   }, []);
 
-  useEffect(() => setOpen(false), [pathname]);
-
   return (
     <header
       className={`marketing-header${scrolled ? " is-scrolled" : ""}${lightPage ? " is-light-context" : ""}`}
@@ -36,7 +34,7 @@ export function MarketingNavigation() {
         <MaruMark />
         <nav aria-label="Primary navigation" className="marketing-nav">
           {links.map((link) => (
-            <Link href={link.href} key={link.href}>
+            <Link href={link.href} key={link.href} onClick={() => setOpen(false)}>
               {link.label}
             </Link>
           ))}
@@ -68,10 +66,14 @@ export function MarketingNavigation() {
               {link.label}
             </Link>
           ))}
-          <Link href="/sign-in">
+          <Link href="/sign-in" onClick={() => setOpen(false)}>
             <span>06</span>Sign in
           </Link>
-          <Link className="mobile-console-link" href="/dashboard">
+          <Link
+            className="mobile-console-link"
+            href="/dashboard"
+            onClick={() => setOpen(false)}
+          >
             Open proof console <span aria-hidden="true">↗</span>
           </Link>
         </nav>
