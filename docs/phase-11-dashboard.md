@@ -20,8 +20,9 @@ The hosted dashboard answers one primary question: **Can this release ship, and 
 | QA memory       | `/memory`              | Search and filtering for historical failures and regression links     |
 | New memory      | `/memory/new`          | Historical record creation surface                                    |
 | Organization    | `/organization`        | Members, workspace metadata, and hosted data boundary                 |
-| Invite member   | `/organization/invite` | Role-aware invitation surface                                         |
-| Sign in         | `/sign-in`             | Provider-neutral authentication experience                            |
+| Invite member   | `/organization/invite` | Owner-only Better Auth invitation flow and shareable link              |
+| Accept invite   | `/accept-invitation`   | Authenticated invitation acceptance                                   |
+| Sign in         | `/sign-in`             | Better Auth email/password and optional GitHub authentication          |
 
 All product routes use Server Components except active navigation. Dynamic project, run, and finding routes use static parameters for the current demonstration repository.
 
@@ -57,13 +58,13 @@ The design draws interaction lessons from Linear, Vercel, and Stripe but does no
 
 ## Data boundary
 
-`src/lib/dashboard-data.ts` defines the metadata types used by the hosted product and exposes a server-only repository function. It currently returns deterministic demonstration data so the UI, route hierarchy, and component contracts can be completed before choosing providers.
+Better Auth now persists users, sessions, organizations, members, and invitations in Neon Postgres through the official Drizzle adapter. Product routes enforce a session in their server layout, while workspace queries resolve the signed-in user's real organization and role.
 
-Replace that function with an authorized PostgreSQL data-access layer after selecting:
+`src/lib/dashboard-data.ts` still returns deterministic demonstration product data. Replace it with an authorized PostgreSQL data-access layer for:
 
-1. authentication and organization management;
-2. PostgreSQL hosting;
-3. ORM and migration tooling.
+1. projects and source-control connections;
+2. immutable contract versions and approvals;
+3. verification runs, findings, requirement evidence, and QA memory.
 
 The implementation must validate a session close to each data query and mutation, return only the fields required by the page, and never treat layout visibility as authorization.
 
@@ -71,10 +72,11 @@ The implementation must validate a session close to each data query and mutation
 
 ```bash
 npm install
+npm run db:migrate
 npm run dev
 ```
 
-Open `http://localhost:3000` for the public site or `http://localhost:3000/dashboard` for the product overview. The sign-in design is at `http://localhost:3000/sign-in`.
+Create `.env.local` from `.env.example` before running the migration. Open `http://localhost:3000` for the public site, `http://localhost:3000/sign-in` to create the first owner and workspace, or `http://localhost:3000/dashboard` for the protected product overview.
 
 ## Validation
 

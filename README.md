@@ -8,34 +8,42 @@ Requirements: Node.js 24 LTS and npm 11 or newer.
 
 ```bash
 npm install
+npm run db:migrate
 npm run dev
 ```
 
 Open `http://localhost:3000` for the public product site or `http://localhost:3000/dashboard` for the hosted product. The initial server health endpoint is available at `http://localhost:3000/api/health`.
 
-The Phase 11 web foundation includes an animated marketing site, product and pricing pages, practical documentation, the release dashboard, projects, Quality Contracts, verification runs, findings, requirement coverage, QA memory, organization management, and a provider-neutral sign-in experience. See the [dashboard guide](docs/phase-11-dashboard.md).
+Before migrating, create `.env.local` from `.env.example` and replace the sample values with your Neon pooled and direct connection strings plus a Better Auth secret. The application shows a setup state instead of pretending authentication works when those values are absent.
+
+The Phase 11 web foundation includes an animated marketing site, product and pricing pages, practical documentation, the release dashboard, projects, Quality Contracts, verification runs, findings, requirement coverage, QA memory, Better Auth sign-in, and organization management. See the [dashboard guide](docs/phase-11-dashboard.md).
 
 ## Commands
 
-| Command             | Description                           |
-| ------------------- | ------------------------------------- |
-| `npm run dev`       | Start the development server          |
-| `npm run build`     | Create a production build             |
-| `npm run start`     | Serve the production build            |
-| `npm run lint`      | Run ESLint and Next.js rules          |
-| `npm run typecheck` | Run TypeScript without emitting files |
-| `npm run check`     | Run all repository quality gates      |
+| Command             | Description                                                |
+| ------------------- | ---------------------------------------------------------- |
+| `npm run dev`       | Start the development server                               |
+| `npm run build`     | Create a production build                                  |
+| `npm run start`     | Serve the production build                                 |
+| `npm run db:generate` | Generate reviewed SQL from the Drizzle schema            |
+| `npm run db:check`  | Check the Drizzle migration history                         |
+| `npm run db:migrate` | Apply migrations using the direct Neon connection          |
+| `npm run db:studio` | Open Drizzle Studio                                         |
+| `npm run lint`      | Run ESLint and Next.js rules                               |
+| `npm run typecheck` | Run TypeScript without emitting files                      |
+| `npm run check`     | Run all repository quality gates                           |
 
 ## Architecture
 
 - App Router and React Server Components by default.
 - A small client island handles active navigation; dashboard data and pages remain server-rendered.
 - Route Handlers provide the initial hosted API in the same Next.js deployment.
-- `src/lib/dashboard-data.ts` is the vendor-neutral metadata repository boundary. It uses deterministic demonstration data until authentication, PostgreSQL hosting, and ORM tooling are selected.
+- Better Auth owns users, sessions, organizations, members, and invitations. Neon Postgres and Drizzle provide persistence and migrations.
+- `src/lib/dashboard-data.ts` remains the hosted product metadata boundary. Product records are still deterministic demonstration data until the authorized PostgreSQL repository is implemented.
 - Cloud-to-CLI communication will use explicit versioned schemas, never source imports across repositories.
 - A separate worker repository will be introduced only when independent scaling is required.
 
-See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md) and [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md).
+See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), and [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md).
 
 ## Codex and MCP
 
