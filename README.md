@@ -13,6 +13,8 @@ npm run dev
 
 Open `http://localhost:3000`. The initial server health endpoint is available at `http://localhost:3000/api/health`.
 
+The Phase 11 dashboard includes the release overview, projects, Quality Contracts, verification runs, findings, requirement coverage, QA memory, organization management, and a provider-neutral sign-in experience. See the [dashboard guide](docs/phase-11-dashboard.md).
+
 ## Commands
 
 | Command             | Description                           |
@@ -27,11 +29,13 @@ Open `http://localhost:3000`. The initial server health endpoint is available at
 ## Architecture
 
 - App Router and React Server Components by default.
+- A small client island handles active navigation; dashboard data and pages remain server-rendered.
 - Route Handlers provide the initial hosted API in the same Next.js deployment.
+- `src/lib/dashboard-data.ts` is the vendor-neutral metadata repository boundary. It uses deterministic demonstration data until authentication, PostgreSQL hosting, and ORM tooling are selected.
 - Cloud-to-CLI communication will use explicit versioned schemas, never source imports across repositories.
 - A separate worker repository will be introduced only when independent scaling is required.
 
-See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md).
+See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md) and [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md).
 
 ## Codex and MCP
 
