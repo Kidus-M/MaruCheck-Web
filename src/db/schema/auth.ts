@@ -118,7 +118,7 @@ export const invitation = pgTable(
     email: text("email").notNull(),
     role: text("role").notNull(),
     status: text("status").default("pending").notNull(),
-    expiresAt: timestamp("expires_at", { withTimezone: true }),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
     inviterId: text("inviter_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
