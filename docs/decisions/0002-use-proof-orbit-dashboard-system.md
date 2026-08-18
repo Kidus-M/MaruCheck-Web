@@ -4,6 +4,9 @@
 
 Accepted
 
+The provider-selection portions of this decision were resolved by
+[ADR-003](0003-self-host-better-auth-on-neon.md). The visual and route-system decisions remain active.
+
 ## Date
 
 2026-08-18
@@ -38,7 +41,7 @@ The visual system uses:
 Use this route hierarchy:
 
 ```text
-Dashboard (/)
+Dashboard (/dashboard)
 |-- Projects (/projects)
 |   |-- Connect (/projects/connect)
 |   `-- Project detail (/projects/[slug])
@@ -58,7 +61,7 @@ Dashboard (/)
 
 Keep pages as React Server Components. Limit the initial client boundary to active-route navigation. Use direct imports, exact DTO-style dashboard types, and a server-only `getDashboardSnapshot()` boundary. The current implementation returns typed demonstration metadata. A future authorized PostgreSQL repository can replace that boundary without changing page components.
 
-Do not implement a home-grown production session. The sign-in route is a complete visual state but its controls remain non-submitting until the authentication provider is selected. The dashboard uses a clearly identifiable demonstration viewer and data set. Real authorization must be enforced in a data-access layer near PostgreSQL queries and every mutation, not only in the shared layout.
+Do not implement a home-grown production session. ADR-003 implements this requirement with Better Auth. Product records remain a clearly identifiable demonstration data set. Real authorization must be enforced in a data-access layer near PostgreSQL queries and every mutation, not only in the shared layout.
 
 ## Alternatives considered
 
@@ -76,7 +79,7 @@ MaruCheck's important relationship is not a trend line. It is `intent -> require
 
 ### Select Clerk, Auth.js, Better Auth, or Supabase during UI work
 
-Authentication affects data ownership, organizations, role management, deployment, and recurring cost. The user has explicitly requested a choice before committing to tools. The route and server-only data boundary allow design work to proceed without silently making that decision.
+Authentication affects data ownership, organizations, role management, deployment, and recurring cost. This alternative was deferred during visual work and subsequently resolved in ADR-003.
 
 ### Pass the entire dashboard snapshot to a client application
 
@@ -90,13 +93,13 @@ That would increase client JavaScript and serialize unrelated organization, proj
 - Release status, evidence, and blocking gaps are visible before general analytics.
 - All Phase 11 information areas have responsive, linked routes.
 - Server Components keep the initial JavaScript boundary small.
-- Authentication and PostgreSQL can be selected without redesigning the route or component system.
+- Better Auth and Neon Postgres were added without redesigning the route or component system.
 - Desktop sidebar and mobile bottom navigation keep primary areas within one action.
 
 ### Negative
 
 - The current metadata is demonstration data, not durable multi-tenant persistence.
-- Sign-in controls are intentionally inactive until a provider is selected.
+- Hosted product records beyond identity and organizations remain demonstration data.
 - The system font stack is operationally reliable but less typographically identical across platforms than bundled webfonts.
 
 ### Neutral

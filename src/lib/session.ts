@@ -51,8 +51,7 @@ export const getWorkspaceContext = cache(
           id: member.id,
           initials: initialsFor(member.user.name),
           name: member.user.name,
-          role:
-            member.role.includes("owner") || member.role.includes("admin") ? "Owner" : "Member",
+          role: member.role.includes("owner") || member.role.includes("admin") ? "Owner" : "Member",
         })) ?? [],
       organization: {
         id: activeOrganization.id,

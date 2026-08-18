@@ -20,9 +20,9 @@ The hosted dashboard answers one primary question: **Can this release ship, and 
 | QA memory       | `/memory`              | Search and filtering for historical failures and regression links     |
 | New memory      | `/memory/new`          | Historical record creation surface                                    |
 | Organization    | `/organization`        | Members, workspace metadata, and hosted data boundary                 |
-| Invite member   | `/organization/invite` | Owner-only Better Auth invitation flow and shareable link              |
+| Invite member   | `/organization/invite` | Owner-only Better Auth invitation flow and shareable link             |
 | Accept invite   | `/accept-invitation`   | Authenticated invitation acceptance                                   |
-| Sign in         | `/sign-in`             | Better Auth email/password and optional GitHub authentication          |
+| Sign in         | `/sign-in`             | Better Auth email/password and optional GitHub authentication         |
 
 All product routes use Server Components except active navigation. Dynamic project, run, and finding routes use static parameters for the current demonstration repository.
 

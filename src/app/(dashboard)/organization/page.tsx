@@ -38,9 +38,7 @@ export default async function OrganizationPage() {
           <h2>Members</h2>
           {members.map((member) => (
             <div className="member-row" key={member.id}>
-              <span
-                className={member.email === viewer.email ? "avatar" : "avatar avatar--muted"}
-              >
+              <span className={member.email === viewer.email ? "avatar" : "avatar avatar--muted"}>
                 {member.initials}
               </span>
               <span>

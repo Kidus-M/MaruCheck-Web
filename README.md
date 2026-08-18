@@ -20,18 +20,18 @@ The Phase 11 web foundation includes an animated marketing site, product and pri
 
 ## Commands
 
-| Command             | Description                                                |
-| ------------------- | ---------------------------------------------------------- |
-| `npm run dev`       | Start the development server                               |
-| `npm run build`     | Create a production build                                  |
-| `npm run start`     | Serve the production build                                 |
-| `npm run db:generate` | Generate reviewed SQL from the Drizzle schema            |
-| `npm run db:check`  | Check the Drizzle migration history                         |
-| `npm run db:migrate` | Apply migrations using the direct Neon connection          |
-| `npm run db:studio` | Open Drizzle Studio                                         |
-| `npm run lint`      | Run ESLint and Next.js rules                               |
-| `npm run typecheck` | Run TypeScript without emitting files                      |
-| `npm run check`     | Run all repository quality gates                           |
+| Command               | Description                                       |
+| --------------------- | ------------------------------------------------- |
+| `npm run dev`         | Start the development server                      |
+| `npm run build`       | Create a production build                         |
+| `npm run start`       | Serve the production build                        |
+| `npm run db:generate` | Generate reviewed SQL from the Drizzle schema     |
+| `npm run db:check`    | Check the Drizzle migration history               |
+| `npm run db:migrate`  | Apply migrations using the direct Neon connection |
+| `npm run db:studio`   | Open Drizzle Studio                               |
+| `npm run lint`        | Run ESLint and Next.js rules                      |
+| `npm run typecheck`   | Run TypeScript without emitting files             |
+| `npm run check`       | Run all repository quality gates                  |
 
 ## Architecture
 
