@@ -15,7 +15,11 @@ export function DocsShell({ children }: { readonly children: ReactNode }) {
       <aside className="docs-sidebar">
         <span>Documentation</span>
         <nav aria-label="Documentation navigation">
-          {docsLinks.map((link) => <Link href={link.href} key={link.href}>{link.label}</Link>)}
+          {docsLinks.map((link) => (
+            <Link href={link.href} key={link.href}>
+              {link.label}
+            </Link>
+          ))}
         </nav>
         <div className="docs-sidebar__help">
           <strong>See the system at work</strong>
@@ -23,13 +27,19 @@ export function DocsShell({ children }: { readonly children: ReactNode }) {
           <Link href="/dashboard">Open dashboard →</Link>
         </div>
       </aside>
-      <article className="docs-article" data-reveal>{children}</article>
+      <article className="docs-article" data-reveal>
+        {children}
+      </article>
     </div>
   );
 }
 
 export function CodeBlock({ children }: { readonly children: ReactNode }) {
-  return <pre className="docs-code"><code>{children}</code></pre>;
+  return (
+    <pre className="docs-code">
+      <code>{children}</code>
+    </pre>
+  );
 }
 
 export function DocsCallout({ children }: { readonly children: ReactNode }) {

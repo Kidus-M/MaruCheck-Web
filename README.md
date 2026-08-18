@@ -11,9 +11,9 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`. The initial server health endpoint is available at `http://localhost:3000/api/health`.
+Open `http://localhost:3000` for the public product site or `http://localhost:3000/dashboard` for the hosted product. The initial server health endpoint is available at `http://localhost:3000/api/health`.
 
-The Phase 11 dashboard includes the release overview, projects, Quality Contracts, verification runs, findings, requirement coverage, QA memory, organization management, and a provider-neutral sign-in experience. See the [dashboard guide](docs/phase-11-dashboard.md).
+The Phase 11 web foundation includes an animated marketing site, product and pricing pages, practical documentation, the release dashboard, projects, Quality Contracts, verification runs, findings, requirement coverage, QA memory, organization management, and a provider-neutral sign-in experience. See the [dashboard guide](docs/phase-11-dashboard.md).
 
 ## Commands
 

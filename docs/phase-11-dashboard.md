@@ -4,26 +4,44 @@ The hosted dashboard answers one primary question: **Can this release ship, and 
 
 ## Implemented surfaces
 
-| Surface | Route | Purpose |
-| --- | --- | --- |
-| Overview | `/` | Release decision, proof orbit, findings, activity, and project health |
-| Projects | `/projects` | Connected repository health and coverage |
-| Project detail | `/projects/[slug]` | Project gate, runs, findings, and contract coverage |
-| Connect project | `/projects/connect` | GitHub connection and local-execution boundary |
-| Contracts | `/contracts` | Approval state, protected intent, versions, owners, and coverage |
-| New contract | `/contracts/new` | Draft creation surface |
-| Runs | `/runs` | Verification history with commit, risk, evidence, and status |
-| Run detail | `/runs/[id]` | Gate, plan, and evidence bundle |
-| Findings | `/findings` | Severity-ordered release issues |
-| Finding detail | `/findings/[id]` | Expected versus actual behavior, reproduction, owner, and artifacts |
-| Coverage | `/coverage` | Feature-to-requirement-to-evidence mapping |
-| QA memory | `/memory` | Search and filtering for historical failures and regression links |
-| New memory | `/memory/new` | Historical record creation surface |
-| Organization | `/organization` | Members, workspace metadata, and hosted data boundary |
-| Invite member | `/organization/invite` | Role-aware invitation surface |
-| Sign in | `/sign-in` | Provider-neutral authentication experience |
+| Surface         | Route                  | Purpose                                                               |
+| --------------- | ---------------------- | --------------------------------------------------------------------- |
+| Overview        | `/dashboard`           | Release decision, proof orbit, findings, activity, and project health |
+| Projects        | `/projects`            | Connected repository health and coverage                              |
+| Project detail  | `/projects/[slug]`     | Project gate, runs, findings, and contract coverage                   |
+| Connect project | `/projects/connect`    | GitHub connection and local-execution boundary                        |
+| Contracts       | `/contracts`           | Approval state, protected intent, versions, owners, and coverage      |
+| New contract    | `/contracts/new`       | Draft creation surface                                                |
+| Runs            | `/runs`                | Verification history with commit, risk, evidence, and status          |
+| Run detail      | `/runs/[id]`           | Gate, plan, and evidence bundle                                       |
+| Findings        | `/findings`            | Severity-ordered release issues                                       |
+| Finding detail  | `/findings/[id]`       | Expected versus actual behavior, reproduction, owner, and artifacts   |
+| Coverage        | `/coverage`            | Feature-to-requirement-to-evidence mapping                            |
+| QA memory       | `/memory`              | Search and filtering for historical failures and regression links     |
+| New memory      | `/memory/new`          | Historical record creation surface                                    |
+| Organization    | `/organization`        | Members, workspace metadata, and hosted data boundary                 |
+| Invite member   | `/organization/invite` | Role-aware invitation surface                                         |
+| Sign in         | `/sign-in`             | Provider-neutral authentication experience                            |
 
 All product routes use Server Components except active navigation. Dynamic project, run, and finding routes use static parameters for the current demonstration repository.
+
+## Public product site
+
+The dashboard now sits behind a complete public experience rather than occupying the root route:
+
+| Surface           | Route                     | Purpose                                                   |
+| ----------------- | ------------------------- | --------------------------------------------------------- |
+| Landing page      | `/`                       | Positioning, proof-loop narrative, capabilities, and CTAs |
+| Product           | `/product`                | Detailed contract-to-evidence product model               |
+| Pricing           | `/pricing`                | Honest preview, private-beta, and design-partner stages   |
+| About             | `/about`                  | Maru name, circle identity, and product principles        |
+| Documentation     | `/docs`                   | Documentation map and proof-loop overview                 |
+| Getting started   | `/docs/getting-started`   | Current source-based CLI setup                            |
+| Quality Contracts | `/docs/quality-contracts` | Durable behavior-contract guidance                        |
+| CI integration    | `/docs/ci`                | Pull-request gate and evidence-handling guidance          |
+| MCP workflow      | `/docs/mcp`               | Codex and client-neutral MCP operating model              |
+
+The public site uses lightweight CSS choreography and one small Intersection Observer client component. It respects reduced-motion preferences and does not add an animation library to the client bundle.
 
 ## Visual language
 
@@ -56,7 +74,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`. The sign-in design is at `http://localhost:3000/sign-in`.
+Open `http://localhost:3000` for the public site or `http://localhost:3000/dashboard` for the product overview. The sign-in design is at `http://localhost:3000/sign-in`.
 
 ## Validation
 

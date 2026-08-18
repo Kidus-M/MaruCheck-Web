@@ -55,7 +55,7 @@ export function DashboardShell({
       <div className="app-main">
         <header className="topbar">
           <div className="topbar__mobile-brand">
-            <MaruMark compact />
+            <MaruMark compact href="/dashboard" />
           </div>
           <button className="command-search" type="button">
             <Icon name="search" />
