@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import "./marketing.css";
 
 export const metadata: Metadata = {
-  description: "Independent release proof for AI-generated software.",
+  description: "Independent release proof for AI-built software.",
   title: {
     default: "MaruCheck — Release with proof",
     template: "%s · MaruCheck",

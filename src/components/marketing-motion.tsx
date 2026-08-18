@@ -4,12 +4,13 @@ import { useEffect } from "react";
 
 export function MarketingMotion() {
   useEffect(() => {
+    document.documentElement.classList.add("motion-ready");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
 
     if (reducedMotion || !("IntersectionObserver" in window)) {
       revealTargets.forEach((target) => target.classList.add("is-visible"));
-      return;
+      return () => document.documentElement.classList.remove("motion-ready");
     }
 
     const observer = new IntersectionObserver(
@@ -24,7 +25,10 @@ export function MarketingMotion() {
     );
 
     revealTargets.forEach((target) => observer.observe(target));
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("motion-ready");
+    };
   }, []);
 
   return null;
