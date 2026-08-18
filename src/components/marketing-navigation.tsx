@@ -69,11 +69,7 @@ export function MarketingNavigation() {
           <Link href="/sign-in" onClick={() => setOpen(false)}>
             <span>06</span>Sign in
           </Link>
-          <Link
-            className="mobile-console-link"
-            href="/dashboard"
-            onClick={() => setOpen(false)}
-          >
+          <Link className="mobile-console-link" href="/dashboard" onClick={() => setOpen(false)}>
             Open proof console <span aria-hidden="true">↗</span>
           </Link>
         </nav>

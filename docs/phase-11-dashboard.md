@@ -42,7 +42,9 @@ The dashboard now sits behind a complete public experience rather than occupying
 | CI integration    | `/docs/ci`                | Pull-request gate and evidence-handling guidance          |
 | MCP workflow      | `/docs/mcp`               | Codex and client-neutral MCP operating model              |
 
-The public site uses lightweight CSS choreography and one small Intersection Observer client component. It respects reduced-motion preferences and does not add an animation library to the client bundle.
+The redesigned public site uses a verification-command visual system grounded in the implemented CLI, Quality Contracts, deterministic risk, QA memory, semantic drift, MCP tools, and hosted release evidence. The signature hero is an animated verification deck rather than a generic screenshot or card composition. Product, Pricing, About, and Docs use the same command-system hierarchy.
+
+Motion uses CSS choreography and one small Intersection Observer client component. Navigation and the interactive CLI example are focused client islands. The site respects reduced-motion preferences and does not add an animation library to the client bundle.
 
 ## Visual language
 
@@ -54,7 +56,7 @@ Maru means circle, and the circle is used in Japan to mark an answer correct. Th
 - coral interruption points when the proof loop is incomplete;
 - calm evidence surfaces around the one signature visualization.
 
-The design draws interaction lessons from Linear, Vercel, and Stripe but does not reproduce their brand styling. See [ADR-002](decisions/0002-use-proof-orbit-dashboard-system.md).
+The authenticated dashboard retains the proof-orbit language. The public website now treats the Kobayashi Maru influence as a subtle pressure-test mindset through scanning, diagnostic sequences, and calm red-alert states without copying franchise visuals. See [ADR-002](decisions/0002-use-proof-orbit-dashboard-system.md) and [ADR-004](decisions/0004-use-verification-command-public-system.md).
 
 ## Data boundary
 

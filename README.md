@@ -16,7 +16,7 @@ Open `http://localhost:3000` for the public product site or `http://localhost:30
 
 Before migrating, create `.env.local` from `.env.example` and replace the sample values with your Neon pooled and direct connection strings plus a Better Auth secret. The application shows a setup state instead of pretending authentication works when those values are absent.
 
-The Phase 11 web foundation includes an animated marketing site, product and pricing pages, practical documentation, the release dashboard, projects, Quality Contracts, verification runs, findings, requirement coverage, QA memory, Better Auth sign-in, and organization management. See the [dashboard guide](docs/phase-11-dashboard.md).
+The Phase 11 web foundation includes a verification-command public site built from real CLI and MCP workflows, product and availability pages, practical documentation, the release dashboard, projects, Quality Contracts, verification runs, findings, requirement coverage, QA memory, Better Auth sign-in, and organization management. See the [dashboard guide](docs/phase-11-dashboard.md).
 
 ## Commands
 
@@ -43,7 +43,7 @@ The Phase 11 web foundation includes an animated marketing site, product and pri
 - Cloud-to-CLI communication will use explicit versioned schemas, never source imports across repositories.
 - A separate worker repository will be introduced only when independent scaling is required.
 
-See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), and [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md).
+See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md), and [ADR-004](docs/decisions/0004-use-verification-command-public-system.md).
 
 ## Codex and MCP
 

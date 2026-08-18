@@ -6,6 +6,9 @@ Accepted
 
 The provider-selection portions of this decision were resolved by
 [ADR-003](0003-self-host-better-auth-on-neon.md). The visual and route-system decisions remain active.
+The public marketing visual system was later superseded by
+[ADR-004](0004-use-verification-command-public-system.md); the proof-orbit decision remains active for
+the authenticated dashboard.
 
 ## Date
 
