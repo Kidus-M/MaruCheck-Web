@@ -19,7 +19,7 @@ export function DashboardShell({
     <div className="app-shell">
       <aside className="sidebar">
         <div className="sidebar__brand">
-          <MaruMark />
+          <MaruMark href="/dashboard" />
         </div>
 
         <button className="organization-switcher" type="button" aria-label="Switch organization">

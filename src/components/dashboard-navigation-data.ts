@@ -13,7 +13,7 @@ export const navigationGroups: readonly {
   {
     label: "Workspace",
     items: [
-      { href: "/", icon: "overview", label: "Overview" },
+      { href: "/dashboard", icon: "overview", label: "Overview" },
       { href: "/projects", icon: "projects", label: "Projects" },
     ],
   },

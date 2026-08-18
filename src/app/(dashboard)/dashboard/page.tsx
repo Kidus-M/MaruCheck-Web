@@ -11,7 +11,7 @@ import {
 import { Icon } from "@/components/icon";
 import { getDashboardSnapshot } from "@/lib/dashboard-data";
 
-export default async function OverviewPage() {
+export default async function DashboardPage() {
   const data = await getDashboardSnapshot();
   const blockedProject = data.projects.find((project) => project.status === "blocked")!;
   const openFindings = data.findings.length;
