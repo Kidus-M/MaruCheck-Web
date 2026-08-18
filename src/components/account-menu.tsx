@@ -5,7 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
-export function AccountMenu({ initials, label }: { readonly initials: string; readonly label: string }) {
+export function AccountMenu({
+  initials,
+  label,
+}: {
+  readonly initials: string;
+  readonly label: string;
+}) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   async function signOut() {
@@ -14,5 +20,17 @@ export function AccountMenu({ initials, label }: { readonly initials: string; re
     router.push("/");
     router.refresh();
   }
-  return <details className="account-menu"><summary className="avatar" aria-label={label}>{initials}</summary><div><Link href="/organization">Organization</Link><button disabled={pending} onClick={signOut} type="button">{pending ? "Signing out…" : "Sign out"}</button></div></details>;
+  return (
+    <details className="account-menu">
+      <summary className="avatar" aria-label={label}>
+        {initials}
+      </summary>
+      <div>
+        <Link href="/organization">Organization</Link>
+        <button disabled={pending} onClick={signOut} type="button">
+          {pending ? "Signing out…" : "Sign out"}
+        </button>
+      </div>
+    </details>
+  );
 }

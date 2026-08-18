@@ -10,9 +10,10 @@ import {
 } from "@/components/dashboard-ui";
 import { Icon } from "@/components/icon";
 import { getDashboardSnapshot } from "@/lib/dashboard-data";
+import { requireWorkspaceContext } from "@/lib/session";
 
 export default async function DashboardPage() {
-  const data = await getDashboardSnapshot();
+  const [data, { viewer }] = await Promise.all([getDashboardSnapshot(), requireWorkspaceContext()]);
   const blockedProject = data.projects.find((project) => project.status === "blocked")!;
   const openFindings = data.findings.length;
   const evidenceCount = data.runs.reduce((total, run) => total + run.evidence, 0);
@@ -23,7 +24,7 @@ export default async function DashboardPage() {
         action={<PrimaryLink href="/runs/RUN-1048">Open latest run</PrimaryLink>}
         description="The release decision, its supporting evidence, and the gaps that need attention."
         eyebrow="Tuesday · 18 August"
-        title={`Good afternoon, ${data.viewer.name.split(" ")[0]}.`}
+        title={`Good afternoon, ${viewer.name.split(" ")[0]}.`}
       />
 
       <section className="release-card" aria-labelledby="release-heading">

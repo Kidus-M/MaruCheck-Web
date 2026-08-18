@@ -1,8 +1,8 @@
 import { PageHeader, PrimaryLink } from "@/components/dashboard-ui";
-import { getDashboardSnapshot } from "@/lib/dashboard-data";
+import { requireWorkspaceContext } from "@/lib/session";
 
 export default async function OrganizationPage() {
-  const { organization, viewer } = await getDashboardSnapshot();
+  const { organization, viewer } = await requireWorkspaceContext();
   return (
     <div className="page-stack">
       <PageHeader
