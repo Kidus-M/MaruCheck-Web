@@ -9,7 +9,7 @@ export function CopyButton({
   readonly label?: string;
   readonly value: string;
 }) {
-  const [copied, setCopied] = useState(false);
+  const [status, setStatus] = useState<"copied" | "error" | "idle">("idle");
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(
@@ -20,21 +20,27 @@ export function CopyButton({
   );
 
   async function copy() {
-    await navigator.clipboard.writeText(value);
-    setCopied(true);
+    try {
+      await navigator.clipboard.writeText(value);
+      setStatus("copied");
+    } catch {
+      setStatus("error");
+    }
     if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setCopied(false), 2_000);
+    timer.current = setTimeout(() => setStatus("idle"), 2_000);
   }
+
+  const copied = status === "copied";
 
   return (
     <button
-      aria-label={copied ? `${label} copied` : label}
+      aria-label={copied ? `${label} copied` : status === "error" ? `${label} failed` : label}
       className={`copy-button${copied ? " copy-button--copied" : ""}`}
       onClick={copy}
       type="button"
     >
-      <span aria-hidden="true">{copied ? "✓" : "⧉"}</span>
-      {copied ? "Copied" : label}
+      <span aria-hidden="true">{copied ? "✓" : status === "error" ? "!" : "⧉"}</span>
+      {copied ? "Copied" : status === "error" ? "Try again" : label}
     </button>
   );
 }

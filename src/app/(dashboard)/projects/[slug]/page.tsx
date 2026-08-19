@@ -23,6 +23,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
   const tokens = await getProjectTokenSummaries(project.id);
   const runs = data.runs.filter((run) => run.project === project.name);
   const findings = data.findings.filter((finding) => finding.project === project.name);
+  const contracts = data.contracts.filter((contract) => contract.projectId === project.id);
 
   return (
     <div className="page-stack">
@@ -40,12 +41,16 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
         <div>
           <StatusPill status={project.status} />
           <h2>
-            {project.status === "blocked"
+            {runs.length === 0
+              ? "Waiting for the first verification report"
+              : project.status === "blocked"
               ? "Release held by one critical finding"
               : "Current release proof is complete"}
           </h2>
           <p>
-            {project.status === "blocked"
+            {runs.length === 0
+              ? "The project and its ingestion credential are ready. Source execution remains local or in CI until a versioned report is submitted."
+              : project.status === "blocked"
               ? "The latest verification found a contract-level authorization failure. All source execution remained in GitHub Actions."
               : "Every selected blocking requirement has conclusive evidence for the latest commit."}
           </p>
@@ -131,7 +136,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
           title="Contract coverage"
         />
         <div className="contract-coverage-list">
-          {data.contracts.slice(0, project.activeContracts).map((contract) => (
+          {contracts.map((contract) => (
             <Link href="/contracts" key={contract.id}>
               <span className="contract-monogram">◯</span>
               <span>
