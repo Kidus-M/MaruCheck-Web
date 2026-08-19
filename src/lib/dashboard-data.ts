@@ -68,6 +68,7 @@ export const getDashboardSnapshot = cache(async (): Promise<DashboardSnapshot> =
           createdAt: verificationRun.createdAt,
           durationMs: verificationRun.durationMs,
           evidenceCount: verificationRun.evidenceCount,
+          id: verificationRun.id,
           projectId: verificationRun.projectId,
           risk: verificationRun.risk,
           runKey: verificationRun.runKey,
@@ -129,18 +130,18 @@ export const getDashboardSnapshot = cache(async (): Promise<DashboardSnapshot> =
     ]);
 
   const projectNames = new Map(projectRows.map((row) => [row.id, row.name]));
-  const runByDatabaseId = new Map(runRows.map((row) => [row.runKey, row.runKey]));
+  const runByDatabaseId = new Map(runRows.map((row) => [row.id, row.runKey]));
   const findings: FindingSummary[] = findingRows
     .filter((row) => row.status !== "fixed" && row.status !== "false-positive")
     .map((row) => {
-      const runKey = runRows.find((run) => run.projectId === row.projectId)?.runKey ?? "run";
+      const runKey = runByDatabaseId.get(row.runId) ?? "run";
       return {
         actual: row.actual,
         age: relativeTime(row.firstSeenAt).replace(/ ago$/, ""),
         contract: row.requirementRef ?? "Unlinked evidence",
         evidence: [...row.evidenceIds, ...row.artifactRefs],
         expected: row.expected || "No approved expectation was linked.",
-        id: `${runByDatabaseId.get(runKey) ?? runKey}--${row.findingKey}`,
+        id: `${runKey}--${row.findingKey}`,
         occurrences: row.occurrenceCount,
         owner: row.owner,
         project: projectNames.get(row.projectId) ?? "Unknown project",
