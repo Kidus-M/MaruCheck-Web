@@ -66,7 +66,10 @@ Dashboard (/dashboard)
 
 Keep pages as React Server Components. Limit the initial client boundary to active-route navigation. Use direct imports, exact DTO-style dashboard types, and a server-only `getDashboardSnapshot()` boundary. The current implementation returns typed demonstration metadata. A future authorized PostgreSQL repository can replace that boundary without changing page components.
 
-Do not implement a home-grown production session. ADR-003 implements this requirement with Better Auth. Product records remain a clearly identifiable demonstration data set. Real authorization must be enforced in a data-access layer near PostgreSQL queries and every mutation, not only in the shared layout.
+Do not implement a home-grown production session. ADR-003 implements this requirement with Better
+Auth. ADR-005 replaces the original demonstration repository with organization-scoped Postgres
+queries. Authorization is enforced in the data-access layer near each query and mutation, not only
+in the shared layout.
 
 ## Alternatives considered
 

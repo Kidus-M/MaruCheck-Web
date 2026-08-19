@@ -56,24 +56,24 @@ export default async function RunDetailPage({ params }: PageProps<"/runs/[id]">)
             <li>
               <span>01</span>
               <div>
-                <strong>Assess changed authorization paths</strong>
-                <p>Critical historical memory and invoice contract matched.</p>
+                <strong>Analyze the changed surface</strong>
+                <p>The submitted report calculated a {run.risk}/100 change-risk score.</p>
               </div>
               <Icon name="check" />
             </li>
             <li>
               <span>02</span>
               <div>
-                <strong>Run contract-linked Vitest files</strong>
-                <p>12 tests selected across billing and access control.</p>
+                <strong>Evaluate selected verification evidence</strong>
+                <p>{run.evidence} normalized evidence objects were retained for this run.</p>
               </div>
               <Icon name="check" />
             </li>
             <li>
               <span>03</span>
               <div>
-                <strong>Run cross-account regression</strong>
-                <p>MEM-0143 restored the invoice ownership test.</p>
+                <strong>Apply the release gate</strong>
+                <p>The submitted evidence produced a {run.status} decision.</p>
               </div>
               <Icon name={run.status === "blocked" ? "alert" : "check"} />
             </li>
@@ -85,26 +85,26 @@ export default async function RunDetailPage({ params }: PageProps<"/runs/[id]">)
             <span>
               <Icon name="contracts" />
               <span>
-                <strong>report.json</strong>
-                <small>Structured findings and release gate</small>
+                <strong>{run.evidence} evidence objects</strong>
+                <small>Normalized from the schema-versioned report</small>
               </span>
-              <b>42 KB</b>
+              <b>v1</b>
             </span>
             <span>
               <Icon name="contracts" />
               <span>
-                <strong>verification-plan.json</strong>
-                <small>Selected requirements and test reasons</small>
+                <strong>{run.commit}</strong>
+                <small>Verified commit</small>
               </span>
-              <b>18 KB</b>
+              <b>{run.project}</b>
             </span>
             <span>
               <Icon name="contracts" />
               <span>
-                <strong>vitest-stderr.txt</strong>
-                <small>Bounded adapter diagnostic</small>
+                <strong>{run.duration}</strong>
+                <small>Recorded verification duration</small>
               </span>
-              <b>6 KB</b>
+              <b>{run.completedAt}</b>
             </span>
           </div>
         </section>
