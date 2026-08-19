@@ -1,6 +1,6 @@
 import { and, eq, gt, isNull, or, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { createDatabase } from "@/db";
+import { createDatabase, createTransactionalDatabase } from "@/db";
 import {
   evidence,
   finding,
@@ -43,9 +43,9 @@ export async function POST(request: Request) {
 
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) return problem(503, "Hosted persistence is not configured.");
-  const database = createDatabase(databaseUrl);
+  const readDatabase = createDatabase(databaseUrl);
   const now = new Date();
-  const [credential] = await database
+  const [credential] = await readDatabase
     .select({
       id: projectIngestToken.id,
       organizationId: projectIngestToken.organizationId,
@@ -68,8 +68,9 @@ export async function POST(request: Request) {
     return problem(409, "The report project does not match the token's connected project.");
   }
 
+  const connection = createTransactionalDatabase(databaseUrl);
   try {
-    const result = await database.transaction(async (transaction) => {
+    const result = await connection.database.transaction(async (transaction) => {
       const [run] = await transaction
         .insert(verificationRun)
         .values({
@@ -292,6 +293,8 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Verification report ingestion failed", error);
     return problem(500, "The verification report could not be persisted.");
+  } finally {
+    await connection.close();
   }
 }
 

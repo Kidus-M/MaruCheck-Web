@@ -3,7 +3,7 @@
 import { randomBytes, randomUUID } from "node:crypto";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { createDatabase } from "@/db";
+import { createTransactionalDatabase } from "@/db";
 import { project, projectIngestToken, qaMemory, qualityContract } from "@/db/schema";
 import { requireWorkspaceContext } from "@/lib/session";
 import { hashProjectToken } from "@/lib/project-tokens";
@@ -36,26 +36,28 @@ export async function connectProjectAction(
 
   const token = `maru_${randomBytes(32).toString("base64url")}`;
   const tokenHash = hashProjectToken(token);
-  const database = getDatabase();
+  const connection = getDatabase();
 
   try {
-    const [createdProject] = await database
-      .insert(project)
-      .values({
-        branch,
-        name,
-        organizationId: context.organization.id,
-        repository,
-        slug,
-      })
-      .returning({ id: project.id });
-    if (!createdProject) throw new Error("Project creation did not return a record.");
+    await connection.database.transaction(async (transaction) => {
+      const [createdProject] = await transaction
+        .insert(project)
+        .values({
+          branch,
+          name,
+          organizationId: context.organization.id,
+          repository,
+          slug,
+        })
+        .returning({ id: project.id });
+      if (!createdProject) throw new Error("Project creation did not return a record.");
 
-    await database.insert(projectIngestToken).values({
-      organizationId: context.organization.id,
-      projectId: createdProject.id,
-      tokenHash,
-      tokenPrefix: token.slice(0, 12),
+      await transaction.insert(projectIngestToken).values({
+        organizationId: context.organization.id,
+        projectId: createdProject.id,
+        tokenHash,
+        tokenPrefix: token.slice(0, 12),
+      });
     });
   } catch (error) {
     console.error("Unable to connect project", error);
@@ -63,6 +65,8 @@ export async function connectProjectAction(
       message: "That repository or project slug is already connected to this organization.",
       status: "error",
     };
+  } finally {
+    await connection.close();
   }
 
   revalidatePath("/dashboard");
@@ -84,14 +88,19 @@ export async function createContractAction(formData: FormData): Promise<void> {
   const contractKey = slugify(title);
   if (!contractKey) throw new Error("Contract title must contain a letter or number.");
 
-  await getDatabase().insert(qualityContract).values({
-    contractKey,
-    criticality,
-    intent,
-    organizationId: context.organization.id,
-    owner,
-    title,
-  });
+  const connection = getDatabase();
+  try {
+    await connection.database.insert(qualityContract).values({
+      contractKey,
+      criticality,
+      intent,
+      organizationId: context.organization.id,
+      owner,
+      title,
+    });
+  } finally {
+    await connection.close();
+  }
   revalidatePath("/contracts");
   redirect("/contracts");
 }
@@ -109,9 +118,9 @@ export async function createMemoryAction(formData: FormData): Promise<void> {
     .filter(Boolean)
     .slice(0, 20);
 
-  await getDatabase()
-    .insert(qaMemory)
-    .values({
+  const connection = getDatabase();
+  try {
+    await connection.database.insert(qaMemory).values({
       memoryKey: `MEM-${randomUUID().slice(0, 8).toUpperCase()}`,
       organizationId: context.organization.id,
       relatedContracts: relatedContract ? [relatedContract] : [],
@@ -121,6 +130,9 @@ export async function createMemoryAction(formData: FormData): Promise<void> {
       tags,
       title,
     });
+  } finally {
+    await connection.close();
+  }
   revalidatePath("/memory");
   redirect("/memory");
 }
@@ -128,7 +140,7 @@ export async function createMemoryAction(formData: FormData): Promise<void> {
 function getDatabase() {
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) throw new Error("DATABASE_URL is required for hosted product writes.");
-  return createDatabase(databaseUrl);
+  return createTransactionalDatabase(databaseUrl);
 }
 
 function field(formData: FormData, name: string): string {
