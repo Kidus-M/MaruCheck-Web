@@ -44,15 +44,15 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
             {runs.length === 0
               ? "Waiting for the first verification report"
               : project.status === "blocked"
-              ? "Release held by one critical finding"
-              : "Current release proof is complete"}
+                ? "Release held by one critical finding"
+                : "Current release proof is complete"}
           </h2>
           <p>
             {runs.length === 0
               ? "The project and its ingestion credential are ready. Source execution remains local or in CI until a versioned report is submitted."
               : project.status === "blocked"
-              ? "The latest verification found a contract-level authorization failure. All source execution remained in GitHub Actions."
-              : "Every selected blocking requirement has conclusive evidence for the latest commit."}
+                ? "The latest verification found a contract-level authorization failure. All source execution remained in GitHub Actions."
+                : "Every selected blocking requirement has conclusive evidence for the latest commit."}
           </p>
         </div>
         <dl>
