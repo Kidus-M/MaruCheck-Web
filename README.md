@@ -39,11 +39,11 @@ The Phase 11 web foundation includes a verification-command public site built fr
 - A small client island handles active navigation; dashboard data and pages remain server-rendered.
 - Route Handlers provide the initial hosted API in the same Next.js deployment.
 - Better Auth owns users, sessions, organizations, members, and invitations. Neon Postgres and Drizzle provide persistence and migrations.
-- `src/lib/dashboard-data.ts` remains the hosted product metadata boundary. Product records are still deterministic demonstration data until the authorized PostgreSQL repository is implemented.
-- Cloud-to-CLI communication will use explicit versioned schemas, never source imports across repositories.
+- `src/lib/dashboard-data.ts` is the organization-scoped hosted metadata boundary for projects, contracts, runs, findings, coverage, and QA memory.
+- CI sends the CLI's versioned report to `POST /api/v1/ingest/runs` with a hashed, project-scoped token. The repositories exchange JSON schemas, never source imports.
 - A separate worker repository will be introduced only when independent scaling is required.
 
-See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md), and [ADR-004](docs/decisions/0004-use-verification-command-public-system.md).
+See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md), [ADR-004](docs/decisions/0004-use-verification-command-public-system.md), and [ADR-005](docs/decisions/0005-store-organization-scoped-proof-metadata.md). The request contract is documented in the [ingestion API guide](docs/api/verification-ingestion.md).
 
 ## Codex and MCP
 

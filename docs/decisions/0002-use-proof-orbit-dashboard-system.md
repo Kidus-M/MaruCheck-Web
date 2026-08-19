@@ -6,6 +6,8 @@ Accepted
 
 The provider-selection portions of this decision were resolved by
 [ADR-003](0003-self-host-better-auth-on-neon.md). The visual and route-system decisions remain active.
+The demonstration data boundary was replaced by the organization-scoped repository in
+[ADR-005](0005-store-organization-scoped-proof-metadata.md).
 The public marketing visual system was later superseded by
 [ADR-004](0004-use-verification-command-public-system.md); the proof-orbit decision remains active for
 the authenticated dashboard.
@@ -101,8 +103,7 @@ That would increase client JavaScript and serialize unrelated organization, proj
 
 ### Negative
 
-- The current metadata is demonstration data, not durable multi-tenant persistence.
-- Hosted product records beyond identity and organizations remain demonstration data.
+- Empty workspaces require intentional onboarding states before the first report is ingested.
 - The system font stack is operationally reliable but less typographically identical across platforms than bundled webfonts.
 
 ### Neutral

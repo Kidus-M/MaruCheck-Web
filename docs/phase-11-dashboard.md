@@ -24,7 +24,9 @@ The hosted dashboard answers one primary question: **Can this release ship, and 
 | Accept invite   | `/accept-invitation`   | Authenticated invitation acceptance                                   |
 | Sign in         | `/sign-in`             | Better Auth email/password and optional GitHub authentication         |
 
-All product routes use Server Components except active navigation. Dynamic project, run, and finding routes use static parameters for the current demonstration repository.
+All product routes use Server Components except active navigation and the one-time project-token
+result. Dynamic project, run, and finding routes resolve organization-scoped records at request
+time.
 
 ## Public product site
 
@@ -62,13 +64,22 @@ The authenticated dashboard retains the proof-orbit language. The public website
 
 Better Auth now persists users, sessions, organizations, members, and invitations in Neon Postgres through the official Drizzle adapter. Product routes enforce a session in their server layout, while workspace queries resolve the signed-in user's real organization and role.
 
-`src/lib/dashboard-data.ts` still returns deterministic demonstration product data. Replace it with an authorized PostgreSQL data-access layer for:
+`src/lib/dashboard-data.ts` is now an authorized Neon/Drizzle repository for:
 
-1. projects and source-control connections;
-2. immutable contract versions and approvals;
-3. verification runs, findings, requirement evidence, and QA memory.
+1. projects and project-scoped ingestion credentials;
+2. Quality Contracts and immutable version storage;
+3. verification runs, findings, evidence, requirement coverage, and QA memory.
 
-The implementation must validate a session close to each data query and mutation, return only the fields required by the page, and never treat layout visibility as authorization.
+Every dashboard read resolves the signed-in workspace inside the repository and selects only the
+fields the pages need. Mutations repeat the organization scope. CI uses a separate hashed bearer
+token bound to one project; it never reuses a browser session. `POST /api/v1/ingest/runs` accepts a
+bounded schema-versioned envelope containing the real CLI verification report. See the
+[ingestion API guide](api/verification-ingestion.md) and
+[ADR-005](decisions/0005-store-organization-scoped-proof-metadata.md).
+
+Project creation plus token creation and report ingestion use short WebSocket-backed transactions.
+Parallel dashboard reads use Neon HTTP. The cloud stores normalized metadata and configured
+artifact references only; source execution remains local or in CI.
 
 ## Run locally
 
@@ -86,6 +97,7 @@ Create `.env.local` from `.env.example` before running the migration. Open `http
 npm run check
 ```
 
-The production build prerenders the overview, lists, sign-in, organization, coverage, memory, and form routes. It also generates the demonstration project, run, and finding detail routes.
+The production build keeps public and authentication routes optimized while protected product
+routes render against the current session and organization.
 
 Browser automation is not yet a repository dependency. In the current managed environment, the Playwright CLI was unavailable offline and installed Chromium processes were blocked by the Windows sandbox. Add the selected test tooling before creating screenshot or interaction suites.
