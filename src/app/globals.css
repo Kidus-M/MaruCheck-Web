@@ -2063,6 +2063,36 @@ svg {
   text-transform: capitalize;
 }
 
+.token-confirmation {
+  align-items: center;
+  background: var(--coral-soft);
+  border: 1px solid color-mix(in srgb, var(--coral) 35%, transparent);
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.45rem;
+}
+
+.token-confirmation span {
+  color: var(--ink-soft);
+  font-size: 0.66rem;
+  max-width: 10rem;
+}
+
+.token-confirmation button {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.4rem 0.55rem;
+}
+
+.token-confirmation button[type="submit"] {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: var(--surface);
+}
+
 .form-error {
   color: var(--coral-strong, #a4382f);
   margin: 0;

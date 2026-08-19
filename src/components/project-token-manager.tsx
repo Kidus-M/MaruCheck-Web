@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { CopyButton } from "@/components/copy-button";
 import { revokeProjectTokenAction, rotateProjectTokenAction } from "@/lib/product-actions";
 import type { RotateProjectTokenState } from "@/lib/product-actions";
@@ -18,6 +18,7 @@ export function ProjectTokenManager({
   readonly tokens: readonly ProjectTokenSummary[];
 }) {
   const [state, rotateAction, pending] = useActionState(rotateProjectTokenAction, initialState);
+  const [confirmation, setConfirmation] = useState<"rotate" | string | null>(null);
   const hasActiveToken = tokens.some((token) => token.status === "active");
 
   return (
@@ -32,24 +33,22 @@ export function ProjectTokenManager({
           </p>
         </div>
         {canManage ? (
-          <form
-            action={rotateAction}
-            onSubmit={(event) => {
-              if (
-                hasActiveToken &&
-                !window.confirm(
-                  "Rotate this credential? The current active token will stop working immediately.",
-                )
-              ) {
-                event.preventDefault();
-              }
-            }}
-          >
-            <input name="slug" type="hidden" value={projectSlug} />
-            <button className="button button--secondary" disabled={pending} type="submit">
-              {pending ? "Rotating…" : hasActiveToken ? "Rotate token" : "Create token"}
+          confirmation === "rotate" ? (
+            <form action={rotateAction} className="token-confirmation">
+              <input name="slug" type="hidden" value={projectSlug} />
+              <span>{hasActiveToken ? "Current token stops immediately." : "Create the first CI token?"}</span>
+              <button onClick={() => setConfirmation(null)} type="button">Cancel</button>
+              <button disabled={pending} type="submit">{pending ? "Working…" : "Confirm"}</button>
+            </form>
+          ) : (
+            <button
+              className="button button--secondary"
+              onClick={() => setConfirmation("rotate")}
+              type="button"
+            >
+              {hasActiveToken ? "Rotate token" : "Create token"}
             </button>
-          </form>
+          )
         ) : null}
       </header>
 
@@ -97,20 +96,23 @@ export function ProjectTokenManager({
                 </div>
               </dl>
               {canManage && token.status === "active" ? (
-                <form
-                  action={revokeProjectTokenAction}
-                  onSubmit={(event) => {
-                    if (!window.confirm("Revoke this token? CI using it will stop ingesting reports.")) {
-                      event.preventDefault();
-                    }
-                  }}
-                >
-                  <input name="slug" type="hidden" value={projectSlug} />
-                  <input name="tokenId" type="hidden" value={token.id} />
-                  <button className="button button--secondary" type="submit">
+                confirmation === token.id ? (
+                  <form action={revokeProjectTokenAction} className="token-confirmation">
+                    <input name="slug" type="hidden" value={projectSlug} />
+                    <input name="tokenId" type="hidden" value={token.id} />
+                    <span>CI will stop ingesting.</span>
+                    <button onClick={() => setConfirmation(null)} type="button">Cancel</button>
+                    <button type="submit">Revoke</button>
+                  </form>
+                ) : (
+                  <button
+                    className="button button--secondary"
+                    onClick={() => setConfirmation(token.id)}
+                    type="button"
+                  >
                     Revoke
                   </button>
-                </form>
+                )
               ) : null}
             </article>
           ))}
