@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { CopyButton } from "@/components/copy-button";
 import { revokeProjectTokenAction, rotateProjectTokenAction } from "@/lib/product-actions";
 import type { RotateProjectTokenState } from "@/lib/product-actions";
 import type { ProjectTokenSummary } from "@/lib/project-token-data";
@@ -43,7 +44,10 @@ export function ProjectTokenManager({
       {state.status === "success" && state.token ? (
         <div className="token-result token-result--compact" role="status">
           <strong>Copy the replacement token now</strong>
-          <code>{state.token}</code>
+          <div className="credential-reveal__value">
+            <code>{state.token}</code>
+            <CopyButton label="Copy token" value={state.token} />
+          </div>
           <p>{state.message}</p>
         </div>
       ) : state.status === "error" ? (
