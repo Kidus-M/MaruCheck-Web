@@ -1363,6 +1363,70 @@ svg {
   line-height: 1.5;
 }
 
+.empty-state {
+  align-items: center;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  min-height: 15rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.empty-state__mark {
+  align-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  display: flex;
+  height: 5rem;
+  justify-content: center;
+  width: 5rem;
+}
+
+.empty-state__mark span {
+  border: 1px solid var(--indigo);
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.empty-state h2,
+.token-result h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  letter-spacing: -0.04em;
+  margin: 0.35rem 0 0.65rem;
+}
+
+.empty-state div > p:last-child,
+.token-result > p {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 44rem;
+}
+
+.token-result > code {
+  background: var(--ink);
+  border-radius: 0.35rem;
+  color: var(--mint);
+  display: block;
+  font-size: 0.8rem;
+  margin: 1.25rem 0;
+  overflow-wrap: anywhere;
+  padding: 1rem;
+}
+
+.form-error {
+  color: var(--coral-strong, #a4382f);
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .empty-state {
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+}
+
 .project-hero,
 .run-decision {
   display: grid;

@@ -10,7 +10,12 @@ import {
   requirementCoverage,
   verificationRun,
 } from "@/db/schema";
-import type { ActivityItem, DashboardSnapshot, FindingSummary, Severity } from "@/lib/dashboard-types";
+import type {
+  ActivityItem,
+  DashboardSnapshot,
+  FindingSummary,
+  Severity,
+} from "@/lib/dashboard-types";
 import { requireWorkspaceContext } from "@/lib/session";
 
 export type * from "@/lib/dashboard-types";

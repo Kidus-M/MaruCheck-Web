@@ -69,7 +69,9 @@ export function parseIngestEnvelope(input: unknown): IngestEnvelope {
   const risk = object(report.risk, "report.risk");
   const generatedAt = date(report.generatedAt, "report.generatedAt");
   const startedAt = envelope.startedAt ? date(envelope.startedAt, "startedAt") : generatedAt;
-  const completedAt = envelope.completedAt ? date(envelope.completedAt, "completedAt") : generatedAt;
+  const completedAt = envelope.completedAt
+    ? date(envelope.completedAt, "completedAt")
+    : generatedAt;
 
   return {
     branch: string(envelope.branch, "branch", 200),
@@ -104,7 +106,12 @@ function parseEvidence(input: unknown, index: number): IngestEvidence {
   const value = object(input, `report.evidence[${index}]`);
   return {
     adapter: string(value.adapter, `report.evidence[${index}].adapter`, 100),
-    artifactRefs: stringArray(value.artifactRefs, `report.evidence[${index}].artifactRefs`, 100, 500),
+    artifactRefs: stringArray(
+      value.artifactRefs,
+      `report.evidence[${index}].artifactRefs`,
+      100,
+      500,
+    ),
     createdAt: date(value.createdAt, `report.evidence[${index}].createdAt`),
     diagnostic: optionalString(value.diagnostic, 10_000),
     durationMs: integer(value.durationMs, `report.evidence[${index}].durationMs`, 0, 86_400_000),
@@ -130,7 +137,12 @@ function parseFinding(input: unknown, index: number): IngestFinding {
   const reproduction = object(value.reproduction, `report.findings[${index}].reproduction`);
   return {
     actual: string(value.actual, `report.findings[${index}].actual`, 10_000),
-    artifactRefs: stringArray(value.artifactRefs, `report.findings[${index}].artifactRefs`, 100, 500),
+    artifactRefs: stringArray(
+      value.artifactRefs,
+      `report.findings[${index}].artifactRefs`,
+      100,
+      500,
+    ),
     blocking: boolean(value.blocking, `report.findings[${index}].blocking`),
     contractId: optionalString(value.contractId, 200) || undefined,
     evidenceIds: stringArray(value.evidenceIds, `report.findings[${index}].evidenceIds`, 100, 200),
@@ -139,7 +151,11 @@ function parseFinding(input: unknown, index: number): IngestFinding {
     id: string(value.id, `report.findings[${index}].id`, 200),
     kind: string(value.kind, `report.findings[${index}].kind`, 100),
     reproduction: {
-      command: string(reproduction.command, `report.findings[${index}].reproduction.command`, 1_000),
+      command: string(
+        reproduction.command,
+        `report.findings[${index}].reproduction.command`,
+        1_000,
+      ),
       steps: stringArray(
         reproduction.steps,
         `report.findings[${index}].reproduction.steps`,
@@ -205,7 +221,9 @@ function array(value: unknown, path: string, maximum: number): readonly unknown[
 
 function string(value: unknown, path: string, maximum: number): string {
   if (typeof value !== "string" || !value.trim() || value.length > maximum) {
-    throw new IngestionError(`${path} must be a non-empty string of at most ${maximum} characters.`);
+    throw new IngestionError(
+      `${path} must be a non-empty string of at most ${maximum} characters.`,
+    );
   }
   return value;
 }
@@ -247,7 +265,11 @@ function boolean(value: unknown, path: string): boolean {
   return value;
 }
 
-function oneOf<const T extends readonly string[]>(value: unknown, path: string, allowed: T): T[number] {
+function oneOf<const T extends readonly string[]>(
+  value: unknown,
+  path: string,
+  allowed: T,
+): T[number] {
   if (typeof value !== "string" || !allowed.includes(value)) {
     throw new IngestionError(`${path} must be one of: ${allowed.join(", ")}.`);
   }

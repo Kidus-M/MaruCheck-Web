@@ -2,18 +2,13 @@
 
 import Link from "next/link";
 import { useActionState } from "react";
-import {
-  connectProjectAction,
-} from "@/lib/product-actions";
+import { connectProjectAction } from "@/lib/product-actions";
 import type { ConnectProjectState } from "@/lib/product-actions";
 
 const initialConnectProjectState: ConnectProjectState = { message: "", status: "idle" };
 
 export function ConnectProjectForm() {
-  const [state, action, pending] = useActionState(
-    connectProjectAction,
-    initialConnectProjectState,
-  );
+  const [state, action, pending] = useActionState(connectProjectAction, initialConnectProjectState);
 
   if (state.status === "success" && state.token && state.projectSlug) {
     return (

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   CoverageBar,
+  EmptyState,
   PageHeader,
   PrimaryLink,
   ProofOrbit,
@@ -10,26 +11,55 @@ import {
 } from "@/components/dashboard-ui";
 import { Icon } from "@/components/icon";
 import { getDashboardSnapshot } from "@/lib/dashboard-data";
-import { requireWorkspaceContext } from "@/lib/session";
 
 export default async function DashboardPage() {
-  const [data, { viewer }] = await Promise.all([getDashboardSnapshot(), requireWorkspaceContext()]);
-  const blockedProject = data.projects.find((project) => project.status === "blocked")!;
+  const data = await getDashboardSnapshot();
+  const { viewer } = data;
+  const latestRun = data.runs[0];
+  const latestFinding = data.findings[0];
+
+  if (!latestRun || data.projects.length === 0) {
+    return (
+      <div className="page-stack">
+        <PageHeader
+          description="Connect a repository, then send a verification report from local development or CI."
+          eyebrow="Workspace ready"
+          title={`Good to see you, ${viewer.name.split(" ")[0]}.`}
+        />
+        <EmptyState
+          action={{ href: "/projects/connect", label: "Connect first project" }}
+          description="MaruCheck will show release decisions here after the connected repository sends its first versioned report. Source execution stays in the repository's own environment."
+          title="No hosted verification data yet."
+        />
+      </div>
+    );
+  }
+
+  const highestRiskProject = [...data.projects].sort((a, b) => b.risk - a.risk)[0]!;
   const openFindings = data.findings.length;
   const evidenceCount = data.runs.reduce((total, run) => total + run.evidence, 0);
+  const averageCoverage = Math.round(
+    data.projects.reduce((total, project) => total + project.coverage, 0) / data.projects.length,
+  );
+  const coveredRequirements = data.coverage.reduce((total, area) => total + area.covered, 0);
+  const totalRequirements = data.coverage.reduce((total, area) => total + area.total, 0);
+  const criticalFindings = data.findings.filter(
+    (finding) => finding.severity === "critical",
+  ).length;
+  const highFindings = data.findings.filter((finding) => finding.severity === "high").length;
 
   return (
     <div className="page-stack">
       <PageHeader
-        action={<PrimaryLink href="/runs/RUN-1048">Open latest run</PrimaryLink>}
+        action={<PrimaryLink href={`/runs/${latestRun.id}`}>Open latest run</PrimaryLink>}
         description="The release decision, its supporting evidence, and the gaps that need attention."
-        eyebrow="Tuesday · 18 August"
+        eyebrow={new Intl.DateTimeFormat("en-US", { dateStyle: "full" }).format(new Date())}
         title={`Good afternoon, ${viewer.name.split(" ")[0]}.`}
       />
 
       <section className="release-card" aria-labelledby="release-heading">
         <div className="release-card__orbit">
-          <ProofOrbit coverage={86} score={87} />
+          <ProofOrbit coverage={averageCoverage} score={100 - highestRiskProject.risk} />
           <p>
             <span className="legend-dot legend-dot--indigo" />
             Evidence linked
@@ -42,28 +72,42 @@ export default async function DashboardPage() {
         <div className="release-card__decision">
           <div className="release-card__label">
             <span>Release decision</span>
-            <StatusPill status="blocked" />
+            <StatusPill status={latestRun.status} />
           </div>
-          <h2 id="release-heading">One proof gap stands between this commit and release.</h2>
+          <h2 id="release-heading">
+            {latestRun.status === "blocked"
+              ? "Verified evidence is holding this release."
+              : latestRun.status === "passed"
+                ? "The latest change has enough proof to release."
+                : "Verification is still collecting evidence."}
+          </h2>
           <p>
-            Invoice ownership failed against an approved critical requirement. The rest of the
-            selected evidence is conclusive.
+            {latestFinding
+              ? `${latestFinding.title}. Review the linked expectation and retained evidence before changing the gate.`
+              : "Every selected blocking requirement has conclusive evidence for this change."}
           </p>
-          <div className="release-card__finding">
-            <span className="finding-index">01</span>
-            <div>
-              <strong>Invoice ownership check can be bypassed</strong>
-              <small>invoice-access#INV-001 · Critical</small>
+          {latestFinding ? (
+            <div className="release-card__finding">
+              <span className="finding-index">01</span>
+              <div>
+                <strong>{latestFinding.title}</strong>
+                <small>
+                  {latestFinding.contract} · {latestFinding.severity}
+                </small>
+              </div>
+              <Link
+                href={`/findings/${latestFinding.id}`}
+                aria-label={`Open ${latestFinding.title}`}
+              >
+                <Icon name="arrow" />
+              </Link>
             </div>
-            <Link href="/findings/FIND-0092" aria-label="Open invoice ownership finding">
-              <Icon name="arrow" />
-            </Link>
-          </div>
+          ) : null}
         </div>
         <div className="release-card__meta">
           <span>Latest proof</span>
-          <strong>8f2c1a7</strong>
-          <small>8 min ago</small>
+          <strong>{latestRun.commit}</strong>
+          <small>{latestRun.completedAt}</small>
         </div>
       </section>
 
@@ -71,10 +115,13 @@ export default async function DashboardPage() {
         <article className="metric-card">
           <span>Requirement coverage</span>
           <strong>
-            86<small>%</small>
+            {averageCoverage}
+            <small>%</small>
           </strong>
-          <CoverageBar value={86} />
-          <p>26 of 33 protected requirements</p>
+          <CoverageBar value={averageCoverage} />
+          <p>
+            {coveredRequirements} of {totalRequirements} protected requirements
+          </p>
         </article>
         <article className="metric-card">
           <span>Open findings</span>
@@ -83,8 +130,10 @@ export default async function DashboardPage() {
             <small> total</small>
           </strong>
           <p className="metric-split">
-            <b>1 critical</b>
-            <span>1 high · 1 medium</span>
+            <b>{criticalFindings} critical</b>
+            <span>
+              {highFindings} high · {openFindings - criticalFindings - highFindings} other
+            </span>
           </p>
         </article>
         <article className="metric-card">
@@ -93,15 +142,15 @@ export default async function DashboardPage() {
             {evidenceCount}
             <small> objects</small>
           </strong>
-          <p>Across the four latest verification runs</p>
+          <p>Across {data.runs.length} retained verification runs</p>
         </article>
         <article className="metric-card metric-card--risk">
           <span>Highest active risk</span>
           <strong>
-            {blockedProject.risk}
+            {highestRiskProject.risk}
             <small>/100</small>
           </strong>
-          <p>{blockedProject.name} · authorization change</p>
+          <p>{highestRiskProject.name} · latest analyzed change</p>
         </article>
       </section>
 

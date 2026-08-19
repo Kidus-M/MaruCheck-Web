@@ -93,6 +93,32 @@ export function SecondaryLink({
   );
 }
 
+export function EmptyState({
+  action,
+  description,
+  eyebrow = "Awaiting proof",
+  title,
+}: {
+  readonly action?: { readonly href: string; readonly label: string };
+  readonly description: string;
+  readonly eyebrow?: string;
+  readonly title: string;
+}) {
+  return (
+    <section className="empty-state panel">
+      <span className="empty-state__mark" aria-hidden="true">
+        <span />
+      </span>
+      <div>
+        <p className="eyebrow">{eyebrow}</p>
+        <h2>{title}</h2>
+        <p>{description}</p>
+      </div>
+      {action ? <PrimaryLink href={action.href}>{action.label}</PrimaryLink> : null}
+    </section>
+  );
+}
+
 export function ProofOrbit({
   coverage,
   score,

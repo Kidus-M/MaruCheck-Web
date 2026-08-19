@@ -3,11 +3,6 @@ import { PageHeader, SeverityPill } from "@/components/dashboard-ui";
 import { Icon } from "@/components/icon";
 import { getDashboardSnapshot } from "@/lib/dashboard-data";
 
-export async function generateStaticParams() {
-  const { findings } = await getDashboardSnapshot();
-  return findings.map((finding) => ({ id: finding.id }));
-}
-
 export default async function FindingDetailPage({ params }: PageProps<"/findings/[id]">) {
   const { id } = await params;
   const { findings } = await getDashboardSnapshot();
@@ -46,7 +41,7 @@ export default async function FindingDetailPage({ params }: PageProps<"/findings
           </section>
           <section>
             <span>Reproduce</span>
-            <code>maru verify --diff</code>
+            <code>{finding.reproduction}</code>
           </section>
         </article>
         <aside className="finding-aside">
@@ -59,7 +54,7 @@ export default async function FindingDetailPage({ params }: PageProps<"/findings
               </div>
               <div>
                 <dt>Status</dt>
-                <dd>Open</dd>
+                <dd>{finding.status}</dd>
               </div>
               <div>
                 <dt>First seen</dt>
@@ -67,7 +62,7 @@ export default async function FindingDetailPage({ params }: PageProps<"/findings
               </div>
               <div>
                 <dt>Occurrences</dt>
-                <dd>1</dd>
+                <dd>{finding.occurrences}</dd>
               </div>
             </dl>
             <button className="button button--primary" type="button">
@@ -75,25 +70,21 @@ export default async function FindingDetailPage({ params }: PageProps<"/findings
               <Icon name="arrow" />
             </button>
           </section>
-          <section className="panel">
-            <h2>Evidence</h2>
-            <a href="#evidence">
-              <Icon name="contracts" />
-              <span>
-                <strong>vitest-stderr.txt</strong>
-                <small>Adapter diagnostic · 6 KB</small>
-              </span>
-              <Icon name="chevron" />
-            </a>
-            <a href="#evidence">
-              <Icon name="contracts" />
-              <span>
-                <strong>report.json</strong>
-                <small>Structured report · 42 KB</small>
-              </span>
-              <Icon name="chevron" />
-            </a>
-          </section>
+          {finding.evidence.length > 0 ? (
+            <section className="panel">
+              <h2>Evidence</h2>
+              {finding.evidence.map((item) => (
+                <a href="#evidence" key={item}>
+                  <Icon name="contracts" />
+                  <span>
+                    <strong>{item}</strong>
+                    <small>Retained evidence reference</small>
+                  </span>
+                  <Icon name="chevron" />
+                </a>
+              ))}
+            </section>
+          ) : null}
         </aside>
       </div>
     </div>

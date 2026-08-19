@@ -21,9 +21,11 @@ export async function POST(request: Request) {
   if (contentLength > MAX_BODY_BYTES) return problem(413, "Request body exceeds 2 MB.");
 
   const authorization = request.headers.get("authorization");
-  if (!authorization?.startsWith("Bearer ")) return problem(401, "A project bearer token is required.");
+  if (!authorization?.startsWith("Bearer "))
+    return problem(401, "A project bearer token is required.");
   const rawToken = authorization.slice("Bearer ".length).trim();
-  if (!rawToken.startsWith("maru_") || rawToken.length > 128) return problem(401, "Project token is invalid.");
+  if (!rawToken.startsWith("maru_") || rawToken.length > 128)
+    return problem(401, "Project token is invalid.");
 
   let input: ReturnType<typeof parseIngestEnvelope>;
   try {
@@ -213,7 +215,7 @@ export async function POST(request: Request) {
           .values({
             actual: item.actual,
             artifactRefs: item.artifactRefs,
-            blocking: item.blocking ? 1 : 0,
+            blocking: item.blocking,
             contractId: item.contractId ? contractIds.get(item.contractId) : undefined,
             evidenceIds: item.evidenceIds,
             expected: item.expected ?? "",
@@ -234,7 +236,7 @@ export async function POST(request: Request) {
             set: {
               actual: item.actual,
               artifactRefs: item.artifactRefs,
-              blocking: item.blocking ? 1 : 0,
+              blocking: item.blocking,
               evidenceIds: item.evidenceIds,
               expected: item.expected ?? "",
               explanation: item.explanation,
@@ -249,7 +251,9 @@ export async function POST(request: Request) {
       }
 
       const requirements = input.report.requirementEvidence.length;
-      const passed = input.report.requirementEvidence.filter((item) => item.status === "passed").length;
+      const passed = input.report.requirementEvidence.filter(
+        (item) => item.status === "passed",
+      ).length;
       const coverage = requirements === 0 ? 0 : Math.round((passed / requirements) * 100);
       await transaction
         .update(project)
@@ -293,7 +297,12 @@ export async function POST(request: Request) {
 
 function problem(status: number, detail: string) {
   return NextResponse.json(
-    { detail, status, title: status === 401 ? "Unauthorized" : "Ingestion failed", type: "about:blank" },
+    {
+      detail,
+      status,
+      title: status === 401 ? "Unauthorized" : "Ingestion failed",
+      type: "about:blank",
+    },
     { status },
   );
 }

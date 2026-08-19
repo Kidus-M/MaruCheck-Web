@@ -16,11 +16,21 @@ export default function NewMemoryPage() {
         </label>
         <label>
           <span>What happened</span>
-          <textarea name="summary" rows={4} placeholder="Describe the confirmed behavior and its impact." required />
+          <textarea
+            name="summary"
+            rows={4}
+            placeholder="Describe the confirmed behavior and its impact."
+            required
+          />
         </label>
         <label>
           <span>Root cause</span>
-          <textarea name="rootCause" rows={3} placeholder="What implementation condition allowed the failure?" required />
+          <textarea
+            name="rootCause"
+            rows={3}
+            placeholder="What implementation condition allowed the failure?"
+            required
+          />
         </label>
         <div className="form-row">
           <label>

@@ -3,11 +3,6 @@ import { PageHeader, SectionHeading, StatusPill } from "@/components/dashboard-u
 import { Icon } from "@/components/icon";
 import { getDashboardSnapshot } from "@/lib/dashboard-data";
 
-export async function generateStaticParams() {
-  const { runs } = await getDashboardSnapshot();
-  return runs.map((run) => ({ id: run.id }));
-}
-
 export default async function RunDetailPage({ params }: PageProps<"/runs/[id]">) {
   const { id } = await params;
   const data = await getDashboardSnapshot();

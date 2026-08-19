@@ -109,16 +109,18 @@ export async function createMemoryAction(formData: FormData): Promise<void> {
     .filter(Boolean)
     .slice(0, 20);
 
-  await getDatabase().insert(qaMemory).values({
-    memoryKey: `MEM-${randomUUID().slice(0, 8).toUpperCase()}`,
-    organizationId: context.organization.id,
-    relatedContracts: relatedContract ? [relatedContract] : [],
-    rootCause,
-    severity: severity as "critical" | "high" | "low" | "medium",
-    summary,
-    tags,
-    title,
-  });
+  await getDatabase()
+    .insert(qaMemory)
+    .values({
+      memoryKey: `MEM-${randomUUID().slice(0, 8).toUpperCase()}`,
+      organizationId: context.organization.id,
+      relatedContracts: relatedContract ? [relatedContract] : [],
+      rootCause,
+      severity: severity as "critical" | "high" | "low" | "medium",
+      summary,
+      tags,
+      title,
+    });
   revalidatePath("/memory");
   redirect("/memory");
 }

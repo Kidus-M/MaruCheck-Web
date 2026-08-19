@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import {
   check,
+  boolean,
   index,
   integer,
   jsonb,
@@ -215,7 +216,7 @@ export const finding = pgTable(
     title: text("title").notNull(),
     severity: text("severity").$type<FindingSeverity>().notNull(),
     status: text("status").default("open").notNull(),
-    blocking: integer("blocking").default(0).notNull(),
+    blocking: boolean("blocking").default(false).notNull(),
     owner: text("owner").default("Unassigned").notNull(),
     requirementRef: text("requirement_ref"),
     expected: text("expected").default("").notNull(),

@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { CoverageBar, PageHeader, PrimaryLink, StatusPill } from "@/components/dashboard-ui";
+import {
+  CoverageBar,
+  EmptyState,
+  PageHeader,
+  PrimaryLink,
+  StatusPill,
+} from "@/components/dashboard-ui";
 import { Icon } from "@/components/icon";
 import { getDashboardSnapshot } from "@/lib/dashboard-data";
 
@@ -13,54 +19,62 @@ export default async function ProjectsPage() {
         eyebrow="Workspace / Projects"
         title="Projects"
       />
-      <section className="project-card-grid" aria-label="Connected projects">
-        {projects.map((project) => (
-          <Link className="project-card" href={`/projects/${project.name}`} key={project.id}>
-            <div className="project-card__top">
-              <span className="project-seal project-seal--large">
-                {project.name.slice(5, 7).toUpperCase()}
-              </span>
-              <StatusPill status={project.status} />
-            </div>
-            <div className="project-card__title">
-              <h2>{project.name}</h2>
-              <p>{project.repository}</p>
-            </div>
-            <dl className="project-card__stats">
-              <div>
-                <dt>Risk</dt>
-                <dd>
-                  {project.risk}
-                  <small>/100</small>
-                </dd>
+      {projects.length === 0 ? (
+        <EmptyState
+          action={{ href: "/projects/connect", label: "Connect repository" }}
+          description="Create a project-scoped ingestion token, then send verification metadata from local development or CI."
+          title="No repositories are connected."
+        />
+      ) : (
+        <section className="project-card-grid" aria-label="Connected projects">
+          {projects.map((project) => (
+            <Link className="project-card" href={`/projects/${project.name}`} key={project.id}>
+              <div className="project-card__top">
+                <span className="project-seal project-seal--large">
+                  {project.name.slice(5, 7).toUpperCase()}
+                </span>
+                <StatusPill status={project.status} />
               </div>
-              <div>
-                <dt>Contracts</dt>
-                <dd>{project.activeContracts}</dd>
+              <div className="project-card__title">
+                <h2>{project.name}</h2>
+                <p>{project.repository}</p>
               </div>
-              <div>
-                <dt>Findings</dt>
-                <dd>{project.findingCount}</dd>
+              <dl className="project-card__stats">
+                <div>
+                  <dt>Risk</dt>
+                  <dd>
+                    {project.risk}
+                    <small>/100</small>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Contracts</dt>
+                  <dd>{project.activeContracts}</dd>
+                </div>
+                <div>
+                  <dt>Findings</dt>
+                  <dd>{project.findingCount}</dd>
+                </div>
+              </dl>
+              <div className="project-card__coverage">
+                <span>
+                  <small>Requirement coverage</small>
+                  <b>{project.coverage}%</b>
+                </span>
+                <CoverageBar value={project.coverage} />
               </div>
-            </dl>
-            <div className="project-card__coverage">
-              <span>
-                <small>Requirement coverage</small>
-                <b>{project.coverage}%</b>
-              </span>
-              <CoverageBar value={project.coverage} />
-            </div>
-            <footer>
-              <span>
-                <Icon name="branch" />
-                {project.branch}
-              </span>
-              <span>{project.lastVerified}</span>
-              <Icon name="arrow" />
-            </footer>
-          </Link>
-        ))}
-      </section>
+              <footer>
+                <span>
+                  <Icon name="branch" />
+                  {project.branch}
+                </span>
+                <span>{project.lastVerified}</span>
+                <Icon name="arrow" />
+              </footer>
+            </Link>
+          ))}
+        </section>
+      )}
       <section className="empty-invitation">
         <span className="empty-invitation__orbit" aria-hidden="true">
           <span />

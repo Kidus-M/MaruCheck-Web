@@ -11,11 +11,6 @@ import {
 import { Icon } from "@/components/icon";
 import { getDashboardSnapshot } from "@/lib/dashboard-data";
 
-export async function generateStaticParams() {
-  const { projects } = await getDashboardSnapshot();
-  return projects.map((project) => ({ slug: project.name }));
-}
-
 export default async function ProjectDetailPage({ params }: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
   const data = await getDashboardSnapshot();
@@ -27,7 +22,11 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
   return (
     <div className="page-stack">
       <PageHeader
-        action={<PrimaryLink href="/runs/RUN-1048">Verify latest change</PrimaryLink>}
+        action={
+          runs[0] ? (
+            <PrimaryLink href={`/runs/${runs[0].id}`}>Open latest run</PrimaryLink>
+          ) : undefined
+        }
         description={`${project.repository} · ${project.branch} · Last verified ${project.lastVerified}`}
         eyebrow="Projects / Project overview"
         title={project.name}
