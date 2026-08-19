@@ -77,6 +77,11 @@ bounded schema-versioned envelope containing the real CLI verification report. S
 [ingestion API guide](api/verification-ingestion.md) and
 [ADR-005](decisions/0005-store-organization-scoped-proof-metadata.md).
 
+The connect flow reveals the raw credential once with a copy control. Each project page continues
+to show safe token metadata even before its first report: prefix, status, creation, expiry, and last
+use. Owners can revoke a credential or rotate it; rotation revokes the previous active token and
+reveals the replacement once.
+
 Project creation plus token creation and report ingestion use short WebSocket-backed transactions.
 Parallel dashboard reads use Neon HTTP. The cloud stores normalized metadata and configured
 artifact references only; source execution remains local or in CI.

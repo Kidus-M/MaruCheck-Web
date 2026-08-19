@@ -32,7 +32,19 @@ export function ProjectTokenManager({
           </p>
         </div>
         {canManage ? (
-          <form action={rotateAction}>
+          <form
+            action={rotateAction}
+            onSubmit={(event) => {
+              if (
+                hasActiveToken &&
+                !window.confirm(
+                  "Rotate this credential? The current active token will stop working immediately.",
+                )
+              ) {
+                event.preventDefault();
+              }
+            }}
+          >
             <input name="slug" type="hidden" value={projectSlug} />
             <button className="button button--secondary" disabled={pending} type="submit">
               {pending ? "Rotating…" : hasActiveToken ? "Rotate token" : "Create token"}
@@ -85,7 +97,14 @@ export function ProjectTokenManager({
                 </div>
               </dl>
               {canManage && token.status === "active" ? (
-                <form action={revokeProjectTokenAction}>
+                <form
+                  action={revokeProjectTokenAction}
+                  onSubmit={(event) => {
+                    if (!window.confirm("Revoke this token? CI using it will stop ingesting reports.")) {
+                      event.preventDefault();
+                    }
+                  }}
+                >
                   <input name="slug" type="hidden" value={projectSlug} />
                   <input name="tokenId" type="hidden" value={token.id} />
                   <button className="button button--secondary" type="submit">
