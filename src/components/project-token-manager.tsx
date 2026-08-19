@@ -1,10 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import {
-  revokeProjectTokenAction,
-  rotateProjectTokenAction,
-} from "@/lib/product-actions";
+import { revokeProjectTokenAction, rotateProjectTokenAction } from "@/lib/product-actions";
 import type { RotateProjectTokenState } from "@/lib/product-actions";
 import type { ProjectTokenSummary } from "@/lib/project-token-data";
 
@@ -29,8 +26,8 @@ export function ProjectTokenManager({
           <p className="eyebrow">Machine access</p>
           <h2>Project ingestion tokens</h2>
           <p>
-            Raw tokens are shown once. MaruCheck stores only a hash, so a lost token must be
-            rotated rather than recovered.
+            Raw tokens are shown once. MaruCheck stores only a hash, so a lost token must be rotated
+            rather than recovered.
           </p>
         </div>
         {canManage ? (
@@ -50,7 +47,9 @@ export function ProjectTokenManager({
           <p>{state.message}</p>
         </div>
       ) : state.status === "error" ? (
-        <p className="form-error" role="alert">{state.message}</p>
+        <p className="form-error" role="alert">
+          {state.message}
+        </p>
       ) : null}
 
       {tokens.length === 0 ? (
@@ -64,16 +63,30 @@ export function ProjectTokenManager({
                 <code>{token.prefix}</code>
               </div>
               <dl>
-                <div><dt>Status</dt><dd>{token.status}</dd></div>
-                <div><dt>Last used</dt><dd>{token.lastUsed}</dd></div>
-                <div><dt>Created</dt><dd>{token.created}</dd></div>
-                <div><dt>Expiry</dt><dd>{token.expires}</dd></div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>{token.status}</dd>
+                </div>
+                <div>
+                  <dt>Last used</dt>
+                  <dd>{token.lastUsed}</dd>
+                </div>
+                <div>
+                  <dt>Created</dt>
+                  <dd>{token.created}</dd>
+                </div>
+                <div>
+                  <dt>Expiry</dt>
+                  <dd>{token.expires}</dd>
+                </div>
               </dl>
               {canManage && token.status === "active" ? (
                 <form action={revokeProjectTokenAction}>
                   <input name="slug" type="hidden" value={projectSlug} />
                   <input name="tokenId" type="hidden" value={token.id} />
-                  <button className="button button--secondary" type="submit">Revoke</button>
+                  <button className="button button--secondary" type="submit">
+                    Revoke
+                  </button>
                 </form>
               ) : null}
             </article>

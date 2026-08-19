@@ -161,9 +161,7 @@ export async function rotateProjectTokenAction(
       const [targetProject] = await transaction
         .select({ id: project.id })
         .from(project)
-        .where(
-          and(eq(project.organizationId, context.organization.id), eq(project.slug, slug)),
-        )
+        .where(and(eq(project.organizationId, context.organization.id), eq(project.slug, slug)))
         .limit(1);
       if (!targetProject) return false;
 
@@ -186,7 +184,8 @@ export async function rotateProjectTokenAction(
       });
       return true;
     });
-    if (!rotated) return { message: "Project was not found in this organization.", status: "error" };
+    if (!rotated)
+      return { message: "Project was not found in this organization.", status: "error" };
   } catch (error) {
     console.error("Unable to rotate project token", error);
     return { message: "The token could not be rotated. Try again.", status: "error" };
@@ -204,7 +203,8 @@ export async function rotateProjectTokenAction(
 
 export async function revokeProjectTokenAction(formData: FormData): Promise<void> {
   const context = await requireWorkspaceContext();
-  if (context.viewer.role !== "Owner") throw new Error("Only organization owners can revoke tokens.");
+  if (context.viewer.role !== "Owner")
+    throw new Error("Only organization owners can revoke tokens.");
   const slug = requiredField(formData, "slug");
   const tokenId = requiredField(formData, "tokenId");
   const connection = getDatabase();

@@ -35,6 +35,7 @@ export interface ContractSummary {
   readonly id: string;
   readonly intent: string;
   readonly owner: string;
+  readonly projectId: string | null;
   readonly requirements: number;
   readonly status: "approved" | "draft";
   readonly title: string;
