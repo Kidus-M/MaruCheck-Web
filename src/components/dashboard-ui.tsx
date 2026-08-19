@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/icon";
-import type { GateStatus, Severity } from "@/lib/dashboard-data";
+import type { GateStatus, Severity } from "@/lib/dashboard-types";
 
 export function PageHeader({
   action,

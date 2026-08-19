@@ -3,7 +3,7 @@ import { cache } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getAuth, isAuthConfigured } from "@/lib/auth";
-import type { Organization, Viewer } from "@/lib/dashboard-data";
+import type { Organization, Viewer } from "@/lib/dashboard-types";
 
 export const getSession = cache(async () => {
   if (!isAuthConfigured()) return null;
