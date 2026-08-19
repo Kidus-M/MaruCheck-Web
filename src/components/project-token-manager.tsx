@@ -36,9 +36,15 @@ export function ProjectTokenManager({
           confirmation === "rotate" ? (
             <form action={rotateAction} className="token-confirmation">
               <input name="slug" type="hidden" value={projectSlug} />
-              <span>{hasActiveToken ? "Current token stops immediately." : "Create the first CI token?"}</span>
-              <button onClick={() => setConfirmation(null)} type="button">Cancel</button>
-              <button disabled={pending} type="submit">{pending ? "Working…" : "Confirm"}</button>
+              <span>
+                {hasActiveToken ? "Current token stops immediately." : "Create the first CI token?"}
+              </span>
+              <button onClick={() => setConfirmation(null)} type="button">
+                Cancel
+              </button>
+              <button disabled={pending} type="submit">
+                {pending ? "Working…" : "Confirm"}
+              </button>
             </form>
           ) : (
             <button
@@ -101,7 +107,9 @@ export function ProjectTokenManager({
                     <input name="slug" type="hidden" value={projectSlug} />
                     <input name="tokenId" type="hidden" value={token.id} />
                     <span>CI will stop ingesting.</span>
-                    <button onClick={() => setConfirmation(null)} type="button">Cancel</button>
+                    <button onClick={() => setConfirmation(null)} type="button">
+                      Cancel
+                    </button>
                     <button type="submit">Revoke</button>
                   </form>
                 ) : (
