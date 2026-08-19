@@ -9,7 +9,9 @@ import {
   StatusPill,
 } from "@/components/dashboard-ui";
 import { Icon } from "@/components/icon";
+import { ProjectTokenManager } from "@/components/project-token-manager";
 import { getDashboardSnapshot } from "@/lib/dashboard-data";
+import { getProjectTokenSummaries } from "@/lib/project-token-data";
 
 export default async function ProjectDetailPage({ params }: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
@@ -18,6 +20,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
   const project = data.projects.find((item) => item.slug === slug || item.name === slug);
   if (project === undefined) notFound();
   if (slug !== project.slug) redirect(`/projects/${project.slug}`);
+  const tokens = await getProjectTokenSummaries(project.id);
   const runs = data.runs.filter((run) => run.project === project.name);
   const findings = data.findings.filter((finding) => finding.project === project.name);
 
@@ -143,6 +146,11 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
           ))}
         </div>
       </section>
+      <ProjectTokenManager
+        canManage={data.viewer.role === "Owner"}
+        projectSlug={project.slug}
+        tokens={tokens}
+      />
     </div>
   );
 }

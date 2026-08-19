@@ -1,6 +1,7 @@
 "use server";
 
 import { randomBytes, randomUUID } from "node:crypto";
+import { and, eq, isNull } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createTransactionalDatabase } from "@/db";
@@ -11,6 +12,12 @@ import { hashProjectToken } from "@/lib/project-tokens";
 export interface ConnectProjectState {
   readonly message: string;
   readonly projectSlug?: string;
+  readonly status: "error" | "idle" | "success";
+  readonly token?: string;
+}
+
+export interface RotateProjectTokenState {
+  readonly message: string;
   readonly status: "error" | "idle" | "success";
   readonly token?: string;
 }
@@ -135,6 +142,94 @@ export async function createMemoryAction(formData: FormData): Promise<void> {
   }
   revalidatePath("/memory");
   redirect("/memory");
+}
+
+export async function rotateProjectTokenAction(
+  _previousState: RotateProjectTokenState,
+  formData: FormData,
+): Promise<RotateProjectTokenState> {
+  const context = await requireWorkspaceContext();
+  if (context.viewer.role !== "Owner") {
+    return { message: "Only organization owners can rotate project tokens.", status: "error" };
+  }
+  const slug = requiredField(formData, "slug");
+  const token = `maru_${randomBytes(32).toString("base64url")}`;
+  const connection = getDatabase();
+
+  try {
+    const rotated = await connection.database.transaction(async (transaction) => {
+      const [targetProject] = await transaction
+        .select({ id: project.id })
+        .from(project)
+        .where(
+          and(eq(project.organizationId, context.organization.id), eq(project.slug, slug)),
+        )
+        .limit(1);
+      if (!targetProject) return false;
+
+      await transaction
+        .update(projectIngestToken)
+        .set({ revokedAt: new Date() })
+        .where(
+          and(
+            eq(projectIngestToken.organizationId, context.organization.id),
+            eq(projectIngestToken.projectId, targetProject.id),
+            isNull(projectIngestToken.revokedAt),
+          ),
+        );
+      await transaction.insert(projectIngestToken).values({
+        name: "CI",
+        organizationId: context.organization.id,
+        projectId: targetProject.id,
+        tokenHash: hashProjectToken(token),
+        tokenPrefix: token.slice(0, 12),
+      });
+      return true;
+    });
+    if (!rotated) return { message: "Project was not found in this organization.", status: "error" };
+  } catch (error) {
+    console.error("Unable to rotate project token", error);
+    return { message: "The token could not be rotated. Try again.", status: "error" };
+  } finally {
+    await connection.close();
+  }
+
+  revalidatePath(`/projects/${slug}`);
+  return {
+    message: "The previous active token is revoked. Copy this replacement now.",
+    status: "success",
+    token,
+  };
+}
+
+export async function revokeProjectTokenAction(formData: FormData): Promise<void> {
+  const context = await requireWorkspaceContext();
+  if (context.viewer.role !== "Owner") throw new Error("Only organization owners can revoke tokens.");
+  const slug = requiredField(formData, "slug");
+  const tokenId = requiredField(formData, "tokenId");
+  const connection = getDatabase();
+  try {
+    const [targetProject] = await connection.database
+      .select({ id: project.id })
+      .from(project)
+      .where(and(eq(project.organizationId, context.organization.id), eq(project.slug, slug)))
+      .limit(1);
+    if (!targetProject) throw new Error("Project was not found in this organization.");
+    await connection.database
+      .update(projectIngestToken)
+      .set({ revokedAt: new Date() })
+      .where(
+        and(
+          eq(projectIngestToken.id, tokenId),
+          eq(projectIngestToken.organizationId, context.organization.id),
+          eq(projectIngestToken.projectId, targetProject.id),
+          isNull(projectIngestToken.revokedAt),
+        ),
+      );
+  } finally {
+    await connection.close();
+  }
+  revalidatePath(`/projects/${slug}`);
 }
 
 function getDatabase() {
