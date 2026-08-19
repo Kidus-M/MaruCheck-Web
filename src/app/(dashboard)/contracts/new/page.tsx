@@ -1,4 +1,5 @@
 import { PageHeader, SecondaryLink } from "@/components/dashboard-ui";
+import { createContractAction } from "@/lib/product-actions";
 
 export default function NewContractPage() {
   return (
@@ -8,10 +9,10 @@ export default function NewContractPage() {
         eyebrow="Contracts / New draft"
         title="Create a Quality Contract"
       />
-      <form className="form-card panel">
+      <form action={createContractAction} className="form-card panel">
         <label>
           <span>Contract title</span>
-          <input name="title" placeholder="Invoice access" />
+          <input name="title" placeholder="Invoice access" required />
         </label>
         <label>
           <span>Intent</span>
@@ -19,6 +20,7 @@ export default function NewContractPage() {
             name="intent"
             rows={5}
             placeholder="What must remain true, even as implementation changes?"
+            required
           />
         </label>
         <div className="form-row">
@@ -43,7 +45,7 @@ export default function NewContractPage() {
         </div>
         <div className="form-actions">
           <SecondaryLink href="/contracts">Cancel</SecondaryLink>
-          <button className="button button--primary" type="button">
+          <button className="button button--primary" type="submit">
             Save draft
           </button>
         </div>

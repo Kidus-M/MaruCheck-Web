@@ -1,4 +1,5 @@
 import { PageHeader, SecondaryLink } from "@/components/dashboard-ui";
+import { createMemoryAction } from "@/lib/product-actions";
 
 export default function NewMemoryPage() {
   return (
@@ -8,41 +9,41 @@ export default function NewMemoryPage() {
         eyebrow="QA memory / New record"
         title="Record QA memory"
       />
-      <form className="form-card panel">
+      <form action={createMemoryAction} className="form-card panel">
         <label>
           <span>Title</span>
-          <input placeholder="Cross-account invoice access" />
+          <input name="title" placeholder="Cross-account invoice access" required />
         </label>
         <label>
           <span>What happened</span>
-          <textarea rows={4} placeholder="Describe the confirmed behavior and its impact." />
+          <textarea name="summary" rows={4} placeholder="Describe the confirmed behavior and its impact." required />
         </label>
         <label>
           <span>Root cause</span>
-          <textarea rows={3} placeholder="What implementation condition allowed the failure?" />
+          <textarea name="rootCause" rows={3} placeholder="What implementation condition allowed the failure?" required />
         </label>
         <div className="form-row">
           <label>
             <span>Severity</span>
-            <select defaultValue="Critical">
-              <option>Critical</option>
-              <option>High</option>
-              <option>Medium</option>
-              <option>Low</option>
+            <select defaultValue="critical" name="severity">
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
             </select>
           </label>
           <label>
             <span>Related contract</span>
-            <input placeholder="invoice-access" />
+            <input name="relatedContract" placeholder="invoice-access" />
           </label>
         </div>
         <label>
           <span>Tags</span>
-          <input placeholder="authorization, idor, invoice" />
+          <input name="tags" placeholder="authorization, idor, invoice" />
         </label>
         <div className="form-actions">
           <SecondaryLink href="/memory">Cancel</SecondaryLink>
-          <button className="button button--primary" type="button">
+          <button className="button button--primary" type="submit">
             Record memory
           </button>
         </div>
