@@ -44,6 +44,7 @@ export const getDashboardSnapshot = cache(async (): Promise<DashboardSnapshot> =
           name: project.name,
           repository: project.repository,
           risk: project.risk,
+          slug: project.slug,
           status: project.status,
         })
         .from(project)
@@ -223,6 +224,7 @@ export const getDashboardSnapshot = cache(async (): Promise<DashboardSnapshot> =
       name: row.name,
       repository: row.repository,
       risk: row.risk,
+      slug: row.slug,
       status: row.status,
     })),
     runs: runRows.map((row) => ({

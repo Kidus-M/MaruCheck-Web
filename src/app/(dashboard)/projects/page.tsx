@@ -28,7 +28,7 @@ export default async function ProjectsPage() {
       ) : (
         <section className="project-card-grid" aria-label="Connected projects">
           {projects.map((project) => (
-            <Link className="project-card" href={`/projects/${project.name}`} key={project.id}>
+            <Link className="project-card" href={`/projects/${project.slug}`} key={project.id}>
               <div className="project-card__top">
                 <span className="project-seal project-seal--large">
                   {project.name.slice(5, 7).toUpperCase()}

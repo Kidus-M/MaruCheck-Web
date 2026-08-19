@@ -26,6 +26,7 @@ export interface ProjectSummary {
   readonly name: string;
   readonly repository: string;
   readonly risk: number;
+  readonly slug: string;
   readonly status: GateStatus;
 }
 

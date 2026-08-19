@@ -225,7 +225,7 @@ export default async function DashboardPage() {
               {data.projects.map((project) => (
                 <tr key={project.id}>
                   <td>
-                    <Link className="table-project" href={`/projects/${project.name}`}>
+                    <Link className="table-project" href={`/projects/${project.slug}`}>
                       <span className="project-seal">{project.name.slice(5, 7).toUpperCase()}</span>
                       <span>
                         <strong>{project.name}</strong>
@@ -250,7 +250,7 @@ export default async function DashboardPage() {
                   <td>
                     <Link
                       className="row-arrow"
-                      href={`/projects/${project.name}`}
+                      href={`/projects/${project.slug}`}
                       aria-label={`Open ${project.name}`}
                     >
                       <Icon name="chevron" />

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import {
   CoverageBar,
   PageHeader,
@@ -14,8 +14,10 @@ import { getDashboardSnapshot } from "@/lib/dashboard-data";
 export default async function ProjectDetailPage({ params }: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
   const data = await getDashboardSnapshot();
-  const project = data.projects.find((item) => item.name === slug);
+  // Accept the original display-name URL so bookmarks created before slug persistence still work.
+  const project = data.projects.find((item) => item.slug === slug || item.name === slug);
   if (project === undefined) notFound();
+  if (slug !== project.slug) redirect(`/projects/${project.slug}`);
   const runs = data.runs.filter((run) => run.project === project.name);
   const findings = data.findings.filter((finding) => finding.project === project.name);
 
