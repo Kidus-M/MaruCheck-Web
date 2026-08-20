@@ -18,6 +18,10 @@ Before migrating, create `.env.local` from `.env.example` and replace the sample
 
 The Phase 11 web foundation includes a verification-command public site built from real CLI and MCP workflows, product and availability pages, practical documentation, the release dashboard, projects, Quality Contracts, verification runs, findings, requirement coverage, QA memory, Better Auth sign-in, and organization management. See the [dashboard guide](docs/phase-11-dashboard.md).
 
+## Current readiness
+
+The hosted feature foundation is implemented, but this repository is not yet production-ready. Formatting, linting, type-checking, the Next.js production build, and Drizzle migration-history validation pass. No automated test framework or test files are currently committed, so authentication, organization isolation, project-token lifecycle, ingestion, and browser flows still require coverage. A production deployment also needs real Neon and Better Auth configuration, an email and/or GitHub OAuth path, abuse controls, monitoring, retention/backup policy, and a recorded end-to-end CLI/CI ingestion acceptance run.
+
 ## Commands
 
 | Command               | Description                                       |
