@@ -22,8 +22,8 @@ export default function ReportIngestionDocsPage() {
         <strong>Upload is always explicit.</strong>
         <p>
           <code>maru upload</code> selects the newest completed report and sends that report only.
-          It does not send source code, execute repository commands in the hosted service, or
-          upload merely because you signed in.
+          It does not send source code, execute repository commands in the hosted service, or upload
+          merely because you signed in.
         </p>
       </DocsCallout>
       <section className="docs-section">
@@ -35,12 +35,10 @@ export default function ReportIngestionDocsPage() {
           <li>
             Use the same project name reported by <code>maru scan</code>.
           </li>
+          <li>Copy the two-line connection setup before leaving the confirmation screen.</li>
           <li>
-            Copy the two-line connection setup before leaving the confirmation screen.
-          </li>
-          <li>
-            Paste it into <code>.maru/connection.env</code>. <code>maru init</code> adds that file to
-            the nested Git ignore rules automatically.
+            Paste it into <code>.maru/connection.env</code>. <code>maru init</code> adds that file
+            to the nested Git ignore rules automatically.
           </li>
         </ol>
         <p>
