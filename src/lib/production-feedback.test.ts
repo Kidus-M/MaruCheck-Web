@@ -4,6 +4,7 @@ import {
   decideFeedbackDelivery,
   deriveFeedbackCandidate,
   parseProductionFeedbackEnvelope,
+  parseFeedbackReviewInput,
   productionFeedbackPayloadHash,
 } from "./production-feedback";
 
@@ -129,5 +130,41 @@ describe("production feedback decisions", () => {
       status: "proposed",
     });
     expect(candidate).not.toHaveProperty("testSource");
+  });
+
+  it("requires a confirmed root cause and validated regression link for approval", () => {
+    expect(
+      parseFeedbackReviewInput({
+        decision: "approve",
+        regressionAdapter: "vitest",
+        regressionId: "cross-tenant-invoice",
+        regressionPath: "tests/invoices/cross-tenant.test.ts",
+        rootCause: "The query checked authentication but omitted organization ownership.",
+      }),
+    ).toEqual({
+      decision: "approve",
+      regression: {
+        adapter: "vitest",
+        id: "cross-tenant-invoice",
+        path: "tests/invoices/cross-tenant.test.ts",
+      },
+      rootCause: "The query checked authentication but omitted organization ownership.",
+    });
+
+    expect(() =>
+      parseFeedbackReviewInput({
+        decision: "approve",
+        regressionAdapter: "vitest",
+        regressionId: "cross-tenant-invoice",
+        regressionPath: "../outside.test.ts",
+        rootCause: "Confirmed.",
+      }),
+    ).toThrow(FeedbackValidationError);
+  });
+
+  it("allows rejection without creating active QA memory", () => {
+    expect(parseFeedbackReviewInput({ decision: "reject" })).toEqual({
+      decision: "reject",
+    });
   });
 });
