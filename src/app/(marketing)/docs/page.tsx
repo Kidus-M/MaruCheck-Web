@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { DocsCallout } from "@/components/docs-shell";
+import { MARUCHECK_CLI_VERSION, MARUCHECK_NPM_URL } from "@/lib/public-release";
 
 export const metadata: Metadata = {
   title: "Documentation",
@@ -10,29 +12,41 @@ const entries = [
   [
     "01",
     "Getting started",
-    "Build the current CLI, initialize a repository, and produce the first local verification report.",
+    "Install the published CLI, initialize a repository, and produce the first local verification report.",
     "/docs/getting-started",
   ],
   [
     "02",
+    "CLI reference",
+    "Find every local command for contracts, risk, planning, verification, drift, memory, mutation, CI, and MCP.",
+    "/docs/cli",
+  ],
+  [
+    "03",
     "Quality Contracts",
     "Record durable behavior, protected invariants, ownership, and evidence policy in a reviewed contract.",
     "/docs/quality-contracts",
   ],
   [
-    "03",
+    "04",
     "CI integration",
     "Install the least-privilege pull-request workflow and retain evidence even when the gate blocks.",
     "/docs/ci",
   ],
   [
-    "04",
+    "05",
     "MCP workflow",
     "Connect Codex, Claude Code, Cursor, or another compatible client to the local MaruCheck server.",
     "/docs/mcp",
   ],
   [
-    "05",
+    "06",
+    "Hosted reports",
+    "Connect a dashboard project and explicitly send completed proof metadata without uploading source code.",
+    "/docs/report-ingestion",
+  ],
+  [
+    "07",
     "Production feedback",
     "Turn bounded production failures into commit-linked, human-reviewed QA memory candidates.",
     "/docs/production-feedback",
@@ -47,6 +61,14 @@ export default function DocsHomePage() {
       <p className="docs-lead">
         Start with product intent. End with a release decision that links back to concrete evidence.
       </p>
+      <DocsCallout>
+        <strong>MaruCheck CLI v{MARUCHECK_CLI_VERSION} is available now.</strong>
+        <p>
+          Install it from <a href={MARUCHECK_NPM_URL}>npm</a>. Core verification is local-first and
+          does not require a MaruCheck account; the hosted dashboard is an optional proof-sharing
+          layer.
+        </p>
+      </DocsCallout>
       <nav className="docs-index" aria-label="Documentation topics">
         {entries.map(([number, title, description, href]) => (
           <Link href={href} key={href}>
