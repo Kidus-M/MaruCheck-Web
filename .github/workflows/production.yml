@@ -1,4 +1,4 @@
-name: Beta readiness
+name: Production release
 
 on:
   workflow_dispatch:
@@ -8,19 +8,21 @@ permissions:
 
 concurrency:
   cancel-in-progress: false
-  group: beta-readiness
+  group: production-release
 
 jobs:
-  isolated-acceptance:
-    environment: beta
+  verify-deploy:
+    environment: production
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       ALLOW_TEST_DATABASE_MUTATIONS: "true"
       BETTER_AUTH_SECRET: ci_auth_A7f3P9m2Q8x5R1v6K4n0T7w3Y9z2L8c5
       BETTER_AUTH_URL: http://127.0.0.1:3000
       CRON_SECRET: ci_cron_M4k8V2p7D1s9H5q3W6y0C8n4B2r7X1t9
-      MARUCHECK_BETA_EMAILS: beta-ci@marucheck.dev
+      MARUCHECK_BETA_EMAILS: production-ci@marucheck.dev
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -34,7 +36,7 @@ jobs:
         uses: neondatabase/create-branch-action@v6
         with:
           api_key: ${{ secrets.NEON_API_KEY }}
-          branch_name: beta-ci-${{ github.run_id }}-${{ github.run_attempt }}
+          branch_name: production-ci-${{ github.run_id }}-${{ github.run_attempt }}
           expires_at: ${{ env.NEON_BRANCH_EXPIRES_AT }}
           project_id: ${{ vars.NEON_PROJECT_ID }}
 
@@ -47,14 +49,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Validate beta environment
+      - name: Validate production-shaped environment
         env:
-          BETTER_AUTH_URL: https://beta-ci.marucheck.dev
+          BETTER_AUTH_URL: https://production-ci.marucheck.dev
           DATABASE_URL: ${{ steps.neon.outputs.db_url_pooled }}
           DATABASE_URL_UNPOOLED: ${{ steps.neon.outputs.db_url }}
-        run: npm run beta:env:check
+        run: npm run deploy:env:check
 
-      - name: Apply reviewed migrations to isolated branch
+      - name: Apply migrations to isolated branch
         env:
           DATABASE_URL: ${{ steps.neon.outputs.db_url_pooled }}
           DATABASE_URL_UNPOOLED: ${{ steps.neon.outputs.db_url }}
@@ -82,12 +84,52 @@ jobs:
           DATABASE_URL: ${{ steps.neon.outputs.db_url_pooled }}
         run: npm run test:e2e
 
+      - name: Install pinned Vercel CLI
+        run: npm install --global vercel@59.3.0
+
+      - name: Link production Vercel project
+        run: vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Validate configured production environment
+        run: vercel env run -e production --token="${{ secrets.VERCEL_TOKEN }}" -- npm run deploy:env:check
+
+      - name: Apply reviewed production migrations
+        env:
+          ALLOW_PRODUCTION_MIGRATION: "true"
+          MARUCHECK_DEPLOYMENT_ENV: production
+        run: vercel env run -e production --token="${{ secrets.VERCEL_TOKEN }}" -- npm run db:migrate
+
+      - name: Build Vercel production output
+        run: vercel build --prod --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Create staged production deployment
+        id: deployment
+        shell: bash
+        run: |
+          deployment_url=$(vercel deploy --prebuilt --prod --skip-domain --token="${{ secrets.VERCEL_TOKEN }}")
+          echo "deployment_url=$deployment_url" >> "$GITHUB_OUTPUT"
+
+      - name: Smoke-test staged deployment
+        env:
+          DEPLOYMENT_URL: ${{ steps.deployment.outputs.deployment_url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: npm run deploy:smoke
+
+      - name: Promote accepted deployment
+        run: vercel promote "${{ steps.deployment.outputs.deployment_url }}" --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Smoke-test production domain
+        env:
+          DEPLOYMENT_URL: ${{ vars.PRODUCTION_URL }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: npm run deploy:smoke
+
       - name: Upload browser diagnostics
         if: failure()
         uses: actions/upload-artifact@v6
         with:
           if-no-files-found: ignore
-          name: beta-playwright-${{ github.run_id }}
+          name: production-playwright-${{ github.run_id }}
           path: output/playwright/
           retention-days: 7
 

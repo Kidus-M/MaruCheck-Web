@@ -1,12 +1,12 @@
-const rawOrigin = process.argv[2] ?? process.env.BETA_URL;
+const rawOrigin = process.argv[2] ?? process.env.DEPLOYMENT_URL;
 if (!rawOrigin) {
-  console.error("Beta smoke test requires a URL argument or BETA_URL.");
+  console.error("Deployment smoke test requires a URL argument or DEPLOYMENT_URL.");
   process.exit(1);
 }
 
 const origin = new URL(rawOrigin);
 if (origin.protocol !== "https:" && !["127.0.0.1", "localhost"].includes(origin.hostname)) {
-  console.error("Beta smoke test requires HTTPS except for a local server.");
+  console.error("Deployment smoke test requires HTTPS except for a local server.");
   process.exit(1);
 }
 
@@ -33,7 +33,7 @@ for (const [path, expected] of checks) {
   });
   const body = await response.text();
   if (!response.ok || !body.includes(expected)) {
-    console.error(`${path} failed beta smoke verification with HTTP ${response.status}.`);
+    console.error(`${path} failed deployment smoke verification with HTTP ${response.status}.`);
     process.exit(1);
   }
   if (response.headers.get("x-content-type-options") !== "nosniff") {
@@ -43,4 +43,4 @@ for (const [path, expected] of checks) {
   console.log(`${path} passed.`);
 }
 
-console.log(`Beta smoke verification passed for ${origin.origin}.`);
+console.log(`Deployment smoke verification passed for ${origin.origin}.`);
