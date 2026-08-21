@@ -18,9 +18,10 @@ manual Production release approval
   -> production-domain smoke test
 ```
 
-The application remains closed by default. Set `MARUCHECK_ALLOWED_SIGNUP_EMAILS` to the comma-separated
-addresses of invited developer friends. Do not set `MARUCHECK_OPEN_SIGNUPS=true` until public
-registration is intentional.
+The application remains closed by default in source. For the current public tester launch, set
+`MARUCHECK_OPEN_SIGNUPS=true` in Vercel Production and leave
+`MARUCHECK_ALLOWED_SIGNUP_EMAILS` unset. Return to the allowlist before redeploying if public
+registration needs to be paused.
 
 ## One-time GitHub configuration
 
@@ -51,8 +52,8 @@ Vercel Production environment variables:
 | `BETTER_AUTH_SECRET`                          | yes           | independent random value of at least 32 characters        |
 | `BETTER_AUTH_URL`                             | yes           | exact stable HTTPS production origin                      |
 | `CRON_SECRET`                                 | yes           | separate random value for authenticated retention         |
-| `MARUCHECK_ALLOWED_SIGNUP_EMAILS`             | early access  | comma-separated invited tester addresses                  |
-| `MARUCHECK_OPEN_SIGNUPS`                      | optional      | leave unset or `false` during invited testing             |
+| `MARUCHECK_ALLOWED_SIGNUP_EMAILS`             | optional      | leave unset for public testing; use to return to invites  |
+| `MARUCHECK_OPEN_SIGNUPS`                      | tester launch | set to `true` for public account creation                 |
 | `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` | optional pair | production GitHub OAuth application                       |
 
 Register `<BETTER_AUTH_URL>/api/auth/callback/github` in the GitHub OAuth application when GitHub
@@ -69,8 +70,8 @@ ingestion, or deployment protection.
    direct TLS Neon URL and requires the explicit production-migration confirmation.
 5. Vercel builds a staged production deployment without assigning the domain. The workflow smokes
    that URL, promotes it, and smokes `PRODUCTION_URL` again.
-6. Invite allowlisted developers only after both smoke checks pass. Ask each tester to connect a
-   disposable project, copy the one-time token, ingest one CLI report, rotate the token, and verify
+6. Open tester registration only after both smoke checks pass. Ask each tester to connect a
+   disposable project, copy the one-time token, upload one CLI report, rotate the token, and verify
    the old token no longer works.
 7. Record the Git commit, migration, deployment URL, workflow run, and participating testers.
 
