@@ -60,9 +60,11 @@ See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/deci
 
 ## Codex and MCP
 
-This repository includes an optional project-scoped Codex configuration at `.codex/config.toml`. With the documented sibling layout, Codex can start the MaruCheck MCP server from `../maru-cli` while keeping both projects in independent Git repositories.
+This repository includes an optional project-scoped Codex configuration at `.codex/config.toml`.
+It starts the exact published MaruCheck package, so contributors do not need the CLI repository as a
+sibling checkout.
 
-After the first npm release, any supported MCP client can launch the public CLI directly:
+Any supported MCP client can launch the public CLI directly:
 
 ```toml
 [mcp_servers.maru]

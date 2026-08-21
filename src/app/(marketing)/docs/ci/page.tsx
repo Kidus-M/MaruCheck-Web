@@ -37,8 +37,8 @@ export default function CiDocsPage() {
       <DocsCallout>
         <strong>No hosted account, GitHub App, or repository secret is required.</strong>
         <p>
-          The generated workflow runs only on pull requests with read-only repository permission.
-          It does not use <code>pull_request_target</code> and does not persist checkout credentials.
+          The generated workflow runs only on pull requests with read-only repository permission. It
+          does not use <code>pull_request_target</code> and does not persist checkout credentials.
         </p>
       </DocsCallout>
       <section className="docs-section">
@@ -47,9 +47,13 @@ export default function CiDocsPage() {
         <ol>
           <li>Checks out the pull-request revision with read-only permissions.</li>
           <li>Uses Node.js 24 and the committed npm lockfile.</li>
-          <li>Runs the same planner, adapters, evidence model, and release gate as local verification.</li>
+          <li>
+            Runs the same planner, adapters, evidence model, and release gate as local verification.
+          </li>
           <li>Writes a readable GitHub job summary before returning the gate exit code.</li>
-          <li>Uploads hidden <code>.maru</code> evidence even when the gate blocks.</li>
+          <li>
+            Uploads hidden <code>.maru</code> evidence even when the gate blocks.
+          </li>
         </ol>
       </section>
       <section className="docs-section">

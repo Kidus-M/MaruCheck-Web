@@ -37,8 +37,9 @@ export default function GettingStartedPage() {
         <h2>2. Pin it for a project or team</h2>
         <CodeBlock>{`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\nnpx --no-install maru init`}</CodeBlock>
         <p>
-          Pinning writes the verifier into <code>package.json</code> and <code>package-lock.json</code>,
-          so local contributors and CI execute the same release. Use <code>npx --no-install maru</code>
+          Pinning writes the verifier into <code>package.json</code> and{" "}
+          <code>package-lock.json</code>, so local contributors and CI execute the same release. Use{" "}
+          <code>npx --no-install maru</code>
           after installation to prevent an implicit download.
         </p>
       </section>
@@ -55,7 +56,8 @@ export default function GettingStartedPage() {
         <h2>4. Add approved intent</h2>
         <CodeBlock>{`npx --no-install maru contract create --from requirements.md\nnpx --no-install maru contract validate\nnpx --no-install maru contract approve <contract-id> --by <owner>`}</CodeBlock>
         <p>
-          Draft creation does not approve anything. Review the YAML under <code>.maru/contracts/</code>
+          Draft creation does not approve anything. Review the YAML under{" "}
+          <code>.maru/contracts/</code>
           before an accountable person approves it. Commit reviewed configuration and contracts;
           keep raw artifacts out of Git.
         </p>

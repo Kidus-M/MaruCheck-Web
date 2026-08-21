@@ -26,10 +26,18 @@ export default function ReportIngestionDocsPage() {
       <section className="docs-section">
         <h2>1. Connect the project</h2>
         <ol>
-          <li>Sign in and open <Link href="/projects/connect">Connect project</Link>.</li>
-          <li>Use the same project name reported by <code>maru scan</code>.</li>
-          <li>Copy the one-time <code>maru_…</code> token before leaving the confirmation screen.</li>
-          <li>Store it as <code>MARUCHECK_TOKEN</code> in your CI provider’s encrypted secrets.</li>
+          <li>
+            Sign in and open <Link href="/projects/connect">Connect project</Link>.
+          </li>
+          <li>
+            Use the same project name reported by <code>maru scan</code>.
+          </li>
+          <li>
+            Copy the one-time <code>maru_…</code> token before leaving the confirmation screen.
+          </li>
+          <li>
+            Store it as <code>MARUCHECK_TOKEN</code> in your CI provider’s encrypted secrets.
+          </li>
         </ol>
         <p>
           The dashboard stores only a token hash. Owners can rotate or revoke the credential from
@@ -81,10 +89,18 @@ export default function ReportIngestionDocsPage() {
       <section className="docs-section">
         <h2>Common failures</h2>
         <ul>
-          <li><code>400</code>: the envelope or embedded report does not match schema version 1.</li>
-          <li><code>401</code>: the project token is missing, invalid, expired, or revoked.</li>
-          <li><code>409</code>: the report project name differs from the connected project.</li>
-          <li><code>413</code>: the request exceeds the 2 MB boundary.</li>
+          <li>
+            <code>400</code>: the envelope or embedded report does not match schema version 1.
+          </li>
+          <li>
+            <code>401</code>: the project token is missing, invalid, expired, or revoked.
+          </li>
+          <li>
+            <code>409</code>: the report project name differs from the connected project.
+          </li>
+          <li>
+            <code>413</code>: the request exceeds the 2 MB boundary.
+          </li>
         </ul>
       </section>
     </>

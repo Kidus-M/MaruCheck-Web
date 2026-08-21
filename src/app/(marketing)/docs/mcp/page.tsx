@@ -20,14 +20,16 @@ export default function McpDocsPage() {
       <section className="docs-section">
         <h2>Choose a package strategy</h2>
         <p>
-          For a quick trial, let the MCP client start the exact npm release with <code>npx</code>. For
-          a team, install <code>{MARUCHECK_CLI_SPEC}</code> in the project and replace the arguments
-          with <code>[&quot;--no-install&quot;, &quot;maru&quot;, &quot;mcp&quot;]</code>.
+          For a quick trial, let the MCP client start the exact npm release with <code>npx</code>.
+          For a team, install <code>{MARUCHECK_CLI_SPEC}</code> in the project and replace the
+          arguments with <code>[&quot;--no-install&quot;, &quot;maru&quot;, &quot;mcp&quot;]</code>.
         </p>
       </section>
       <section className="docs-section">
         <h2>Codex</h2>
-        <p>Add this to the trusted project’s <code>.codex/config.toml</code>:</p>
+        <p>
+          Add this to the trusted project’s <code>.codex/config.toml</code>:
+        </p>
         <CodeBlock label="TOML">{`[mcp_servers.maru]\ncommand = "npx"\nargs = ["--yes", "${MARUCHECK_CLI_SPEC}", "mcp"]\nrequired = false\ndefault_tools_approval_mode = "writes"`}</CodeBlock>
         <p>
           Restart Codex after changing configuration, trust the project when prompted, and use
@@ -41,7 +43,9 @@ export default function McpDocsPage() {
       </section>
       <section className="docs-section">
         <h2>Cursor</h2>
-        <p>Add <code>.cursor/mcp.json</code> to the target repository:</p>
+        <p>
+          Add <code>.cursor/mcp.json</code> to the target repository:
+        </p>
         <CodeBlock label="JSON">{`{
   "mcpServers": {
     "maru": {
@@ -50,14 +54,16 @@ export default function McpDocsPage() {
     }
   }
 }`}</CodeBlock>
-        <p>Restart Cursor, open MCP settings, and enable the <code>maru</code> server.</p>
+        <p>
+          Restart Cursor, open MCP settings, and enable the <code>maru</code> server.
+        </p>
       </section>
       <DocsCallout>
         <strong>Windows command lookup</strong>
         <p>
           If an MCP client reports that it cannot spawn <code>npx</code> on Windows, change the
-          configured command to <code>npx.cmd</code>. Keep the working directory set to the repository
-          MaruCheck should inspect.
+          configured command to <code>npx.cmd</code>. Keep the working directory set to the
+          repository MaruCheck should inspect.
         </p>
       </DocsCallout>
       <section className="docs-section">
@@ -80,7 +86,9 @@ export default function McpDocsPage() {
           <li>The server uses local stdio and opens no listening network port.</li>
           <li>Read-only tools expose bounded metadata rather than changed source lines.</li>
           <li>Write and execution tools remain subject to the MCP client’s approval controls.</li>
-          <li>MaruCheck makes no outbound model request; your existing client supplies the agent.</li>
+          <li>
+            MaruCheck makes no outbound model request; your existing client supplies the agent.
+          </li>
         </ul>
       </section>
     </>
