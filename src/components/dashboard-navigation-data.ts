@@ -28,7 +28,10 @@ export const navigationGroups: readonly {
   },
   {
     label: "Knowledge",
-    items: [{ href: "/memory", icon: "memory", label: "QA memory" }],
+    items: [
+      { href: "/feedback", icon: "alert", label: "Production feedback" },
+      { href: "/memory", icon: "memory", label: "QA memory" },
+    ],
   },
 ];
 
@@ -38,4 +41,5 @@ export const mobileNavigationItems = [
   navigationGroups[1]!.items[1]!,
   navigationGroups[1]!.items[2]!,
   navigationGroups[2]!.items[0]!,
+  navigationGroups[2]!.items[1]!,
 ] as const;
