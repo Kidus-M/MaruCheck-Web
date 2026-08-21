@@ -162,7 +162,9 @@ export async function reviewProductionFeedbackAction(
 ): Promise<ReviewFeedbackState> {
   const context = await requireWorkspaceContext();
   const candidateId = field(formData, "candidateId");
-  if (!/^[a-f0-9-]{36}$/u.test(candidateId)) {
+  if (
+    !/^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/iu.test(candidateId)
+  ) {
     return { message: "The feedback candidate identifier is invalid.", status: "error" };
   }
 
@@ -212,13 +214,14 @@ export async function reviewProductionFeedbackAction(
       if (candidate.status !== "pending") return "already-reviewed" as const;
 
       if (review.decision === "reject") {
+        const reviewedAt = new Date();
         await transaction
           .update(qaMemoryCandidate)
           .set({
-            reviewedAt: new Date(),
+            reviewedAt,
             reviewedBy: context.viewer.email,
             status: "rejected",
-            updatedAt: new Date(),
+            updatedAt: reviewedAt,
           })
           .where(eq(qaMemoryCandidate.id, candidateId));
         return "rejected" as const;
