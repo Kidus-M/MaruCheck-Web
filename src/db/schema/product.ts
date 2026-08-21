@@ -308,3 +308,231 @@ export const qaMemory = pgTable(
     index("qa_memory_project_idx").on(table.projectId),
   ],
 );
+
+export type ProductionFeedbackStatus = "open" | "resolved";
+export type FeedbackCandidateStatus = "approved" | "pending" | "rejected";
+
+export const productionFeedback = pgTable(
+  "production_feedback",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    organizationId: text("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => project.id, { onDelete: "cascade" }),
+    tokenId: uuid("token_id").references(() => projectIngestToken.id, { onDelete: "set null" }),
+    verificationRunId: uuid("verification_run_id").references(() => verificationRun.id, {
+      onDelete: "set null",
+    }),
+    source: text("source").$type<"generic">().notNull(),
+    eventType: text("event_type").notNull(),
+    fingerprint: text("fingerprint").notNull(),
+    severity: text("severity").$type<FindingSeverity>().notNull(),
+    title: text("title").notNull(),
+    message: text("message").notNull(),
+    exceptionType: text("exception_type").notNull(),
+    environment: text("environment").notNull(),
+    release: text("release"),
+    commitSha: text("commit_sha"),
+    branch: text("branch"),
+    frames: jsonb("frames")
+      .$type<
+        readonly {
+          readonly column?: number;
+          readonly file: string;
+          readonly function?: string;
+          readonly line?: number;
+        }[]
+      >()
+      .default([])
+      .notNull(),
+    relatedFiles: jsonb("related_files").$type<readonly string[]>().default([]).notNull(),
+    requirementRefs: jsonb("requirement_refs").$type<readonly string[]>().default([]).notNull(),
+    tags: jsonb("tags").$type<readonly string[]>().default([]).notNull(),
+    attributes: jsonb("attributes")
+      .$type<Readonly<Record<string, boolean | number | string>>>()
+      .default({})
+      .notNull(),
+    reproductionProposal: jsonb("reproduction_proposal")
+      .$type<{ readonly observed: string; readonly steps: readonly string[] }>()
+      .notNull(),
+    regressionProposal: jsonb("regression_proposal")
+      .$type<{
+        readonly objective: string;
+        readonly requirementRefs: readonly string[];
+        readonly status: "proposed";
+        readonly suggestedAdapter?: "playwright" | "vitest";
+        readonly suggestedPath?: string;
+      }>()
+      .notNull(),
+    occurrenceCount: integer("occurrence_count").default(1).notNull(),
+    status: text("status").$type<ProductionFeedbackStatus>().default("open").notNull(),
+    occurredAt: timestamp("occurred_at", { withTimezone: true }).notNull(),
+    firstReceivedAt: timestamp("first_received_at", { withTimezone: true }).defaultNow().notNull(),
+    lastReceivedAt: timestamp("last_received_at", { withTimezone: true }).defaultNow().notNull(),
+    retentionUntil: timestamp("retention_until", { withTimezone: true }).notNull(),
+    resolvedAt: timestamp("resolved_at", { withTimezone: true }),
+  },
+  (table) => [
+    uniqueIndex("production_feedback_project_fingerprint_unique").on(
+      table.projectId,
+      table.source,
+      table.fingerprint,
+    ),
+    index("production_feedback_organization_received_idx").on(
+      table.organizationId,
+      table.lastReceivedAt,
+    ),
+    index("production_feedback_project_commit_idx").on(table.projectId, table.commitSha),
+    index("production_feedback_retention_idx").on(table.retentionUntil),
+    check("production_feedback_occurrence_positive", sql`${table.occurrenceCount} > 0`),
+  ],
+);
+
+export const productionFeedbackDelivery = pgTable(
+  "production_feedback_delivery",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    organizationId: text("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => project.id, { onDelete: "cascade" }),
+    feedbackId: uuid("feedback_id")
+      .notNull()
+      .references(() => productionFeedback.id, { onDelete: "cascade" }),
+    tokenId: uuid("token_id").references(() => projectIngestToken.id, { onDelete: "set null" }),
+    source: text("source").$type<"generic">().notNull(),
+    eventKey: text("event_key").notNull(),
+    payloadHash: text("payload_hash").notNull(),
+    receivedAt: timestamp("received_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("production_feedback_delivery_project_event_unique").on(
+      table.projectId,
+      table.source,
+      table.eventKey,
+    ),
+    index("production_feedback_delivery_feedback_idx").on(table.feedbackId),
+    index("production_feedback_delivery_received_idx").on(table.receivedAt),
+  ],
+);
+
+export const productionFeedbackContract = pgTable(
+  "production_feedback_contract",
+  {
+    feedbackId: uuid("feedback_id")
+      .notNull()
+      .references(() => productionFeedback.id, { onDelete: "cascade" }),
+    contractId: uuid("contract_id")
+      .notNull()
+      .references(() => qualityContract.id, { onDelete: "cascade" }),
+    organizationId: text("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => project.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("production_feedback_contract_unique").on(table.feedbackId, table.contractId),
+    index("production_feedback_contract_contract_idx").on(table.contractId),
+  ],
+);
+
+export const qaMemoryCandidate = pgTable(
+  "qa_memory_candidate",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    organizationId: text("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => project.id, { onDelete: "cascade" }),
+    feedbackId: uuid("feedback_id")
+      .notNull()
+      .references(() => productionFeedback.id, { onDelete: "cascade" }),
+    memoryId: uuid("memory_id").references(() => qaMemory.id, { onDelete: "set null" }),
+    title: text("title").notNull(),
+    summary: text("summary").notNull(),
+    rootCause: text("root_cause"),
+    severity: text("severity").$type<FindingSeverity>().notNull(),
+    status: text("status").$type<FeedbackCandidateStatus>().default("pending").notNull(),
+    relatedContracts: jsonb("related_contracts").$type<readonly string[]>().default([]).notNull(),
+    relatedFiles: jsonb("related_files").$type<readonly string[]>().default([]).notNull(),
+    reproductionProposal: jsonb("reproduction_proposal")
+      .$type<{ readonly observed: string; readonly steps: readonly string[] }>()
+      .notNull(),
+    regressionProposal: jsonb("regression_proposal")
+      .$type<{
+        readonly objective: string;
+        readonly requirementRefs: readonly string[];
+        readonly status: "proposed";
+        readonly suggestedAdapter?: "playwright" | "vitest";
+        readonly suggestedPath?: string;
+      }>()
+      .notNull(),
+    reviewedBy: text("reviewed_by"),
+    reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("qa_memory_candidate_feedback_unique").on(table.feedbackId),
+    index("qa_memory_candidate_organization_status_idx").on(
+      table.organizationId,
+      table.status,
+    ),
+    index("qa_memory_candidate_project_idx").on(table.projectId),
+  ],
+);
+
+export const feedbackIngestionRateWindow = pgTable(
+  "feedback_ingestion_rate_window",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    tokenId: uuid("token_id")
+      .notNull()
+      .references(() => projectIngestToken.id, { onDelete: "cascade" }),
+    organizationId: text("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    windowStartedAt: timestamp("window_started_at", { withTimezone: true }).notNull(),
+    requestCount: integer("request_count").default(1).notNull(),
+  },
+  (table) => [
+    uniqueIndex("feedback_rate_token_window_unique").on(table.tokenId, table.windowStartedAt),
+    index("feedback_rate_window_idx").on(table.windowStartedAt),
+    check("feedback_rate_count_positive", sql`${table.requestCount} > 0`),
+  ],
+);
+
+export const productionFeedbackAudit = pgTable(
+  "production_feedback_audit",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    organizationId: text("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => project.id, { onDelete: "cascade" }),
+    feedbackId: uuid("feedback_id").references(() => productionFeedback.id, {
+      onDelete: "set null",
+    }),
+    tokenId: uuid("token_id").references(() => projectIngestToken.id, { onDelete: "set null" }),
+    eventKey: text("event_key").notNull(),
+    payloadHash: text("payload_hash").notNull(),
+    action: text("action").$type<"accepted" | "conflict" | "replayed">().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("production_feedback_audit_project_created_idx").on(table.projectId, table.createdAt),
+    index("production_feedback_audit_feedback_idx").on(table.feedbackId),
+  ],
+);
