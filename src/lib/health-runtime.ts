@@ -14,7 +14,7 @@ export function currentReadinessResponse(): Promise<Response> {
     checkDatabase: async () => {
       if (!databaseUrl) return false;
       const sql = neon(databaseUrl);
-      await sql`select 1 as ready`;
+      await sql`select "id" from "rate_limit" limit 0`;
       return true;
     },
     configuration: inspectProductionEnvironment(process.env, {

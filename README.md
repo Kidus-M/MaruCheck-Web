@@ -12,7 +12,7 @@ npm run db:migrate
 npm run dev
 ```
 
-Open `http://localhost:3000` for the public product site or `http://localhost:3000/dashboard` for the hosted product. Liveness is available at `/api/health/live`; `/api/health/ready` also verifies production-shaped configuration and database connectivity. `/api/health` is a readiness alias.
+Open `http://localhost:3000` for the public product site or `http://localhost:3000/dashboard` for the hosted product. Liveness is available at `/api/health/live`; `/api/health/ready` also verifies production-shaped configuration, database connectivity, and the authentication rate-limit schema. `/api/health` is a readiness alias.
 
 Before migrating, create `.env.local` from `.env.example` and replace the sample values with your Neon pooled and direct connection strings plus a Better Auth secret. The application shows a setup state instead of pretending authentication works when those values are absent.
 
