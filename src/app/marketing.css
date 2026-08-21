@@ -3084,14 +3084,76 @@
   gap: 0.55rem;
 }
 
-.docs-code {
-  overflow-x: auto;
-  padding: 1.5rem;
+.docs-code-shell {
+  margin-block: 1.4rem;
+  overflow: hidden;
   border-left: 2px solid #7384df;
   background: var(--marketing-panel);
+}
+
+.docs-code-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2.7rem;
+  padding: 0.45rem 0.75rem 0.45rem 1rem;
+  border-bottom: 1px solid var(--marketing-line-dark);
+  color: #8d9a9f;
+  font-family: "Cascadia Mono", monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.docs-code-toolbar .copy-button {
+  min-height: 1.85rem;
+  padding: 0.35rem 0.65rem;
+  border-color: var(--marketing-line-dark);
+  background: rgba(255, 255, 255, 0.035);
+  color: #aab6b8;
+  font-size: 0.58rem;
+}
+
+.docs-code-toolbar .copy-button:hover,
+.docs-code-toolbar .copy-button--copied {
+  border-color: #7384df;
+  color: white;
+}
+
+.docs-code {
+  overflow-x: auto;
+  margin: 0;
+  padding: 1.5rem;
   color: #dce4e2;
   font-size: 0.78rem;
   line-height: 1.75;
+}
+
+.docs-command-list {
+  display: grid;
+  margin: 0;
+}
+
+.docs-command-list > div {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.9fr) 1fr;
+  gap: 2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--marketing-line);
+}
+
+.docs-command-list dt,
+.docs-command-list dd {
+  margin: 0;
+}
+
+.docs-command-list dt {
+  color: var(--marketing-ink);
+}
+
+.docs-command-list dd {
+  color: #59666c;
+  line-height: 1.65;
 }
 
 .docs-callout {
@@ -3996,6 +4058,11 @@
 
   .docs-steps li {
     grid-template-columns: 1fr;
+  }
+
+  .docs-command-list > div {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
   }
 
   .footer-proof {

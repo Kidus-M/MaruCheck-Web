@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
+import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
 
 export const metadata: Metadata = {
   title: "CI integration",
@@ -16,33 +18,55 @@ export default function CiDocsPage() {
         change—not a reviewer’s memory.
       </p>
       <section className="docs-section">
-        <h2>Recommended sequence</h2>
-        <ol>
-          <li>Install and build the project and MaruCheck CLI.</li>
-          <li>Collect the pull-request diff.</li>
-          <li>Run the MaruCheck check command.</li>
-          <li>Upload the chosen evidence report as a CI artifact.</li>
-          <li>Fail the job when the configured gate blocks.</li>
-        </ol>
+        <h2>1. Pin the published package</h2>
+        <CodeBlock>{`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\nnpx --no-install maru init`}</CodeBlock>
+        <p>
+          Commit <code>package.json</code>, <code>package-lock.json</code>, and the reviewed
+          <code>.maru</code> configuration. The workflow uses <code>npm ci</code> and
+          <code>npx --no-install</code>, so it cannot drift to an unreviewed CLI version.
+        </p>
       </section>
       <section className="docs-section">
-        <h2>GitHub Actions outline</h2>
-        <CodeBlock>{`- name: Install project dependencies\n  run: npm ci\n\n- name: Verify changed behavior\n  run: npx --no-install maru ci verify`}</CodeBlock>
+        <h2>2. Generate the pull-request workflow</h2>
+        <CodeBlock>{`npx --no-install maru ci init\ngit diff -- .github/workflows/marucheck.yml`}</CodeBlock>
+        <p>
+          Review and commit the generated workflow. Running <code>maru ci init</code> again is
+          idempotent; if the target file contains custom content, MaruCheck refuses to overwrite it.
+        </p>
       </section>
       <DocsCallout>
-        <strong>Adapt before copying.</strong>
+        <strong>No hosted account, GitHub App, or repository secret is required.</strong>
         <p>
-          The repositories are separate, so a production workflow should install a published CLI
-          version instead of checking out sibling source. Pin that version when publication is
-          enabled.
+          The generated workflow runs only on pull requests with read-only repository permission.
+          It does not use <code>pull_request_target</code> and does not persist checkout credentials.
         </p>
       </DocsCallout>
       <section className="docs-section">
-        <h2>Evidence handling</h2>
+        <h2>3. What the generated job does</h2>
+        <CodeBlock label="GitHub Actions">{`- name: Install project dependencies\n  run: npm ci\n\n- name: Verify changed behavior\n  run: npx --no-install maru ci verify`}</CodeBlock>
+        <ol>
+          <li>Checks out the pull-request revision with read-only permissions.</li>
+          <li>Uses Node.js 24 and the committed npm lockfile.</li>
+          <li>Runs the same planner, adapters, evidence model, and release gate as local verification.</li>
+          <li>Writes a readable GitHub job summary before returning the gate exit code.</li>
+          <li>Uploads hidden <code>.maru</code> evidence even when the gate blocks.</li>
+        </ol>
+      </section>
+      <section className="docs-section">
+        <h2>4. Require the gate</h2>
+        <p>
+          After the workflow has run once, add its <code>ProofLayer</code> check to the repository’s
+          branch ruleset if every protected pull request should require MaruCheck. This is a GitHub
+          repository policy; the CLI does not change it automatically.
+        </p>
+      </section>
+      <section className="docs-section">
+        <h2>Evidence and hosted proof</h2>
         <p>
           Keep source execution inside the runner. Upload only the artifacts your policy permits,
           apply a retention period, and avoid placing secrets or raw sensitive payloads in evidence
-          output.
+          output. To share normalized proof in the dashboard, add the explicit
+          <Link href="/docs/report-ingestion"> hosted report step</Link> separately.
         </p>
       </section>
     </>

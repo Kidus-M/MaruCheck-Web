@@ -1,8 +1,7 @@
 # Optional project-scoped MaruCheck MCP integration for Codex.
-# The sibling layout is documented in the parent workspace and keeps the
-# independently versioned web and CLI repositories separate.
+# Pinning the public package keeps this portable when the CLI repository is not present.
 [mcp_servers.maru]
-command = "node"
-args = ["../maru-cli/packages/cli/dist/index.js", "mcp"]
+command = "npx"
+args = ["--yes", "marucheck@0.1.0", "mcp"]
 required = false
 default_tools_approval_mode = "writes"

@@ -20,9 +20,10 @@ const footerGroups = [
     links: [
       ["Documentation", "/docs"],
       ["Getting started", "/docs/getting-started"],
+      ["CLI reference", "/docs/cli"],
       ["Quality Contracts", "/docs/quality-contracts"],
       ["MCP integration", "/docs/mcp"],
-      ["Production feedback", "/docs/production-feedback"],
+      ["Hosted reports", "/docs/report-ingestion"],
     ],
   },
   {
@@ -53,7 +54,10 @@ export function MarketingShell({ children }: { readonly children: ReactNode }) {
               <span>MaruCheck proves.</span>
             </h2>
             <div className="footer-proof__actions">
-              <Link className="marketing-button marketing-button--signal" href="/sign-in">
+              <Link
+                className="marketing-button marketing-button--signal"
+                href="/docs/getting-started"
+              >
                 Start with MaruCheck <Icon name="arrow" />
               </Link>
               <Link className="marketing-button marketing-button--ghost-dark" href="/docs">
