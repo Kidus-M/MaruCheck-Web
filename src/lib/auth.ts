@@ -1,10 +1,7 @@
 import "server-only";
 import { createDatabase } from "@/db";
 import { createMaruAuth, type MaruAuth } from "@/lib/auth-config";
-import {
-  resolveBetaSignupPolicy,
-  type BetaSignupMode,
-} from "@/lib/runtime-config";
+import { resolveBetaSignupPolicy, type BetaSignupMode } from "@/lib/runtime-config";
 
 let authInstance: MaruAuth | undefined;
 

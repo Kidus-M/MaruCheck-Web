@@ -4,9 +4,7 @@ test("client navigation reveals product and documentation content without a relo
   page,
 }) => {
   await page.goto("/");
-  await expect(
-    page.getByRole("heading", { level: 1, name: /Test what your AI/i }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Test what your AI/i })).toBeVisible();
 
   const primaryNavigation = page.getByRole("navigation", { name: "Primary navigation" });
   await primaryNavigation.getByRole("link", { name: "Product" }).click();
@@ -20,7 +18,9 @@ test("client navigation reveals product and documentation content without a relo
 
   await primaryNavigation.getByRole("link", { name: "Docs" }).click();
   await expect(page).toHaveURL(/\/docs$/u);
-  await expect(page.getByRole("heading", { level: 1, name: "Build a release proof loop." })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Build a release proof loop." }),
+  ).toBeVisible();
   await page.getByRole("link", { name: "Production feedback" }).first().click();
   await expect(page.getByRole("heading", { level: 1, name: "Production feedback" })).toBeVisible();
 });
@@ -32,10 +32,14 @@ test("mobile navigation exposes docs and beta sign-in", async ({ page }) => {
   const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
   await expect(mobileNavigation).toBeVisible();
   await mobileNavigation.getByRole("link", { name: /Docs/u }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Build a release proof loop." })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Build a release proof loop." }),
+  ).toBeVisible();
 
   await page.getByRole("link", { name: "Sign in" }).first().click();
-  await expect(page.getByRole("heading", { level: 2, name: "Sign in to your workspace" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 2, name: "Sign in to your workspace" }),
+  ).toBeVisible();
 });
 
 test("liveness, readiness, and security headers are deployable", async ({ request }) => {

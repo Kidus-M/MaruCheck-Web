@@ -37,7 +37,11 @@ export async function handleReadinessRequest(
   } catch {
     databaseReady = false;
   }
-  return readinessResponse(dependencies, databaseReady ? "pass" : "fail", databaseReady ? 200 : 503);
+  return readinessResponse(
+    dependencies,
+    databaseReady ? "pass" : "fail",
+    databaseReady ? 200 : 503,
+  );
 }
 
 function readinessResponse(

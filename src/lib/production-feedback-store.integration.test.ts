@@ -12,7 +12,6 @@ import {
   qualityContract,
   verificationRun,
 } from "@/db/schema";
-import { FeedbackServiceError } from "@/lib/production-feedback-handler";
 import {
   parseProductionFeedbackEnvelope,
   productionFeedbackPayloadHash,
@@ -175,7 +174,7 @@ describe("production feedback Neon transaction", () => {
         productionFeedbackPayloadHash(alteredEnvelope),
         now,
       ),
-    ).rejects.toMatchObject<Partial<FeedbackServiceError>>({ code: "CONFLICT" });
+    ).rejects.toMatchObject({ code: "CONFLICT" });
   });
 });
 

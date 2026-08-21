@@ -47,11 +47,14 @@ export function inspectBetaEnvironment(
 
   const directUrl = parsedUrl(environment.DATABASE_URL_UNPOOLED);
   if (directUrl?.hostname.includes("-pooler.")) {
-    warnings.push("DATABASE_URL_UNPOOLED points to a pooled endpoint; migrations should use direct Neon.");
+    warnings.push(
+      "DATABASE_URL_UNPOOLED points to a pooled endpoint; migrations should use direct Neon.",
+    );
   }
 
   const signupPolicy = resolveBetaSignupPolicy(environment, options);
-  const signupMode = signupPolicy === null ? "open" : signupPolicy.size > 0 ? "allowlist" : "locked";
+  const signupMode =
+    signupPolicy === null ? "open" : signupPolicy.size > 0 ? "allowlist" : "locked";
   if (signupMode === "locked") {
     warnings.push("New account creation is locked until MARUCHECK_BETA_EMAILS is configured.");
   } else if (signupMode === "open" && options.production) {
@@ -78,12 +81,14 @@ export function resolveBetaSignupPolicy(
 }
 
 function betaEmailValues(environment: EnvironmentInput): string[] {
-  return [...new Set(
-    (environment.MARUCHECK_BETA_EMAILS ?? "")
-      .split(",")
-      .map((email) => email.trim().toLowerCase())
-      .filter(Boolean),
-  )];
+  return [
+    ...new Set(
+      (environment.MARUCHECK_BETA_EMAILS ?? "")
+        .split(",")
+        .map((email) => email.trim().toLowerCase())
+        .filter(Boolean),
+    ),
+  ];
 }
 
 function isEmail(value: string): boolean {
