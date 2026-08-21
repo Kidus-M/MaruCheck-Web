@@ -1,2 +1,3 @@
 artifacts/
+generated/
 connection.env

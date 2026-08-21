@@ -1,7 +1,7 @@
 .next/
 node_modules/
 out/
-coverage/
+/coverage/
 output/playwright/
 *.tsbuildinfo
 .env

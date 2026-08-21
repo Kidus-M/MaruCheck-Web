@@ -48,6 +48,7 @@ export interface VerificationRunSummary {
   readonly completedAt: string;
   readonly duration: string;
   readonly evidence: number;
+  readonly gateReasons: readonly string[];
   readonly id: string;
   readonly project: string;
   readonly risk: number;

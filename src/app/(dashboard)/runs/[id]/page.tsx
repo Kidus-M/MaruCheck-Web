@@ -2,12 +2,14 @@ import { notFound } from "next/navigation";
 import { PageHeader, SectionHeading, StatusPill } from "@/components/dashboard-ui";
 import { Icon } from "@/components/icon";
 import { getDashboardSnapshot } from "@/lib/dashboard-data";
+import { runDecisionContent } from "@/lib/run-decision";
 
 export default async function RunDetailPage({ params }: PageProps<"/runs/[id]">) {
   const { id } = await params;
   const data = await getDashboardSnapshot();
   const run = data.runs.find((item) => item.id === id);
   if (run === undefined) notFound();
+  const decision = runDecisionContent(run);
   return (
     <div className="page-stack">
       <PageHeader
@@ -18,18 +20,8 @@ export default async function RunDetailPage({ params }: PageProps<"/runs/[id]">)
       <section className="run-decision panel">
         <div>
           <StatusPill status={run.status} />
-          <h2>
-            {run.status === "blocked"
-              ? "Verification blocked this release"
-              : run.status === "passed"
-                ? "Verification supports release"
-                : "Verification is still collecting evidence"}
-          </h2>
-          <p>
-            {run.status === "blocked"
-              ? "A critical approved requirement has contradictory evidence. Review the finding before changing the gate."
-              : "Selected requirements have conclusive evidence for this change."}
-          </p>
+          <h2>{decision.title}</h2>
+          <p>{decision.summary}</p>
         </div>
         <dl>
           <div>
