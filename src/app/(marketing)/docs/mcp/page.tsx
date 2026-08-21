@@ -16,12 +16,12 @@ export default function McpDocsPage() {
         contracts and run verification without scraping terminal text.
       </p>
       <section className="docs-section">
-        <h2>Codex today</h2>
+        <h2>Codex</h2>
         <p>
-          Point your Codex MCP configuration at the server command from the CLI repository, then
-          restart the client so it discovers the MaruCheck tools.
+          Point Codex at the public CLI package, then restart the client so it discovers the
+          MaruCheck tools.
         </p>
-        <CodeBlock>{`# Build the current MCP server\ncd ../maru-cli\nnpm install\nnpm run build\n\n# Codex project configuration in maru-web/.codex/config.toml\n[mcp_servers.maru]\ncommand = "node"\nargs = ["../maru-cli/packages/cli/dist/index.js", "mcp"]`}</CodeBlock>
+        <CodeBlock>{`# Codex project configuration\n[mcp_servers.maru]\ncommand = "npx"\nargs = ["--yes", "marucheck", "mcp"]`}</CodeBlock>
       </section>
       <DocsCallout>
         <strong>Client-neutral protocol</strong>

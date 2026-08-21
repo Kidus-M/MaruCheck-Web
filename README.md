@@ -20,9 +20,9 @@ The hosted foundation includes a verification-command public site built from rea
 
 ## Current readiness
 
-The repository now has a private-beta release gate: closed-by-default production signup, durable authentication rate limiting, liveness/readiness checks, authenticated scheduled retention, security headers, a real-Neon ingestion integration test, desktop/mobile Playwright acceptance, deployed smoke verification, and disposable Neon branch CI. The source is ready for a protected beta deployment, but the external Vercel/Neon configuration and first recorded end-to-end CLI ingestion still need to be completed. Public launch additionally needs an email-delivery decision, monitoring/alerting, and broader authenticated browser coverage.
+The repository now has one guarded production release path: closed-by-default signup, durable authentication rate limiting, liveness/readiness checks, authenticated scheduled retention, security headers, disposable-Neon integration acceptance, desktop/mobile Playwright coverage, a staged Vercel deployment, and smoke checks before and after promotion. The source is deployable for invited developer testing; external Vercel/Neon configuration and the first recorded production release still need to be completed.
 
-Follow the [private beta deployment runbook](docs/beta-deployment.md), [testing strategy](docs/testing.md), and [incident response runbook](docs/operations/beta-incident-response.md).
+Follow the [production deployment runbook](docs/production-deployment.md), [testing strategy](docs/testing.md), and [incident response runbook](docs/operations/production-incident-response.md).
 
 ## Commands
 
@@ -31,8 +31,8 @@ Follow the [private beta deployment runbook](docs/beta-deployment.md), [testing 
 | `npm run dev`               | Start the development server                              |
 | `npm run build`             | Create a production build                                 |
 | `npm run start`             | Serve the production build                                |
-| `npm run beta:env:check`    | Validate a production-shaped beta environment             |
-| `npm run beta:smoke -- URL` | Verify a deployed beta and its security headers           |
+| `npm run deploy:env:check`  | Validate the configured production environment            |
+| `npm run deploy:smoke -- URL` | Verify a deployment and its security headers             |
 | `npm run db:generate`       | Generate reviewed SQL from the Drizzle schema             |
 | `npm run db:check`          | Check the Drizzle migration history                       |
 | `npm run db:migrate`        | Apply migrations using the guarded direct Neon connection |
@@ -56,18 +56,18 @@ Follow the [private beta deployment runbook](docs/beta-deployment.md), [testing 
 - Production systems send bounded, provider-neutral failures to `POST /api/v1/production-events`. MaruCheck aggregates them and creates review-required QA-memory candidates; it never accepts raw source or activates telemetry-provided code.
 - A separate worker repository will be introduced only when independent scaling is required.
 
-See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md), [ADR-004](docs/decisions/0004-use-verification-command-public-system.md), [ADR-005](docs/decisions/0005-store-organization-scoped-proof-metadata.md), [ADR-006](docs/decisions/0006-ingest-bounded-production-feedback-as-reviewable-memory.md), and [ADR-007](docs/decisions/0007-stage-private-beta-on-vercel-with-neon-branches.md). Request contracts are documented in the [verification ingestion guide](docs/api/verification-ingestion.md) and [production-feedback guide](docs/api/production-feedback.md); the latter includes an [OpenAPI 3.1 document](docs/api/openapi-v1.yaml).
+See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md), [ADR-004](docs/decisions/0004-use-verification-command-public-system.md), [ADR-005](docs/decisions/0005-store-organization-scoped-proof-metadata.md), [ADR-006](docs/decisions/0006-ingest-bounded-production-feedback-as-reviewable-memory.md), and [ADR-008](docs/decisions/0008-use-one-guarded-production-release-workflow.md). ADR-008 supersedes the separate beta path in ADR-007. Request contracts are documented in the [verification ingestion guide](docs/api/verification-ingestion.md) and [production-feedback guide](docs/api/production-feedback.md); the latter includes an [OpenAPI 3.1 document](docs/api/openapi-v1.yaml).
 
 ## Codex and MCP
 
 This repository includes an optional project-scoped Codex configuration at `.codex/config.toml`. With the documented sibling layout, Codex can start the MaruCheck MCP server from `../maru-cli` while keeping both projects in independent Git repositories.
 
-Build the CLI once before using the integration:
+After the first npm release, any supported MCP client can launch the public CLI directly:
 
-```bash
-cd ../maru-cli
-npm install
-npm run build
+```toml
+[mcp_servers.maru]
+command = "npx"
+args = ["--yes", "marucheck", "mcp"]
 ```
 
-The server is not marked as required, so contributors who clone only the web repository or use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Claude Code, Cursor, and custom MCP setup instructions are in the [Phase 3 MCP guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).
+For reproducible teams, install an exact `marucheck` version and replace `--yes` with `--no-install`. The server is not marked as required, so contributors who use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Claude Code, Cursor, and custom MCP setup instructions are in the [Phase 3 MCP guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).

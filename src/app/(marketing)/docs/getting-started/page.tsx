@@ -3,7 +3,7 @@ import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 
 export const metadata: Metadata = {
   title: "Getting started",
-  description: "Run MaruCheck locally from the current workspace.",
+  description: "Install MaruCheck and verify an existing project.",
 };
 
 export default function GettingStartedPage() {
@@ -12,8 +12,8 @@ export default function GettingStartedPage() {
       <span className="docs-kicker">Start here</span>
       <h1>Getting started</h1>
       <p className="docs-lead">
-        The CLI is currently developed as the separate <code>maru-cli</code> repository. Until its
-        npm publication workflow is complete, run it from source.
+        MaruCheck installs from npm, runs against the repository you are already working in, and
+        keeps its contracts and evidence under that repository’s <code>.maru</code> directory.
       </p>
       <DocsCallout>
         <strong>Repository boundary</strong>
@@ -23,17 +23,17 @@ export default function GettingStartedPage() {
         </p>
       </DocsCallout>
       <section className="docs-section">
-        <h2>1. Install the CLI workspace</h2>
-        <CodeBlock>{`cd ../maru-cli\nnpm install\nnpm run build`}</CodeBlock>
+        <h2>1. Initialize your repository</h2>
+        <CodeBlock>{`cd /path/to/project\nnpx marucheck init`}</CodeBlock>
       </section>
       <section className="docs-section">
-        <h2>2. See the available commands</h2>
-        <CodeBlock>{`npm run maru -- --help`}</CodeBlock>
-        <p>The command list is the source of truth while the package is in active development.</p>
+        <h2>2. Check the local prerequisites</h2>
+        <CodeBlock>{`npx marucheck doctor\nnpx marucheck scan`}</CodeBlock>
+        <p>Doctor reports missing tools explicitly; it does not silently install test runners.</p>
       </section>
       <section className="docs-section">
-        <h2>3. Initialize a target project</h2>
-        <CodeBlock>{`cd /path/to/project\nnode /path/to/maru-cli/packages/cli/dist/index.js init`}</CodeBlock>
+        <h2>3. Add approved intent</h2>
+        <CodeBlock>{`npx marucheck contract create --from requirements.md\nnpx marucheck contract validate`}</CodeBlock>
         <p>
           Review the generated MaruCheck files before committing them. A Quality Contract represents
           approved product intent and should receive the same care as application code.
@@ -41,10 +41,10 @@ export default function GettingStartedPage() {
       </section>
       <section className="docs-section">
         <h2>4. Run verification</h2>
-        <CodeBlock>{`node /path/to/maru-cli/packages/cli/dist/index.js verify --diff`}</CodeBlock>
+        <CodeBlock>{`npx marucheck risk --diff\nnpx marucheck verify --diff`}</CodeBlock>
         <p>
-          Use the command output to inspect the gate, findings, and evidence references. Command
-          details may continue to change until the first public CLI release.
+          Use the command output to inspect the gate, findings, and evidence references. Pin an exact
+          <code>marucheck</code> version in CI so every contributor runs the same verifier.
         </p>
       </section>
     </>
