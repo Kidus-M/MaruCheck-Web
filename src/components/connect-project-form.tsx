@@ -13,7 +13,7 @@ const endpoint = "/api/v1/ingest/runs";
 
 export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }) {
   const [state, action, pending] = useActionState(connectProjectAction, initialConnectProjectState);
-  const uploadCommand = `npx --yes ${MARUCHECK_CLI_SPEC} upload --report .maru/artifacts/runs/<run-id>/report.json --url ${hostedURL}`;
+  const uploadCommand = `npx --yes ${MARUCHECK_CLI_SPEC} upload`;
 
   if (state.status === "success" && state.token && state.projectSlug) {
     return (
@@ -43,11 +43,17 @@ export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }
             </span>
             <div className="credential-reveal__value">
               <code>{state.token}</code>
-              <CopyButton label="Copy token" value={state.token} />
+              <div className="credential-reveal__actions">
+                <CopyButton label="Copy token" value={state.token} />
+                <CopyButton
+                  label="Copy connection setup"
+                  value={`MARUCHECK_URL=${hostedURL}\nMARUCHECK_TOKEN=${state.token}`}
+                />
+              </div>
             </div>
             <p>
-              Add this value to your repository&apos;s encrypted CI secrets as
-              <code> MARUCHECK_TOKEN</code>.
+              Paste the connection setup into <code>.maru/connection.env</code>. MaruCheck init
+              keeps that local credentials file out of Git.
             </p>
           </div>
 
@@ -57,7 +63,7 @@ export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }
               <li>
                 <span>1</span>
                 <p>
-                  <strong>Store the token</strong>
+                  <strong>Save connection setup</strong>
                   <small>Encrypted CI secret · never commit it</small>
                 </p>
               </li>
@@ -72,7 +78,7 @@ export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }
                 <span>3</span>
                 <p>
                   <strong>Upload the report</strong>
-                  <small>Use the command below with MARUCHECK_TOKEN set</small>
+                  <small>The newest completed run is selected automatically</small>
                 </p>
               </li>
             </ol>
@@ -87,8 +93,8 @@ export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }
 
         <footer className="connect-success__footer">
           <p>
-            Set the copied token as <code>MARUCHECK_TOKEN</code>; never place it in the command or
-            commit it. Lost it? Open the project and rotate it.
+            CI may set the same two values as encrypted environment secrets. Lost the token? Open
+            the project and rotate it.
           </p>
           <Link className="button button--primary" href={`/projects/${state.projectSlug}`}>
             Open project

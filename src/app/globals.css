@@ -1893,6 +1893,12 @@ svg {
   white-space: nowrap;
 }
 
+.credential-reveal__actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.45rem;
+}
+
 .credential-reveal > p {
   color: var(--muted);
   font-size: 0.75rem;
