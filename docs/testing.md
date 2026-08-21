@@ -2,11 +2,11 @@
 
 MaruCheck uses four layers so a successful build cannot stand in for product behavior.
 
-| Layer                   | Command                                          | Boundary                                                                                      |
-| ----------------------- | ------------------------------------------------ | --------------------------------------------------------------------------------------------- |
-| Unit and route behavior | `npm test`                                       | deterministic parsers, policy, health, retention, and HTTP behavior                           |
-| Database integration    | `npm run test:integration`                       | real transactions, project-token authentication, replay, aggregation, and conflict behavior   |
-| Browser acceptance      | `npm run test:e2e`                               | desktop/mobile navigation, the route-reveal regression, sign-in, health, and security headers |
+| Layer                   | Command                                       | Boundary                                                                                      |
+| ----------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Unit and route behavior | `npm test`                                    | deterministic parsers, policy, health, retention, and HTTP behavior                           |
+| Database integration    | `npm run test:integration`                    | real transactions, project-token authentication, replay, aggregation, and conflict behavior   |
+| Browser acceptance      | `npm run test:e2e`                            | desktop/mobile navigation, the route-reveal regression, sign-in, health, and security headers |
 | Deployed smoke          | `npm run deploy:smoke -- https://example.com` | the actual deployment, database readiness, public routes, and headers                         |
 
 ## Safe database acceptance

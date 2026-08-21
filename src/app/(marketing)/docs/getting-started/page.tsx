@@ -43,7 +43,8 @@ export default function GettingStartedPage() {
         <h2>4. Run verification</h2>
         <CodeBlock>{`npx marucheck risk --diff\nnpx marucheck verify --diff`}</CodeBlock>
         <p>
-          Use the command output to inspect the gate, findings, and evidence references. Pin an exact
+          Use the command output to inspect the gate, findings, and evidence references. Pin an
+          exact
           <code>marucheck</code> version in CI so every contributor runs the same verifier.
         </p>
       </section>

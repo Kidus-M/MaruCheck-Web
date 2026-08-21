@@ -26,15 +26,15 @@ registration is intentional.
 
 Create a GitHub environment named `production`, add required reviewers, and configure:
 
-| Name | Kind | Purpose |
-| --- | --- | --- |
-| `NEON_API_KEY` | secret | create and delete disposable acceptance branches |
-| `NEON_PROJECT_ID` | variable | Neon project containing the production database |
-| `VERCEL_TOKEN` | secret | link, build, stage, and promote the Vercel project |
-| `VERCEL_ORG_ID` | secret | non-interactive Vercel account/team selection |
-| `VERCEL_PROJECT_ID` | secret | non-interactive Vercel project selection |
-| `VERCEL_AUTOMATION_BYPASS_SECRET` | optional secret | smoke a protected deployment |
-| `PRODUCTION_URL` | variable | stable HTTPS origin, without a trailing slash |
+| Name                              | Kind            | Purpose                                            |
+| --------------------------------- | --------------- | -------------------------------------------------- |
+| `NEON_API_KEY`                    | secret          | create and delete disposable acceptance branches   |
+| `NEON_PROJECT_ID`                 | variable        | Neon project containing the production database    |
+| `VERCEL_TOKEN`                    | secret          | link, build, stage, and promote the Vercel project |
+| `VERCEL_ORG_ID`                   | secret          | non-interactive Vercel account/team selection      |
+| `VERCEL_PROJECT_ID`               | secret          | non-interactive Vercel project selection           |
+| `VERCEL_AUTOMATION_BYPASS_SECRET` | optional secret | smoke a protected deployment                       |
+| `PRODUCTION_URL`                  | variable        | stable HTTPS origin, without a trailing slash      |
 
 The Neon API key should have only the project access required for branch lifecycle operations. The
 Vercel token should be limited to the MaruCheck project/team.
@@ -44,16 +44,16 @@ Vercel token should be limited to the MaruCheck project/team.
 Import only `Kidus-M/MaruCheck-Web`; the CLI remains a separate npm/GitHub release. Configure these
 Vercel Production environment variables:
 
-| Variable | Required | Value |
-| --- | --- | --- |
-| `DATABASE_URL` | yes | pooled TLS URL for the production Neon branch |
-| `DATABASE_URL_UNPOOLED` | yes | direct TLS URL used only by the guarded migration command |
-| `BETTER_AUTH_SECRET` | yes | independent random value of at least 32 characters |
-| `BETTER_AUTH_URL` | yes | exact stable HTTPS production origin |
-| `CRON_SECRET` | yes | separate random value for authenticated retention |
-| `MARUCHECK_ALLOWED_SIGNUP_EMAILS` | early access | comma-separated invited tester addresses |
-| `MARUCHECK_OPEN_SIGNUPS` | optional | leave unset or `false` during invited testing |
-| `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` | optional pair | production GitHub OAuth application |
+| Variable                                      | Required      | Value                                                     |
+| --------------------------------------------- | ------------- | --------------------------------------------------------- |
+| `DATABASE_URL`                                | yes           | pooled TLS URL for the production Neon branch             |
+| `DATABASE_URL_UNPOOLED`                       | yes           | direct TLS URL used only by the guarded migration command |
+| `BETTER_AUTH_SECRET`                          | yes           | independent random value of at least 32 characters        |
+| `BETTER_AUTH_URL`                             | yes           | exact stable HTTPS production origin                      |
+| `CRON_SECRET`                                 | yes           | separate random value for authenticated retention         |
+| `MARUCHECK_ALLOWED_SIGNUP_EMAILS`             | early access  | comma-separated invited tester addresses                  |
+| `MARUCHECK_OPEN_SIGNUPS`                      | optional      | leave unset or `false` during invited testing             |
+| `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` | optional pair | production GitHub OAuth application                       |
 
 Register `<BETTER_AUTH_URL>/api/auth/callback/github` in the GitHub OAuth application when GitHub
 sign-in is enabled. Do not reuse credentials between the database, authentication, cron, project

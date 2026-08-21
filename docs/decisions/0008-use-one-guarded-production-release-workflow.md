@@ -57,4 +57,3 @@ explicit owner approval until operations are routine.
 
 Rejected because a production build is not evidence that real migrations, transactions, and browser
 flows work. The staged URL is promoted only after its smoke check passes.
-

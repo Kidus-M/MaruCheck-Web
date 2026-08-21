@@ -26,24 +26,24 @@ Follow the [production deployment runbook](docs/production-deployment.md), [test
 
 ## Commands
 
-| Command                     | Description                                               |
-| --------------------------- | --------------------------------------------------------- |
-| `npm run dev`               | Start the development server                              |
-| `npm run build`             | Create a production build                                 |
-| `npm run start`             | Serve the production build                                |
-| `npm run deploy:env:check`  | Validate the configured production environment            |
-| `npm run deploy:smoke -- URL` | Verify a deployment and its security headers             |
-| `npm run db:generate`       | Generate reviewed SQL from the Drizzle schema             |
-| `npm run db:check`          | Check the Drizzle migration history                       |
-| `npm run db:migrate`        | Apply migrations using the guarded direct Neon connection |
-| `npm run db:studio`         | Open Drizzle Studio                                       |
-| `npm run feedback:prune`    | Dry-run production-feedback retention cleanup             |
-| `npm run lint`              | Run ESLint and Next.js rules                              |
-| `npm test`                  | Run deterministic Vitest suites                           |
-| `npm run test:integration`  | Run destructive acceptance on an explicitly isolated DB   |
-| `npm run test:e2e`          | Run Chromium desktop/mobile acceptance                    |
-| `npm run typecheck`         | Run TypeScript without emitting files                     |
-| `npm run check`             | Run all repository quality gates                          |
+| Command                       | Description                                               |
+| ----------------------------- | --------------------------------------------------------- |
+| `npm run dev`                 | Start the development server                              |
+| `npm run build`               | Create a production build                                 |
+| `npm run start`               | Serve the production build                                |
+| `npm run deploy:env:check`    | Validate the configured production environment            |
+| `npm run deploy:smoke -- URL` | Verify a deployment and its security headers              |
+| `npm run db:generate`         | Generate reviewed SQL from the Drizzle schema             |
+| `npm run db:check`            | Check the Drizzle migration history                       |
+| `npm run db:migrate`          | Apply migrations using the guarded direct Neon connection |
+| `npm run db:studio`           | Open Drizzle Studio                                       |
+| `npm run feedback:prune`      | Dry-run production-feedback retention cleanup             |
+| `npm run lint`                | Run ESLint and Next.js rules                              |
+| `npm test`                    | Run deterministic Vitest suites                           |
+| `npm run test:integration`    | Run destructive acceptance on an explicitly isolated DB   |
+| `npm run test:e2e`            | Run Chromium desktop/mobile acceptance                    |
+| `npm run typecheck`           | Run TypeScript without emitting files                     |
+| `npm run check`               | Run all repository quality gates                          |
 
 ## Architecture
 
