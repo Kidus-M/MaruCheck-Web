@@ -13,7 +13,7 @@ export default async function ProductionFeedbackDetailPage({
   return (
     <div className="page-stack">
       <PageHeader
-        description={`${feedback.project} · ${feedback.environment} · Last seen ${feedback.lastSeen}`}
+        description={`${feedback.project} / ${feedback.environment} / Last seen ${feedback.lastSeen}`}
         eyebrow={`Production feedback / ${feedback.source}`}
         title={feedback.title}
       />
@@ -102,7 +102,7 @@ export default async function ProductionFeedbackDetailPage({
               "No QA memory or regression link was created from this production signal."}
           </p>
           <small>
-            {feedback.candidate.reviewedBy ?? "Reviewer"} · {feedback.candidate.reviewedAt}
+            {feedback.candidate.reviewedBy ?? "Reviewer"} / {feedback.candidate.reviewedAt}
           </small>
         </section>
       )}

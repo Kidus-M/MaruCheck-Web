@@ -3815,6 +3815,232 @@ svg {
   padding: 1.5rem;
 }
 
+.feedback-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.feedback-summary > div {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1.25rem 1.4rem;
+}
+
+.feedback-summary > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.feedback-summary span,
+.feedback-summary small,
+.feedback-row small,
+.feedback-row footer,
+.feedback-diagnostic dt,
+.feedback-proposal dt {
+  color: var(--muted);
+  font-size: 0.62rem;
+}
+
+.feedback-summary strong {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+}
+
+.feedback-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.feedback-row {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+  padding: 1.2rem;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.feedback-row:hover {
+  border-color: color-mix(in srgb, var(--indigo) 45%, var(--line));
+  transform: translateY(-2px);
+}
+
+.feedback-row__index {
+  padding-top: 0.2rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.61rem;
+}
+
+.feedback-row header,
+.feedback-row footer,
+.feedback-diagnostic > header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.feedback-row h2,
+.feedback-diagnostic h2,
+.feedback-proposal h2,
+.review-complete h2,
+.feedback-review h2 {
+  margin: 0.55rem 0 0.35rem;
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
+}
+
+.feedback-row p {
+  max-width: 64rem;
+  margin: 0 0 0.8rem;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.feedback-state {
+  padding: 0.3rem 0.48rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  text-transform: uppercase;
+}
+
+.feedback-state--pending {
+  border-color: color-mix(in srgb, var(--ochre) 55%, var(--line));
+  background: var(--ochre-soft);
+  color: #73541b;
+}
+
+.feedback-state--approved {
+  border-color: color-mix(in srgb, var(--success) 40%, var(--line));
+  color: var(--success);
+}
+
+.feedback-state--rejected {
+  border-color: color-mix(in srgb, var(--coral) 45%, var(--line));
+  color: var(--coral);
+}
+
+.feedback-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(18rem, 0.7fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.feedback-diagnostic,
+.feedback-proposal,
+.review-complete,
+.feedback-review {
+  padding: clamp(1.2rem, 2vw, 1.8rem);
+}
+
+.feedback-diagnostic {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.feedback-diagnostic > header > span,
+.feedback-proposal dd,
+.feedback-diagnostic dd {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+}
+
+.feedback-diagnostic p,
+.feedback-proposal p,
+.review-complete p,
+.feedback-review header p {
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  line-height: 1.65;
+}
+
+.feedback-diagnostic dl,
+.feedback-proposal dl {
+  display: grid;
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.feedback-diagnostic dl > div,
+.feedback-proposal dl > div {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.feedback-diagnostic dd,
+.feedback-proposal dd {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: var(--ink);
+}
+
+.feedback-proposal {
+  position: sticky;
+  top: 6.5rem;
+}
+
+.feedback-boundary {
+  margin: 1rem 0 0;
+  padding: 0.8rem;
+  border-left: 2px solid var(--ochre);
+  background: var(--ochre-soft);
+}
+
+.feedback-frames {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  list-style: none;
+}
+
+.feedback-frames li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  padding: 0.7rem 0.8rem;
+}
+
+.feedback-frames li + li {
+  border-top: 1px solid var(--line);
+}
+
+.feedback-frames code,
+.feedback-frames span {
+  overflow-wrap: anywhere;
+  font-size: 0.62rem;
+}
+
+.feedback-frames span {
+  color: var(--muted);
+}
+
+.feedback-review {
+  display: grid;
+  max-width: none;
+  gap: 1rem;
+}
+
+.review-complete {
+  border-left: 3px solid var(--success);
+}
+
 :focus-visible {
   outline: 3px solid rgba(69, 90, 181, 0.45);
   outline-offset: 3px;
@@ -3979,7 +4205,7 @@ svg {
     bottom: 0.75rem;
     left: 0.75rem;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     padding: 0.4rem;
     border: 1px solid #37434f;
     border-radius: 0.85rem;
@@ -4016,6 +4242,7 @@ svg {
   .overview-grid,
   .coverage-layout,
   .finding-detail-grid,
+  .feedback-detail-grid,
   .organization-grid,
   .data-boundary {
     grid-template-columns: 1fr;
@@ -4049,6 +4276,34 @@ svg {
 }
 
 @media (max-width: 680px) {
+  .feedback-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .feedback-summary > div + div {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .feedback-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .feedback-row__index {
+    display: none;
+  }
+
+  .feedback-proposal {
+    position: static;
+  }
+
+  .feedback-frames li,
+  .feedback-diagnostic dl > div,
+  .feedback-proposal dl > div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
   .connect-form {
     padding: 1.25rem;
   }

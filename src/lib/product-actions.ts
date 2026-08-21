@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createTransactionalDatabase } from "@/db";
 import {
-  productionFeedback,
   project,
   projectIngestToken,
   qaMemory,
@@ -191,7 +190,6 @@ export async function reviewProductionFeedbackAction(
     const result = await connection.database.transaction(async (transaction) => {
       const [candidate] = await transaction
         .select({
-          feedbackId: qaMemoryCandidate.feedbackId,
           projectId: qaMemoryCandidate.projectId,
           regressionProposal: qaMemoryCandidate.regressionProposal,
           relatedContracts: qaMemoryCandidate.relatedContracts,
@@ -265,15 +263,6 @@ export async function reviewProductionFeedbackAction(
           updatedAt: reviewedAt,
         })
         .where(eq(qaMemoryCandidate.id, candidateId));
-      await transaction
-        .update(productionFeedback)
-        .set({ resolvedAt: reviewedAt, status: "resolved" })
-        .where(
-          and(
-            eq(productionFeedback.id, candidate.feedbackId),
-            eq(productionFeedback.organizationId, context.organization.id),
-          ),
-        );
       return "approved" as const;
     });
 
@@ -284,7 +273,6 @@ export async function reviewProductionFeedbackAction(
       return { message: "This feedback proposal was already reviewed.", status: "error" };
     }
     revalidatePath("/feedback");
-    revalidatePath(`/feedback/${candidateId}`);
     revalidatePath("/memory");
     return {
       message:

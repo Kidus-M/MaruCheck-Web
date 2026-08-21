@@ -87,7 +87,7 @@ export function FeedbackReviewForm({
           type="submit"
           value="approve"
         >
-          {pending ? "Saving review…" : "Activate QA memory"}
+          {pending ? "Saving review..." : "Activate QA memory"}
         </button>
       </div>
     </form>
