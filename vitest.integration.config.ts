@@ -5,11 +5,12 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "server-only": fileURLToPath(new URL("./tests/support/server-only.ts", import.meta.url)),
     },
   },
   test: {
     environment: "node",
-    exclude: ["src/**/*.integration.test.ts"],
-    include: ["src/**/*.test.ts"],
+    include: ["src/**/*.integration.test.ts"],
+    testTimeout: 30_000,
   },
 });

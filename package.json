@@ -21,6 +21,8 @@
     "lint": "eslint .",
     "start": "next start",
     "test": "vitest run --configLoader native --pool=threads",
+    "test:e2e": "playwright test",
+    "test:integration": "node scripts/verify-test-database-env.mjs && vitest run --config vitest.integration.config.ts --configLoader native --pool=threads",
     "test:watch": "vitest --configLoader native --pool=threads",
     "typecheck": "next typegen && tsc --noEmit"
   },
