@@ -5,6 +5,7 @@ import { createMaruAuth } from "./src/lib/auth-config";
 const schemaOnlyUrl = "postgresql://schema:generator@localhost:5432/marucheck";
 
 export const auth = createMaruAuth({
+  allowedSignupEmails: null,
   baseURL: process.env.BETTER_AUTH_URL ?? "http://localhost:3000",
   database: createDatabase(process.env.DATABASE_URL ?? schemaOnlyUrl),
   secret:

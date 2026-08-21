@@ -4,13 +4,16 @@ import { FormEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Icon } from "@/components/icon";
 import { authClient } from "@/lib/auth-client";
+import type { BetaSignupMode } from "@/lib/runtime-config";
 
 export function AuthPanel({
   configured,
   githubConfigured,
+  signupMode,
 }: {
   readonly configured: boolean;
   readonly githubConfigured: boolean;
+  readonly signupMode: BetaSignupMode;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -81,6 +84,18 @@ export function AuthPanel({
         <div className="auth-notice" role="status">
           <strong>Hosted authentication needs its environment.</strong>
           <span>Add the Neon connection and Better Auth secret described in .env.example.</span>
+        </div>
+      )}
+      {configured && signupMode === "allowlist" && (
+        <div className="auth-notice" role="status">
+          <strong>Private beta access.</strong>
+          <span>Account creation is limited to email addresses approved for this beta.</span>
+        </div>
+      )}
+      {configured && signupMode === "locked" && (
+        <div className="auth-notice" role="status">
+          <strong>Account creation is currently closed.</strong>
+          <span>Existing beta members can continue signing in.</span>
         </div>
       )}
       {githubConfigured && mode === "sign-in" && (
@@ -154,19 +169,23 @@ export function AuthPanel({
           {!pending && <Icon name="arrow" />}
         </button>
       </form>
-      <button
-        className="auth-mode-switch"
-        disabled={pending}
-        onClick={() => {
-          setError(undefined);
-          setMode(mode === "sign-in" ? "sign-up" : "sign-in");
-        }}
-        type="button"
-      >
-        {mode === "sign-in"
-          ? "New to MaruCheck? Create a workspace"
-          : "Already have an account? Sign in"}
-      </button>
+      {signupMode !== "locked" && (
+        <button
+          className="auth-mode-switch"
+          disabled={pending}
+          onClick={() => {
+            setError(undefined);
+            setMode(mode === "sign-in" ? "sign-up" : "sign-in");
+          }}
+          type="button"
+        >
+          {mode === "sign-in"
+            ? signupMode === "allowlist"
+              ? "Approved for beta? Create your workspace"
+              : "New to MaruCheck? Create a workspace"
+            : "Already have an account? Sign in"}
+        </button>
+      )}
       <small>
         Passwords must contain at least 12 characters. GitHub sign-in appears when its OAuth
         credentials are configured.

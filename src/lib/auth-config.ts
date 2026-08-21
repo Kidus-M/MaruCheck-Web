@@ -6,6 +6,7 @@ import * as schema from "@/db/schema";
 import type { MaruDatabase } from "@/db";
 
 interface MaruAuthOptions {
+  readonly allowedSignupEmails: ReadonlySet<string> | null;
   readonly baseURL: string;
   readonly database: MaruDatabase;
   readonly github?: {
@@ -16,6 +17,8 @@ interface MaruAuthOptions {
 }
 
 export function createMaruAuth(options: MaruAuthOptions) {
+  const signupsEnabled =
+    options.allowedSignupEmails === null || options.allowedSignupEmails.size > 0;
   return betterAuth({
     appName: "MaruCheck",
     baseURL: options.baseURL,
@@ -25,8 +28,18 @@ export function createMaruAuth(options: MaruAuthOptions) {
     }),
     emailAndPassword: {
       autoSignIn: true,
+      disableSignUp: !signupsEnabled,
       enabled: true,
       minPasswordLength: 12,
+    },
+    databaseHooks: {
+      user: {
+        create: {
+          before: async (user) =>
+            options.allowedSignupEmails === null ||
+            options.allowedSignupEmails.has(user.email.trim().toLowerCase()),
+        },
+      },
     },
     plugins: [
       organization({
@@ -35,6 +48,16 @@ export function createMaruAuth(options: MaruAuthOptions) {
       nextCookies(),
     ],
     secret: options.secret,
+    rateLimit: {
+      customRules: {
+        "/sign-in/email": { max: 10, window: 60 },
+        "/sign-up/email": { max: 5, window: 3_600 },
+      },
+      enabled: true,
+      max: 100,
+      storage: "database",
+      window: 60,
+    },
     socialProviders: options.github === undefined ? {} : { github: options.github },
   });
 }

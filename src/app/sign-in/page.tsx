@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AuthPanel } from "@/components/auth-panel";
 import { MaruMark } from "@/components/maru-mark";
-import { isAuthConfigured, isGithubAuthConfigured } from "@/lib/auth";
+import { getBetaSignupMode, isAuthConfigured, isGithubAuthConfigured } from "@/lib/auth";
 import { getSession } from "@/lib/session";
 
 export default async function SignInPage() {
@@ -32,7 +32,11 @@ export default async function SignInPage() {
         </footer>
       </section>
       <section className="auth-form">
-        <AuthPanel configured={isAuthConfigured()} githubConfigured={isGithubAuthConfigured()} />
+        <AuthPanel
+          configured={isAuthConfigured()}
+          githubConfigured={isGithubAuthConfigured()}
+          signupMode={getBetaSignupMode()}
+        />
         <footer>
           By continuing, you agree to the Terms and Privacy Policy.{" "}
           <Link href="/">Return to the product site</Link>
