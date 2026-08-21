@@ -5,7 +5,15 @@ import { and, eq, isNull } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createTransactionalDatabase } from "@/db";
-import { project, projectIngestToken, qaMemory, qualityContract } from "@/db/schema";
+import {
+  productionFeedback,
+  project,
+  projectIngestToken,
+  qaMemory,
+  qaMemoryCandidate,
+  qualityContract,
+} from "@/db/schema";
+import { FeedbackValidationError, parseFeedbackReviewInput } from "@/lib/production-feedback";
 import { requireWorkspaceContext } from "@/lib/session";
 import { hashProjectToken } from "@/lib/project-tokens";
 
@@ -20,6 +28,11 @@ export interface RotateProjectTokenState {
   readonly message: string;
   readonly status: "error" | "idle" | "success";
   readonly token?: string;
+}
+
+export interface ReviewFeedbackState {
+  readonly message: string;
+  readonly status: "error" | "idle" | "success";
 }
 
 export async function connectProjectAction(
