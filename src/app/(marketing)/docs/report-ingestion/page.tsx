@@ -22,8 +22,7 @@ export default function ReportIngestionDocsPage() {
         <strong>Upload is always explicit.</strong>
         <p>
           <code>maru upload</code> sends the selected report only. It does not send source code,
-          execute repository commands in the hosted service, or upload merely because you signed
-          in.
+          execute repository commands in the hosted service, or upload merely because you signed in.
         </p>
       </DocsCallout>
       <section className="docs-section">
@@ -61,8 +60,8 @@ export default function ReportIngestionDocsPage() {
         <CodeBlock>{`npx --no-install maru upload \\\n  --report .maru/artifacts/runs/<run-id>/report.json \\\n  --url https://your-marucheck-host`}</CodeBlock>
         <p>
           You may set <code>MARUCHECK_URL</code> instead of passing <code>--url</code>. Remote hosts
-          require HTTPS; HTTP is accepted only for local development. A successful upload prints
-          the accepted run ID and dashboard link.
+          require HTTPS; HTTP is accepted only for local development. A successful upload prints the
+          accepted run ID and dashboard link.
         </p>
       </section>
       <section className="docs-section">
