@@ -1,0 +1,129 @@
+{
+  "affectedTests": [],
+  "changeSummary": {
+    "additions": 22,
+    "changedFiles": 2,
+    "deletions": 0
+  },
+  "generatedAt": "2026-08-21T13:27:51.548Z",
+  "historicalRegressions": [],
+  "project": {
+    "name": "maru-web",
+    "testFrameworks": [
+      "playwright",
+      "vitest"
+    ]
+  },
+  "risk": {
+    "level": "moderate",
+    "score": 34
+  },
+  "schemaVersion": 1,
+  "scope": "working-tree",
+  "selectedRequirements": [
+    {
+      "blocking": true,
+      "contractId": "web-foundation",
+      "contractTitle": "Web Foundation",
+      "id": "WF-001",
+      "kind": "requirement",
+      "priority": "required",
+      "reasons": [
+        "Selected by the contract evidence policy."
+      ],
+      "statement": "The root page must identify the product as MaruCheck and explain that it independently verifies AI-generated software."
+    },
+    {
+      "blocking": false,
+      "contractId": "web-foundation",
+      "contractTitle": "Web Foundation",
+      "id": "WF-002",
+      "kind": "requirement",
+      "priority": "required",
+      "reasons": [
+        "Matched diff terms: json."
+      ],
+      "statement": "The health endpoint must respond to GET requests with a successful JSON status without exposing configuration or secrets."
+    },
+    {
+      "blocking": true,
+      "contractId": "web-foundation",
+      "contractTitle": "Web Foundation",
+      "id": "WF-INV-001",
+      "kind": "invariant",
+      "priority": "invariant",
+      "reasons": [
+        "Selected by the contract evidence policy."
+      ],
+      "statement": "Authorization and validation must be enforced by a trusted server boundary."
+    },
+    {
+      "blocking": true,
+      "contractId": "web-foundation",
+      "contractTitle": "Web Foundation",
+      "id": "WF-INV-002",
+      "kind": "invariant",
+      "priority": "invariant",
+      "reasons": [
+        "Selected by the contract evidence policy."
+      ],
+      "statement": "Retries and duplicate requests must not create contradictory state."
+    }
+  ],
+  "steps": [
+    {
+      "adapter": "vitest",
+      "blocking": true,
+      "category": "contract-regression",
+      "execution": "automated",
+      "id": "step-01-contract-regression",
+      "reasons": [
+        "The moderate risk assessment recommends contract-regression verification.",
+        "vitest is detected for automated execution.",
+        "No existing affected test file matches this step.",
+        "Links 4 selected contract requirements."
+      ],
+      "requirementRefs": [
+        "web-foundation#WF-001",
+        "web-foundation#WF-002",
+        "web-foundation#WF-INV-001",
+        "web-foundation#WF-INV-002"
+      ],
+      "testFiles": []
+    },
+    {
+      "adapter": "vitest",
+      "blocking": true,
+      "category": "unit",
+      "execution": "automated",
+      "id": "step-02-unit",
+      "reasons": [
+        "The moderate risk assessment recommends unit verification.",
+        "vitest is detected for automated execution.",
+        "No existing affected test file matches this step.",
+        "Links 4 selected contract requirements."
+      ],
+      "requirementRefs": [
+        "web-foundation#WF-001",
+        "web-foundation#WF-002",
+        "web-foundation#WF-INV-001",
+        "web-foundation#WF-INV-002"
+      ],
+      "testFiles": []
+    }
+  ],
+  "summary": {
+    "affectedTests": 0,
+    "automatedSteps": 2,
+    "historicalRegressions": 0,
+    "manualSteps": 0,
+    "selectedRequirements": 4,
+    "unavailableSteps": 0
+  },
+  "uncoveredRequirements": [
+    "web-foundation#WF-001",
+    "web-foundation#WF-002",
+    "web-foundation#WF-INV-001",
+    "web-foundation#WF-INV-002"
+  ]
+}
