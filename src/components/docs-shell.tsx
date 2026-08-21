@@ -1,12 +1,16 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { CopyButton } from "@/components/copy-button";
+import { MARUCHECK_CLI_VERSION } from "@/lib/public-release";
 
 const docsLinks = [
   { href: "/docs", label: "Documentation home" },
   { href: "/docs/getting-started", label: "Getting started" },
+  { href: "/docs/cli", label: "CLI reference" },
   { href: "/docs/quality-contracts", label: "Quality Contracts" },
   { href: "/docs/ci", label: "CI integration" },
   { href: "/docs/mcp", label: "MCP workflow" },
+  { href: "/docs/report-ingestion", label: "Hosted reports" },
   { href: "/docs/production-feedback", label: "Production feedback" },
 ] as const;
 
@@ -23,9 +27,9 @@ export function DocsShell({ children }: { readonly children: ReactNode }) {
           ))}
         </nav>
         <div className="docs-sidebar__help">
-          <strong>See the system at work</strong>
-          <p>Explore the seeded release proof in the dashboard.</p>
-          <Link href="/dashboard">Open dashboard →</Link>
+          <strong>CLI v{MARUCHECK_CLI_VERSION} is live</strong>
+          <p>Install the public npm package and run your first local verification.</p>
+          <Link href="/docs/getting-started">Start in five minutes →</Link>
         </div>
       </aside>
       <article className="docs-article" data-reveal>
@@ -35,11 +39,23 @@ export function DocsShell({ children }: { readonly children: ReactNode }) {
   );
 }
 
-export function CodeBlock({ children }: { readonly children: ReactNode }) {
+export function CodeBlock({
+  children,
+  label = "Terminal",
+}: {
+  readonly children: string;
+  readonly label?: string;
+}) {
   return (
-    <pre className="docs-code">
-      <code>{children}</code>
-    </pre>
+    <div className="docs-code-shell">
+      <div className="docs-code-toolbar">
+        <span>{label}</span>
+        <CopyButton label={`Copy ${label.toLowerCase()}`} value={children} />
+      </div>
+      <pre className="docs-code">
+        <code>{children}</code>
+      </pre>
+    </div>
   );
 }
 
