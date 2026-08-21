@@ -19,7 +19,7 @@
     "start": "next start",
     "test": "vitest run --configLoader native --pool=threads",
     "test:watch": "vitest --configLoader native --pool=threads",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit"
   },
   "engines": {
     "node": ">=24",
