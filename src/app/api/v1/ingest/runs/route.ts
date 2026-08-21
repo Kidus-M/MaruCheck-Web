@@ -50,7 +50,6 @@ export async function POST(request: Request) {
       id: projectIngestToken.id,
       organizationId: projectIngestToken.organizationId,
       projectId: project.id,
-      projectName: project.name,
     })
     .from(projectIngestToken)
     .innerJoin(project, eq(project.id, projectIngestToken.projectId))
@@ -64,9 +63,10 @@ export async function POST(request: Request) {
     .limit(1);
 
   if (!credential) return problem(401, "Project token is invalid, expired, or revoked.");
-  if (credential.projectName !== input.report.projectName) {
-    return problem(409, "The report project does not match the token's connected project.");
-  }
+
+  // The bearer token is the authoritative project binding. The report name is local metadata
+  // (often a package name such as `maru-web`) and may intentionally differ from the dashboard's
+  // display name. Every write below remains scoped to the token-bound project and organization.
 
   const connection = createTransactionalDatabase(databaseUrl);
   try {

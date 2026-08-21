@@ -45,7 +45,9 @@ The envelope is versioned independently from the embedded CLI report:
 
 The `report` object is the same schema-versioned object written to
 `.maru/artifacts/runs/<run-id>/report.json`. The endpoint bounds the body at 2 MB, evidence at 500
-items, findings at 250 items, and requirement mappings at 1,000 items.
+items, findings at 250 items, and requirement mappings at 1,000 items. The project-scoped bearer
+token is the authoritative destination. `report.project.name` remains local report metadata and
+does not need to equal the project's dashboard display name.
 
 ```bash
 curl --fail-with-body \
@@ -60,6 +62,5 @@ curl --fail-with-body \
 - `202` — the run and normalized proof metadata were accepted.
 - `400` — the envelope or embedded report is invalid.
 - `401` — the token is missing, invalid, expired, or revoked.
-- `409` — the report's project name does not match the token-bound project.
 - `413` — the request exceeds 2 MB.
 - `500` / `503` — persistence failed or is not configured; retrying the same run is idempotent.

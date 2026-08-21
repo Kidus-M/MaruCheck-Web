@@ -87,12 +87,13 @@ export default function ReportIngestionDocsPage() {
             <code>401</code>: the project token is invalid, expired, or revoked.
           </li>
           <li>
-            <code>409</code>: the report project name differs from the connected project.
-          </li>
-          <li>
             <code>413</code>: the versioned request exceeds the 2 MB boundary.
           </li>
         </ul>
+        <p>
+          The local report name may differ from the dashboard display name. The project-scoped token
+          determines which connected project receives the run.
+        </p>
       </section>
     </>
   );

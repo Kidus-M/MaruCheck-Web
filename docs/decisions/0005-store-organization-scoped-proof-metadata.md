@@ -26,6 +26,9 @@ to an interactive session and would make credentials difficult to scope or revok
   repository and repeat that scope in every query and mutation.
 - Bind a random project token to exactly one organization and project. Store only its SHA-256 hash
   and a non-secret prefix, show the raw token once, and support expiry and revocation columns.
+- Treat that token binding as the authoritative ingestion destination. The report's local project
+  name is descriptive metadata and may differ from the dashboard display name; it never selects or
+  changes the destination project.
 - Accept the CLI's schema-versioned verification report through `POST /api/v1/ingest/runs`. Keep a
   small web-owned parser rather than importing CLI packages across repositories.
 - Upsert one report atomically and idempotently by project and run ID. Preserve normalized evidence,
