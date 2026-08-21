@@ -12,7 +12,7 @@ npm run db:migrate
 npm run dev
 ```
 
-Open `http://localhost:3000` for the public product site or `http://localhost:3000/dashboard` for the hosted product. The initial server health endpoint is available at `http://localhost:3000/api/health`.
+Open `http://localhost:3000` for the public product site or `http://localhost:3000/dashboard` for the hosted product. Liveness is available at `/api/health/live`; `/api/health/ready` also verifies beta configuration and database connectivity. `/api/health` is a readiness alias.
 
 Before migrating, create `.env.local` from `.env.example` and replace the sample values with your Neon pooled and direct connection strings plus a Better Auth secret. The application shows a setup state instead of pretending authentication works when those values are absent.
 
@@ -20,24 +20,30 @@ The hosted foundation includes a verification-command public site built from rea
 
 ## Current readiness
 
-The hosted feature foundation is implemented, but this repository is not yet production-ready. Formatting, linting, type-checking, Vitest boundary tests, the Next.js production build, and Drizzle migration-history validation are part of the quality gate. Production-feedback parsing, idempotency decisions, and HTTP behavior have automated coverage; authentication, organization isolation, database transactions, project-token lifecycle, and browser flows still need production-like integration coverage. A production deployment also needs real Neon and Better Auth configuration, an email and/or GitHub OAuth path, monitoring, backup/restore validation, a retention schedule, and recorded end-to-end CLI/CI ingestion acceptance runs.
+The repository now has a private-beta release gate: closed-by-default production signup, durable authentication rate limiting, liveness/readiness checks, authenticated scheduled retention, security headers, a real-Neon ingestion integration test, desktop/mobile Playwright acceptance, deployed smoke verification, and disposable Neon branch CI. The source is ready for a protected beta deployment, but the external Vercel/Neon configuration and first recorded end-to-end CLI ingestion still need to be completed. Public launch additionally needs an email-delivery decision, monitoring/alerting, and broader authenticated browser coverage.
+
+Follow the [private beta deployment runbook](docs/beta-deployment.md), [testing strategy](docs/testing.md), and [incident response runbook](docs/operations/beta-incident-response.md).
 
 ## Commands
 
-| Command                  | Description                                       |
-| ------------------------ | ------------------------------------------------- |
-| `npm run dev`            | Start the development server                      |
-| `npm run build`          | Create a production build                         |
-| `npm run start`          | Serve the production build                        |
-| `npm run db:generate`    | Generate reviewed SQL from the Drizzle schema     |
-| `npm run db:check`       | Check the Drizzle migration history               |
-| `npm run db:migrate`     | Apply migrations using the direct Neon connection |
-| `npm run db:studio`      | Open Drizzle Studio                               |
-| `npm run feedback:prune` | Dry-run production-feedback retention cleanup     |
-| `npm run lint`           | Run ESLint and Next.js rules                      |
-| `npm test`               | Run deterministic Vitest suites                   |
-| `npm run typecheck`      | Run TypeScript without emitting files             |
-| `npm run check`          | Run all repository quality gates                  |
+| Command                    | Description                                                |
+| -------------------------- | ---------------------------------------------------------- |
+| `npm run dev`              | Start the development server                               |
+| `npm run build`            | Create a production build                                  |
+| `npm run start`            | Serve the production build                                 |
+| `npm run beta:env:check`   | Validate a production-shaped beta environment              |
+| `npm run beta:smoke -- URL`| Verify a deployed beta and its security headers             |
+| `npm run db:generate`      | Generate reviewed SQL from the Drizzle schema              |
+| `npm run db:check`         | Check the Drizzle migration history                        |
+| `npm run db:migrate`       | Apply migrations using the guarded direct Neon connection  |
+| `npm run db:studio`        | Open Drizzle Studio                                        |
+| `npm run feedback:prune`   | Dry-run production-feedback retention cleanup              |
+| `npm run lint`             | Run ESLint and Next.js rules                               |
+| `npm test`                 | Run deterministic Vitest suites                            |
+| `npm run test:integration` | Run destructive acceptance on an explicitly isolated DB    |
+| `npm run test:e2e`         | Run Chromium desktop/mobile acceptance                     |
+| `npm run typecheck`        | Run TypeScript without emitting files                      |
+| `npm run check`            | Run all repository quality gates                           |
 
 ## Architecture
 
@@ -50,7 +56,7 @@ The hosted feature foundation is implemented, but this repository is not yet pro
 - Production systems send bounded, provider-neutral failures to `POST /api/v1/production-events`. MaruCheck aggregates them and creates review-required QA-memory candidates; it never accepts raw source or activates telemetry-provided code.
 - A separate worker repository will be introduced only when independent scaling is required.
 
-See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md), [ADR-004](docs/decisions/0004-use-verification-command-public-system.md), [ADR-005](docs/decisions/0005-store-organization-scoped-proof-metadata.md), and [ADR-006](docs/decisions/0006-ingest-bounded-production-feedback-as-reviewable-memory.md). Request contracts are documented in the [verification ingestion guide](docs/api/verification-ingestion.md) and [production-feedback guide](docs/api/production-feedback.md); the latter includes an [OpenAPI 3.1 document](docs/api/openapi-v1.yaml).
+See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md), [ADR-004](docs/decisions/0004-use-verification-command-public-system.md), [ADR-005](docs/decisions/0005-store-organization-scoped-proof-metadata.md), [ADR-006](docs/decisions/0006-ingest-bounded-production-feedback-as-reviewable-memory.md), and [ADR-007](docs/decisions/0007-stage-private-beta-on-vercel-with-neon-branches.md). Request contracts are documented in the [verification ingestion guide](docs/api/verification-ingestion.md) and [production-feedback guide](docs/api/production-feedback.md); the latter includes an [OpenAPI 3.1 document](docs/api/openapi-v1.yaml).
 
 ## Codex and MCP
 

@@ -49,6 +49,7 @@ jobs:
 
       - name: Validate beta environment
         env:
+          BETTER_AUTH_URL: https://beta-ci.marucheck.dev
           DATABASE_URL: ${{ steps.neon.outputs.db_url_pooled }}
           DATABASE_URL_UNPOOLED: ${{ steps.neon.outputs.db_url }}
         run: npm run beta:env:check
