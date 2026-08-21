@@ -18,7 +18,7 @@ manual Production release approval
   -> production-domain smoke test
 ```
 
-The application remains closed by default. Set `MARUCHECK_BETA_EMAILS` to the comma-separated
+The application remains closed by default. Set `MARUCHECK_ALLOWED_SIGNUP_EMAILS` to the comma-separated
 addresses of invited developer friends. Do not set `MARUCHECK_OPEN_SIGNUPS=true` until public
 registration is intentional.
 
@@ -51,7 +51,7 @@ Vercel Production environment variables:
 | `BETTER_AUTH_SECRET` | yes | independent random value of at least 32 characters |
 | `BETTER_AUTH_URL` | yes | exact stable HTTPS production origin |
 | `CRON_SECRET` | yes | separate random value for authenticated retention |
-| `MARUCHECK_BETA_EMAILS` | early access | comma-separated invited tester addresses |
+| `MARUCHECK_ALLOWED_SIGNUP_EMAILS` | early access | comma-separated invited tester addresses |
 | `MARUCHECK_OPEN_SIGNUPS` | optional | leave unset or `false` during invited testing |
 | `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` | optional pair | production GitHub OAuth application |
 
@@ -87,4 +87,3 @@ is required. Follow the [production incident runbook](operations/production-inci
 - [Vercel environment command](https://vercel.com/docs/cli/env)
 - [Vercel staged production deployments](https://vercel.com/docs/cli/deploying-from-cli)
 - [Vercel production rollback](https://vercel.com/docs/deployments/rollback-production-deployment)
-

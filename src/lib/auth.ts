@@ -1,7 +1,7 @@
 import "server-only";
 import { createDatabase } from "@/db";
 import { createMaruAuth, type MaruAuth } from "@/lib/auth-config";
-import { resolveBetaSignupPolicy, type BetaSignupMode } from "@/lib/runtime-config";
+import { resolveSignupPolicy, type SignupMode } from "@/lib/runtime-config";
 
 let authInstance: MaruAuth | undefined;
 
@@ -29,7 +29,7 @@ export function getAuth(): MaruAuth {
       : undefined;
 
   authInstance = createMaruAuth({
-    allowedSignupEmails: resolveBetaSignupPolicy(process.env, {
+    allowedSignupEmails: resolveSignupPolicy(process.env, {
       production: process.env.NODE_ENV === "production",
     }),
     baseURL: process.env.BETTER_AUTH_URL ?? "http://localhost:3000",
@@ -44,8 +44,8 @@ export function isGithubAuthConfigured(): boolean {
   return Boolean(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET);
 }
 
-export function getBetaSignupMode(): BetaSignupMode {
-  const policy = resolveBetaSignupPolicy(process.env, {
+export function getSignupMode(): SignupMode {
+  const policy = resolveSignupPolicy(process.env, {
     production: process.env.NODE_ENV === "production",
   });
   return policy === null ? "open" : policy.size > 0 ? "allowlist" : "locked";

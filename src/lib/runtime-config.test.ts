@@ -1,18 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { inspectBetaEnvironment, resolveBetaSignupPolicy } from "./runtime-config";
+import { inspectProductionEnvironment, resolveSignupPolicy } from "./runtime-config";
 
 const VALID_ENV = {
   BETTER_AUTH_SECRET: "a".repeat(48),
-  BETTER_AUTH_URL: "https://beta.marucheck.dev",
+  BETTER_AUTH_URL: "https://marucheck.dev",
   CRON_SECRET: "b".repeat(48),
   DATABASE_URL:
     "postgresql://user:password@ep-example-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require",
-  MARUCHECK_BETA_EMAILS: "owner@example.com, Tester@Example.com",
+  MARUCHECK_ALLOWED_SIGNUP_EMAILS: "owner@example.com, Tester@Example.com",
 };
 
-describe("beta runtime configuration", () => {
-  it("accepts a pooled Neon URL, secure auth origin, secrets, and beta allowlist", () => {
-    const result = inspectBetaEnvironment(VALID_ENV, { production: true });
+describe("production runtime configuration", () => {
+  it("accepts a pooled Neon URL, secure auth origin, secrets, and signup allowlist", () => {
+    const result = inspectProductionEnvironment(VALID_ENV, { production: true });
 
     expect(result.ready).toBe(true);
     expect(result.errors).toEqual([]);
@@ -20,11 +20,11 @@ describe("beta runtime configuration", () => {
   });
 
   it("rejects unsafe production configuration without echoing secret values", () => {
-    const result = inspectBetaEnvironment(
+    const result = inspectProductionEnvironment(
       {
         ...VALID_ENV,
         BETTER_AUTH_SECRET: "short",
-        BETTER_AUTH_URL: "http://beta.marucheck.dev",
+        BETTER_AUTH_URL: "http://marucheck.dev",
         CRON_SECRET: "replace-me",
         DATABASE_URL:
           "postgresql://user:password@ep-example.us-east-2.aws.neon.tech/neondb?sslmode=require",
@@ -48,21 +48,21 @@ describe("beta runtime configuration", () => {
   });
 
   it("locks production signup when neither an allowlist nor explicit open mode exists", () => {
-    const result = inspectBetaEnvironment(
-      { ...VALID_ENV, MARUCHECK_BETA_EMAILS: undefined },
+    const result = inspectProductionEnvironment(
+      { ...VALID_ENV, MARUCHECK_ALLOWED_SIGNUP_EMAILS: undefined },
       { production: true },
     );
 
     expect(result.ready).toBe(true);
     expect(result.signupMode).toBe("locked");
     expect(result.warnings).toContain(
-      "New account creation is locked until MARUCHECK_BETA_EMAILS is configured.",
+      "New account creation is locked until MARUCHECK_ALLOWED_SIGNUP_EMAILS is configured.",
     );
   });
 
-  it("normalizes and deduplicates beta emails", () => {
-    const policy = resolveBetaSignupPolicy(
-      { MARUCHECK_BETA_EMAILS: "Owner@Example.com, owner@example.com, qa@example.com" },
+  it("normalizes and deduplicates allowed signup emails", () => {
+    const policy = resolveSignupPolicy(
+      { MARUCHECK_ALLOWED_SIGNUP_EMAILS: "Owner@Example.com, owner@example.com, qa@example.com" },
       { production: true },
     );
 
@@ -71,6 +71,6 @@ describe("beta runtime configuration", () => {
   });
 
   it("keeps local signup open unless explicitly constrained", () => {
-    expect(resolveBetaSignupPolicy({}, { production: false })).toBeNull();
+    expect(resolveSignupPolicy({}, { production: false })).toBeNull();
   });
 });

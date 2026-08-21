@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AuthPanel } from "@/components/auth-panel";
 import { MaruMark } from "@/components/maru-mark";
-import { getBetaSignupMode, isAuthConfigured, isGithubAuthConfigured } from "@/lib/auth";
+import { getSignupMode, isAuthConfigured, isGithubAuthConfigured } from "@/lib/auth";
 import { getSession } from "@/lib/session";
 
 export default async function SignInPage() {
@@ -35,10 +35,10 @@ export default async function SignInPage() {
         <AuthPanel
           configured={isAuthConfigured()}
           githubConfigured={isGithubAuthConfigured()}
-          signupMode={getBetaSignupMode()}
+          signupMode={getSignupMode()}
         />
         <footer>
-          Private beta access is limited to approved accounts.{" "}
+          Early access is limited to approved accounts.{" "}
           <Link href="/">Return to the product site</Link>
         </footer>
       </section>

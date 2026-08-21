@@ -10,22 +10,22 @@ export const metadata: Metadata = {
 
 const stages = [
   {
-    access: "Available from source",
+    access: "Available through npm",
     action: "Open the quickstart",
     href: "/docs/getting-started",
     name: "Local verification",
     scope:
       "Quality Contracts, deterministic diff risk, plans, Vitest and Playwright execution, evidence, semantic drift, QA memory, MCP, and GitHub Actions.",
-    status: "FREE PREVIEW",
+    status: "FREE EARLY ACCESS",
   },
   {
-    access: "Founding teams",
+    access: "Invited developers",
     action: "Inspect the dashboard",
     href: "/dashboard",
     name: "Shared proof",
     scope:
       "Organizations, protected dashboard access, shared contracts, run history, findings, requirement coverage, and team QA memory.",
-    status: "PRIVATE BETA",
+    status: "INVITED ACCESS",
   },
   {
     access: "Selected design partners",

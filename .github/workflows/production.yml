@@ -20,7 +20,7 @@ jobs:
       BETTER_AUTH_SECRET: ci_auth_A7f3P9m2Q8x5R1v6K4n0T7w3Y9z2L8c5
       BETTER_AUTH_URL: http://127.0.0.1:3000
       CRON_SECRET: ci_cron_M4k8V2p7D1s9H5q3W6y0C8n4B2r7X1t9
-      MARUCHECK_BETA_EMAILS: production-ci@marucheck.dev
+      MARUCHECK_ALLOWED_SIGNUP_EMAILS: production-ci@marucheck.dev
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:

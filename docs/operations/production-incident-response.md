@@ -18,7 +18,7 @@ in doubt, ingestion is corrupt or unexpectedly rejected, or secrets may have lea
 3. Inspect Vercel function/build logs and Neon health/connection state. Do not paste credentials or
    raw project tokens into the incident record.
 4. For Critical incidents, enable or tighten deployment protection and lock signup by removing
-   `MARUCHECK_BETA_EMAILS` and leaving `MARUCHECK_OPEN_SIGNUPS=false`.
+   `MARUCHECK_ALLOWED_SIGNUP_EMAILS` and leaving `MARUCHECK_OPEN_SIGNUPS=false`.
 5. If the regression is application-only, use Vercel rollback to restore the last accepted
    deployment, then rerun the smoke command.
 
@@ -52,4 +52,3 @@ through the Production release acceptance steps before changing application traf
 Within two working days, document impact, timeline, detection, root cause, evidence, recovery,
 missing guardrails, and one owned prevention task. Convert confirmed regressions into reviewed QA
 Memory only after a repository test reproduces the issue.
-

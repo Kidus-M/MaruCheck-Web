@@ -1,10 +1,10 @@
 import { config } from "dotenv";
-import { inspectBetaEnvironment } from "../src/lib/runtime-config.ts";
+import { inspectProductionEnvironment } from "../src/lib/runtime-config.ts";
 
 config({ path: ".env.local" });
 config();
 
-const inspection = inspectBetaEnvironment(process.env, { production: true });
+const inspection = inspectProductionEnvironment(process.env, { production: true });
 for (const warning of inspection.warnings) {
   console.warn(`Production configuration warning: ${warning}`);
 }

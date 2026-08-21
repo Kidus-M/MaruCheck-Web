@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Icon } from "@/components/icon";
 import { authClient } from "@/lib/auth-client";
-import type { BetaSignupMode } from "@/lib/runtime-config";
+import type { SignupMode } from "@/lib/runtime-config";
 
 export function AuthPanel({
   configured,
@@ -13,7 +13,7 @@ export function AuthPanel({
 }: {
   readonly configured: boolean;
   readonly githubConfigured: boolean;
-  readonly signupMode: BetaSignupMode;
+  readonly signupMode: SignupMode;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -88,14 +88,14 @@ export function AuthPanel({
       )}
       {configured && signupMode === "allowlist" && (
         <div className="auth-notice" role="status">
-          <strong>Private beta access.</strong>
-          <span>Account creation is limited to email addresses approved for this beta.</span>
+          <strong>Invited developer access.</strong>
+          <span>Account creation is limited to approved email addresses.</span>
         </div>
       )}
       {configured && signupMode === "locked" && (
         <div className="auth-notice" role="status">
           <strong>Account creation is currently closed.</strong>
-          <span>Existing beta members can continue signing in.</span>
+          <span>Existing members can continue signing in.</span>
         </div>
       )}
       {githubConfigured && mode === "sign-in" && (
@@ -181,7 +181,7 @@ export function AuthPanel({
         >
           {mode === "sign-in"
             ? signupMode === "allowlist"
-              ? "Approved for beta? Create your workspace"
+              ? "Invited? Create your workspace"
               : "New to MaruCheck? Create a workspace"
             : "Already have an account? Sign in"}
         </button>

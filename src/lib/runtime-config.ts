@@ -1,18 +1,18 @@
-export type BetaSignupMode = "allowlist" | "locked" | "open";
+export type SignupMode = "allowlist" | "locked" | "open";
 
-export interface BetaEnvironmentInspection {
+export interface EnvironmentInspection {
   readonly errors: readonly string[];
   readonly ready: boolean;
-  readonly signupMode: BetaSignupMode;
+  readonly signupMode: SignupMode;
   readonly warnings: readonly string[];
 }
 
 type EnvironmentInput = Readonly<Record<string, string | undefined>>;
 
-export function inspectBetaEnvironment(
+export function inspectProductionEnvironment(
   environment: EnvironmentInput,
   options: { readonly production: boolean },
-): BetaEnvironmentInspection {
+): EnvironmentInspection {
   const errors: string[] = [];
   const warnings: string[] = [];
   const databaseUrl = parsedUrl(environment.DATABASE_URL);
@@ -20,7 +20,7 @@ export function inspectBetaEnvironment(
     errors.push("DATABASE_URL must be a valid PostgreSQL connection URL.");
   } else if (options.production) {
     if (!databaseUrl.hostname.endsWith(".neon.tech")) {
-      errors.push("DATABASE_URL must target the selected Neon beta branch.");
+      errors.push("DATABASE_URL must target the selected Neon project.");
     } else if (!databaseUrl.hostname.includes("-pooler.")) {
       errors.push("DATABASE_URL must use the pooled Neon endpoint for the web runtime.");
     }
@@ -52,38 +52,40 @@ export function inspectBetaEnvironment(
     );
   }
 
-  const signupPolicy = resolveBetaSignupPolicy(environment, options);
+  const signupPolicy = resolveSignupPolicy(environment, options);
   const signupMode =
     signupPolicy === null ? "open" : signupPolicy.size > 0 ? "allowlist" : "locked";
   if (signupMode === "locked") {
-    warnings.push("New account creation is locked until MARUCHECK_BETA_EMAILS is configured.");
+    warnings.push(
+      "New account creation is locked until MARUCHECK_ALLOWED_SIGNUP_EMAILS is configured.",
+    );
   } else if (signupMode === "open" && options.production) {
-    warnings.push("Open account creation is enabled for this beta environment.");
+    warnings.push("Open account creation is enabled in production.");
   }
 
-  const invalidEmails = betaEmailValues(environment).filter((email) => !isEmail(email));
+  const invalidEmails = allowedSignupEmailValues(environment).filter((email) => !isEmail(email));
   if (invalidEmails.length > 0) {
-    errors.push("MARUCHECK_BETA_EMAILS contains one or more invalid email addresses.");
+    errors.push("MARUCHECK_ALLOWED_SIGNUP_EMAILS contains one or more invalid email addresses.");
   }
 
   return { errors, ready: errors.length === 0, signupMode, warnings };
 }
 
 /** Null means open registration; an empty set means registration is locked. */
-export function resolveBetaSignupPolicy(
+export function resolveSignupPolicy(
   environment: EnvironmentInput,
   options: { readonly production: boolean },
 ): ReadonlySet<string> | null {
   if (environment.MARUCHECK_OPEN_SIGNUPS?.trim().toLowerCase() === "true") return null;
-  const emails = betaEmailValues(environment).filter(isEmail);
+  const emails = allowedSignupEmailValues(environment).filter(isEmail);
   if (emails.length > 0) return new Set(emails);
   return options.production ? new Set() : null;
 }
 
-function betaEmailValues(environment: EnvironmentInput): string[] {
+function allowedSignupEmailValues(environment: EnvironmentInput): string[] {
   return [
     ...new Set(
-      (environment.MARUCHECK_BETA_EMAILS ?? "")
+      (environment.MARUCHECK_ALLOWED_SIGNUP_EMAILS ?? "")
         .split(",")
         .map((email) => email.trim().toLowerCase())
         .filter(Boolean),

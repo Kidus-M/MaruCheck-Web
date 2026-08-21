@@ -2,7 +2,7 @@ import "server-only";
 
 import { neon } from "@neondatabase/serverless";
 import { handleLivenessRequest, handleReadinessRequest } from "@/lib/health-handler";
-import { inspectBetaEnvironment } from "@/lib/runtime-config";
+import { inspectProductionEnvironment } from "@/lib/runtime-config";
 
 export function currentLivenessResponse(): Response {
   return handleLivenessRequest(deploymentIdentity());
@@ -17,7 +17,7 @@ export function currentReadinessResponse(): Promise<Response> {
       await sql`select 1 as ready`;
       return true;
     },
-    configuration: inspectBetaEnvironment(process.env, {
+    configuration: inspectProductionEnvironment(process.env, {
       production: process.env.NODE_ENV === "production",
     }),
     ...deploymentIdentity(),

@@ -1,4 +1,4 @@
-import type { BetaEnvironmentInspection } from "./runtime-config";
+import type { EnvironmentInspection } from "./runtime-config";
 
 interface DeploymentIdentity {
   readonly deployment: string;
@@ -7,7 +7,7 @@ interface DeploymentIdentity {
 
 interface ReadinessDependencies extends DeploymentIdentity {
   readonly checkDatabase: () => Promise<boolean>;
-  readonly configuration: BetaEnvironmentInspection;
+  readonly configuration: EnvironmentInspection;
 }
 
 const NO_STORE_HEADERS = { "cache-control": "no-store" };
