@@ -1961,6 +1961,12 @@ svg {
   font-size: 0.75rem;
 }
 
+.endpoint-strip--command code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .connect-success__footer {
   align-items: center;
   display: flex;

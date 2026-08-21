@@ -5,13 +5,15 @@ import { useActionState } from "react";
 import { CopyButton } from "@/components/copy-button";
 import { Icon } from "@/components/icon";
 import { connectProjectAction } from "@/lib/product-actions";
+import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
 import type { ConnectProjectState } from "@/lib/product-actions";
 
 const initialConnectProjectState: ConnectProjectState = { message: "", status: "idle" };
 const endpoint = "/api/v1/ingest/runs";
 
-export function ConnectProjectForm() {
+export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }) {
   const [state, action, pending] = useActionState(connectProjectAction, initialConnectProjectState);
+  const uploadCommand = `npx --yes ${MARUCHECK_CLI_SPEC} upload --report .maru/artifacts/runs/<run-id>/report.json --url ${hostedURL}`;
 
   if (state.status === "success" && state.token && state.projectSlug) {
     return (
@@ -62,31 +64,31 @@ export function ConnectProjectForm() {
               <li>
                 <span>2</span>
                 <p>
-                  <strong>Run MaruCheck in CI</strong>
-                  <small>Execution remains inside the repository</small>
+                  <strong>Verify the change</strong>
+                  <small>Run maru verify --diff in the repository</small>
                 </p>
               </li>
               <li>
                 <span>3</span>
                 <p>
-                  <strong>Send report.json</strong>
-                  <small>Only configured metadata and references</small>
+                  <strong>Upload the report</strong>
+                  <small>Use the command below with MARUCHECK_TOKEN set</small>
                 </p>
               </li>
             </ol>
           </aside>
         </div>
 
-        <div className="endpoint-strip">
-          <span>POST</span>
-          <code>{endpoint}</code>
-          <CopyButton label="Copy endpoint" value={endpoint} />
+        <div className="endpoint-strip endpoint-strip--command">
+          <span>CLI</span>
+          <code>{uploadCommand}</code>
+          <CopyButton label="Copy upload command" value={uploadCommand} />
         </div>
 
         <footer className="connect-success__footer">
           <p>
-            Lost the token? Open the project and rotate it. The old credential is revoked
-            immediately.
+            Set the copied token as <code>MARUCHECK_TOKEN</code>; never place it in the command or
+            commit it. Lost it? Open the project and rotate it.
           </p>
           <Link className="button button--primary" href={`/projects/${state.projectSlug}`}>
             Open project
