@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 import { MARUCHECK_CLI_SPEC, MARUCHECK_CLI_VERSION } from "@/lib/public-release";
 
@@ -77,7 +78,10 @@ export default function GettingStartedPage() {
           <li>Use the CLI reference for drift, QA memory, mutation, and Challenger commands.</li>
           <li>Install the generated GitHub Actions gate for pull requests.</li>
           <li>Connect the MCP server to Codex, Claude Code, Cursor, or another MCP client.</li>
-          <li>Optionally connect a dashboard project when the team needs shared proof metadata.</li>
+          <li>
+            Optionally <Link href="/docs/report-ingestion">connect a dashboard project</Link> and
+            explicitly upload one completed report for shared proof metadata.
+          </li>
         </ul>
       </section>
     </>
