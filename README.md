@@ -16,11 +16,11 @@ Open `http://localhost:3000` for the public product site or `http://localhost:30
 
 Before migrating, create `.env.local` from `.env.example` and replace the sample values with your Neon pooled and direct connection strings plus a Better Auth secret. The application shows a setup state instead of pretending authentication works when those values are absent.
 
-The Phase 11 web foundation includes a verification-command public site built from real CLI and MCP workflows, product and availability pages, practical documentation, the release dashboard, projects, Quality Contracts, verification runs, findings, requirement coverage, QA memory, Better Auth sign-in, and organization management. See the [dashboard guide](docs/phase-11-dashboard.md).
+The hosted foundation includes a verification-command public site built from real CLI and MCP workflows, product and availability pages, practical documentation, the release dashboard, projects, Quality Contracts, verification runs, findings, requirement coverage, QA memory, production feedback, Better Auth sign-in, and organization management. See the [dashboard guide](docs/phase-11-dashboard.md).
 
 ## Current readiness
 
-The hosted feature foundation is implemented, but this repository is not yet production-ready. Formatting, linting, type-checking, the Next.js production build, and Drizzle migration-history validation pass. No automated test framework or test files are currently committed, so authentication, organization isolation, project-token lifecycle, ingestion, and browser flows still require coverage. A production deployment also needs real Neon and Better Auth configuration, an email and/or GitHub OAuth path, abuse controls, monitoring, retention/backup policy, and a recorded end-to-end CLI/CI ingestion acceptance run.
+The hosted feature foundation is implemented, but this repository is not yet production-ready. Formatting, linting, type-checking, Vitest boundary tests, the Next.js production build, and Drizzle migration-history validation are part of the quality gate. Production-feedback parsing, idempotency decisions, and HTTP behavior have automated coverage; authentication, organization isolation, database transactions, project-token lifecycle, and browser flows still need production-like integration coverage. A production deployment also needs real Neon and Better Auth configuration, an email and/or GitHub OAuth path, monitoring, backup/restore validation, a retention schedule, and recorded end-to-end CLI/CI ingestion acceptance runs.
 
 ## Commands
 
@@ -33,7 +33,9 @@ The hosted feature foundation is implemented, but this repository is not yet pro
 | `npm run db:check`    | Check the Drizzle migration history               |
 | `npm run db:migrate`  | Apply migrations using the direct Neon connection |
 | `npm run db:studio`   | Open Drizzle Studio                               |
+| `npm run feedback:prune` | Dry-run production-feedback retention cleanup |
 | `npm run lint`        | Run ESLint and Next.js rules                      |
+| `npm test`            | Run deterministic Vitest suites                   |
 | `npm run typecheck`   | Run TypeScript without emitting files             |
 | `npm run check`       | Run all repository quality gates                  |
 
@@ -45,9 +47,10 @@ The hosted feature foundation is implemented, but this repository is not yet pro
 - Better Auth owns users, sessions, organizations, members, and invitations. Neon Postgres and Drizzle provide persistence and migrations.
 - `src/lib/dashboard-data.ts` is the organization-scoped hosted metadata boundary for projects, contracts, runs, findings, coverage, and QA memory.
 - CI sends the CLI's versioned report to `POST /api/v1/ingest/runs` with a hashed, project-scoped token. The repositories exchange JSON schemas, never source imports.
+- Production systems send bounded, provider-neutral failures to `POST /api/v1/production-events`. MaruCheck aggregates them and creates review-required QA-memory candidates; it never accepts raw source or activates telemetry-provided code.
 - A separate worker repository will be introduced only when independent scaling is required.
 
-See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md), [ADR-004](docs/decisions/0004-use-verification-command-public-system.md), and [ADR-005](docs/decisions/0005-store-organization-scoped-proof-metadata.md). The request contract is documented in the [ingestion API guide](docs/api/verification-ingestion.md).
+See [ADR-001](docs/decisions/0001-use-nextjs-full-stack.md), [ADR-002](docs/decisions/0002-use-proof-orbit-dashboard-system.md), [ADR-003](docs/decisions/0003-self-host-better-auth-on-neon.md), [ADR-004](docs/decisions/0004-use-verification-command-public-system.md), [ADR-005](docs/decisions/0005-store-organization-scoped-proof-metadata.md), and [ADR-006](docs/decisions/0006-ingest-bounded-production-feedback-as-reviewable-memory.md). Request contracts are documented in the [verification ingestion guide](docs/api/verification-ingestion.md) and [production-feedback guide](docs/api/production-feedback.md); the latter includes an [OpenAPI 3.1 document](docs/api/openapi-v1.yaml).
 
 ## Codex and MCP
 

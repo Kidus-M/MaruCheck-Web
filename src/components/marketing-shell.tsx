@@ -22,6 +22,7 @@ const footerGroups = [
       ["Getting started", "/docs/getting-started"],
       ["Quality Contracts", "/docs/quality-contracts"],
       ["MCP integration", "/docs/mcp"],
+      ["Production feedback", "/docs/production-feedback"],
     ],
   },
   {

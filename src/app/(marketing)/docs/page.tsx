@@ -31,6 +31,12 @@ const entries = [
     "Connect Codex, Claude Code, Cursor, or another compatible client to the local MaruCheck server.",
     "/docs/mcp",
   ],
+  [
+    "05",
+    "Production feedback",
+    "Turn bounded production failures into commit-linked, human-reviewed QA memory candidates.",
+    "/docs/production-feedback",
+  ],
 ] as const;
 
 export default function DocsHomePage() {

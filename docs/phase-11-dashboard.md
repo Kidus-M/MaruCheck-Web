@@ -19,6 +19,8 @@ The hosted dashboard answers one primary question: **Can this release ship, and 
 | Coverage        | `/coverage`            | Feature-to-requirement-to-evidence mapping                            |
 | QA memory       | `/memory`              | Search and filtering for historical failures and regression links     |
 | New memory      | `/memory/new`          | Historical record creation surface                                    |
+| Production feedback | `/feedback`         | Aggregated failures and pending QA-memory review queue                 |
+| Feedback detail | `/feedback/[id]`        | Structured evidence, linkage, and reviewer checkpoint                 |
 | Organization    | `/organization`        | Members, workspace metadata, and hosted data boundary                 |
 | Invite member   | `/organization/invite` | Owner-only Better Auth invitation flow and shareable link             |
 | Accept invite   | `/accept-invitation`   | Authenticated invitation acceptance                                   |
@@ -68,7 +70,8 @@ Better Auth now persists users, sessions, organizations, members, and invitation
 
 1. projects and project-scoped ingestion credentials;
 2. Quality Contracts and immutable version storage;
-3. verification runs, findings, evidence, requirement coverage, and QA memory.
+3. verification runs, findings, evidence, requirement coverage, and QA memory;
+4. immutable production-event deliveries, aggregated failures, audit history, and review candidates.
 
 Every dashboard read resolves the signed-in workspace inside the repository and selects only the
 fields the pages need. Mutations repeat the organization scope. CI uses a separate hashed bearer
@@ -76,6 +79,13 @@ token bound to one project; it never reuses a browser session. `POST /api/v1/ing
 bounded schema-versioned envelope containing the real CLI verification report. See the
 [ingestion API guide](api/verification-ingestion.md) and
 [ADR-005](decisions/0005-store-organization-scoped-proof-metadata.md).
+
+`POST /api/v1/production-events` accepts a separate 256 KB generic event envelope under the same
+project-token boundary. Exact retries do not increment occurrences, altered reuse returns a
+conflict, and matching fingerprints aggregate. The dashboard requires a human root-cause review
+and a concrete repository test link before creating active QA Memory. See the
+[production-feedback guide](api/production-feedback.md) and
+[ADR-006](decisions/0006-ingest-bounded-production-feedback-as-reviewable-memory.md).
 
 The connect flow reveals the raw credential once with a copy control. Each project page continues
 to show safe token metadata even before its first report: prefix, status, creation, expiry, and last
@@ -105,4 +115,6 @@ npm run check
 The production build keeps public and authentication routes optimized while protected product
 routes render against the current session and organization.
 
-Browser automation is not yet a repository dependency. In the current managed environment, the Playwright CLI was unavailable offline and installed Chromium processes were blocked by the Windows sandbox. Add the selected test tooling before creating screenshot or interaction suites.
+Vitest covers the production-feedback parser, replay decisions, reviewer input, and HTTP boundary.
+Database-backed isolation and browser automation remain private-beta hardening work. In the current
+managed environment, installed Chromium processes were previously blocked by the Windows sandbox.

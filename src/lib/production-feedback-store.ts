@@ -45,6 +45,7 @@ export async function authenticateProjectTokenForFeedback(
     .where(
       and(
         eq(projectIngestToken.tokenHash, hashProjectToken(rawToken)),
+        eq(project.organizationId, projectIngestToken.organizationId),
         isNull(projectIngestToken.revokedAt),
         or(isNull(projectIngestToken.expiresAt), gt(projectIngestToken.expiresAt, now)),
       ),

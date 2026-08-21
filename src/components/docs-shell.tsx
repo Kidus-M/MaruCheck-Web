@@ -7,6 +7,7 @@ const docsLinks = [
   { href: "/docs/quality-contracts", label: "Quality Contracts" },
   { href: "/docs/ci", label: "CI integration" },
   { href: "/docs/mcp", label: "MCP workflow" },
+  { href: "/docs/production-feedback", label: "Production feedback" },
 ] as const;
 
 export function DocsShell({ children }: { readonly children: ReactNode }) {

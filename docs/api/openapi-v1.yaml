@@ -1,0 +1,473 @@
+openapi: 3.1.0
+info:
+  title: MaruCheck Production Feedback API
+  version: 1.0.0
+  description: >-
+    Bounded, project-scoped ingestion of production failures. This contract accepts structured
+    metadata and proposals; it does not accept source code or execute tests.
+servers:
+  - url: https://your-marucheck-host
+    description: Replace with the deployed MaruCheck origin.
+tags:
+  - name: Production feedback
+paths:
+  /api/v1/production-events:
+    post:
+      operationId: createProductionEvent
+      summary: Record a production failure
+      description: >-
+        Creates or aggregates a production failure and creates a pending QA-memory candidate. An
+        exact retry returns the existing identifiers without incrementing the occurrence count.
+      tags: [Production feedback]
+      security:
+        - projectToken: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: Must exactly equal `event.id`.
+          schema:
+            $ref: "#/components/schemas/EventIdentifier"
+      requestBody:
+        required: true
+        description: Maximum encoded body size is 256 KB.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductionFeedbackEnvelope"
+            examples:
+              authorizationBoundary:
+                summary: An authorization failure linked to a contract and commit
+                value:
+                  schemaVersion: 1
+                  event:
+                    id: evt-prod-0001
+                    source: generic
+                    type: exception
+                    fingerprint: invoice-cross-tenant-read
+                    title: Cross-tenant invoice read
+                    severity: critical
+                    occurredAt: "2026-08-21T07:58:00.000Z"
+                    environment: production
+                    release: web@2026.08.21.1
+                    commitSha: 8f2c1a7d5e3b
+                    branch: main
+                    exception:
+                      type: AuthorizationBoundaryError
+                      message: Invoice lookup crossed an organization boundary.
+                      frames:
+                        - file: src/invoices/read-invoice.ts
+                          line: 84
+                          function: readInvoice
+                    contractRefs: [invoice-access]
+                    requirementRefs: [invoice-access#INV-001]
+                    relatedFiles: [src/invoices/read-invoice.ts]
+                    reproduction:
+                      observed: An invoice from another organization was returned.
+                      steps:
+                        - Use a valid session from organization A.
+                        - Request an invoice owned by organization B.
+                    regression:
+                      objective: Reject cross-organization invoice reads.
+                      requirementRefs: [invoice-access#INV-001]
+                      suggestedAdapter: vitest
+                      suggestedPath: src/invoices/read-invoice.test.ts
+                    tags: [authorization, invoice]
+                    attributes:
+                      http.route: /api/invoices/:id
+                      http.status_code: 500
+      responses:
+        "201":
+          description: A new immutable delivery was accepted.
+          headers:
+            X-Request-Id:
+              $ref: "#/components/headers/RequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductionFeedbackResponse"
+              examples:
+                accepted:
+                  value:
+                    accepted: true
+                    candidateId: 6bb60f3f-4175-4f61-a3e0-c9cd14646025
+                    feedbackId: bd453ed3-b62a-46c5-b373-157a297941d2
+                    occurrenceCount: 1
+                    replayed: false
+                    schemaVersion: 1
+        "200":
+          description: The same event ID and canonical payload were already accepted.
+          headers:
+            X-Request-Id:
+              $ref: "#/components/headers/RequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductionFeedbackResponse"
+              examples:
+                replayed:
+                  value:
+                    accepted: true
+                    candidateId: 6bb60f3f-4175-4f61-a3e0-c9cd14646025
+                    feedbackId: bd453ed3-b62a-46c5-b373-157a297941d2
+                    occurrenceCount: 1
+                    replayed: true
+                    schemaVersion: 1
+        "400":
+          $ref: "#/components/responses/InvalidRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/InternalError"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+components:
+  securitySchemes:
+    projectToken:
+      type: http
+      scheme: bearer
+      bearerFormat: maru_<project-token>
+      description: A one-time project credential whose hash is stored by MaruCheck.
+  headers:
+    RequestId:
+      description: Correlation identifier for this request.
+      schema:
+        type: string
+        maxLength: 100
+    RetryAfter:
+      description: Seconds before the token's current rate window has cleared.
+      schema:
+        type: integer
+        minimum: 1
+  responses:
+    InvalidRequest:
+      description: The idempotency header, JSON, schema version, or event fields are invalid.
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/RequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Unauthorized:
+      description: The project token is missing, invalid, expired, or revoked.
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/RequestId"
+        WWW-Authenticate:
+          schema:
+            type: string
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Conflict:
+      description: The idempotency key mismatches the event ID or was reused with another payload.
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/RequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    PayloadTooLarge:
+      description: The encoded request body exceeds 256 KB.
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/RequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    UnsupportedMediaType:
+      description: The Content-Type is not application/json.
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/RequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    RateLimited:
+      description: The project token exceeded 60 production events in one minute.
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/RequestId"
+        Retry-After:
+          $ref: "#/components/headers/RetryAfter"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    InternalError:
+      description: An unexpected persistence error occurred.
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/RequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Unavailable:
+      description: Production-feedback persistence is unavailable; an identical retry is safe.
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/RequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+  schemas:
+    EventIdentifier:
+      type: string
+      minLength: 1
+      maxLength: 200
+      pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,199}$"
+    Reference:
+      type: string
+      minLength: 1
+      maxLength: 400
+      pattern: "^[A-Za-z0-9][A-Za-z0-9._-]{0,199}(#[A-Za-z0-9][A-Za-z0-9._-]{0,199})?$"
+    ProjectPath:
+      type: string
+      minLength: 1
+      maxLength: 500
+      description: A project-relative path; absolute paths and parent traversal are rejected.
+    ProductionFeedbackEnvelope:
+      type: object
+      additionalProperties: false
+      required: [schemaVersion, event]
+      properties:
+        schemaVersion:
+          type: integer
+          const: 1
+        event:
+          $ref: "#/components/schemas/ProductionFeedbackEvent"
+    ProductionFeedbackEvent:
+      type: object
+      additionalProperties: false
+      required:
+        - attributes
+        - contractRefs
+        - environment
+        - exception
+        - fingerprint
+        - id
+        - occurredAt
+        - relatedFiles
+        - reproduction
+        - requirementRefs
+        - severity
+        - source
+        - tags
+        - title
+        - type
+      properties:
+        attributes:
+          type: object
+          maxProperties: 50
+          propertyNames:
+            pattern: "^[A-Za-z][A-Za-z0-9._-]{0,79}$"
+          additionalProperties:
+            oneOf:
+              - type: string
+                maxLength: 1000
+              - type: number
+              - type: boolean
+        branch:
+          type: string
+          minLength: 1
+          maxLength: 200
+        commitSha:
+          type: string
+          pattern: "^[a-fA-F0-9]{7,64}$"
+        contractRefs:
+          type: array
+          maxItems: 20
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/Reference"
+        environment:
+          type: string
+          minLength: 1
+          maxLength: 100
+        exception:
+          $ref: "#/components/schemas/StructuredException"
+        fingerprint:
+          $ref: "#/components/schemas/EventIdentifier"
+        id:
+          $ref: "#/components/schemas/EventIdentifier"
+        occurredAt:
+          type: string
+          format: date-time
+          description: Canonical ISO timestamp, at most five minutes in the future.
+        regression:
+          $ref: "#/components/schemas/RegressionProposal"
+        relatedFiles:
+          type: array
+          maxItems: 50
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/ProjectPath"
+        release:
+          type: string
+          minLength: 1
+          maxLength: 200
+        reproduction:
+          $ref: "#/components/schemas/ReproductionProposal"
+        requirementRefs:
+          type: array
+          maxItems: 50
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/Reference"
+        severity:
+          type: string
+          enum: [critical, high, info, low, medium]
+        source:
+          type: string
+          const: generic
+        tags:
+          type: array
+          maxItems: 20
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 80
+        title:
+          type: string
+          minLength: 1
+          maxLength: 300
+        type:
+          type: string
+          enum: [exception, failed-job, http-error]
+    StructuredException:
+      type: object
+      additionalProperties: false
+      required: [frames, message, type]
+      properties:
+        frames:
+          type: array
+          maxItems: 50
+          items:
+            $ref: "#/components/schemas/StructuredFrame"
+        message:
+          type: string
+          minLength: 1
+          maxLength: 10000
+        type:
+          type: string
+          minLength: 1
+          maxLength: 300
+    StructuredFrame:
+      type: object
+      additionalProperties: false
+      required: [file]
+      properties:
+        column:
+          type: integer
+          minimum: 1
+          maximum: 10000000
+        file:
+          $ref: "#/components/schemas/ProjectPath"
+        function:
+          type: string
+          minLength: 1
+          maxLength: 300
+        line:
+          type: integer
+          minimum: 1
+          maximum: 10000000
+    ReproductionProposal:
+      type: object
+      additionalProperties: false
+      required: [observed, steps]
+      properties:
+        observed:
+          type: string
+          minLength: 1
+          maxLength: 5000
+        steps:
+          type: array
+          maxItems: 20
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1000
+    RegressionProposal:
+      type: object
+      additionalProperties: false
+      required: [objective, requirementRefs]
+      properties:
+        objective:
+          type: string
+          minLength: 1
+          maxLength: 2000
+        requirementRefs:
+          type: array
+          maxItems: 50
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/Reference"
+        suggestedAdapter:
+          type: string
+          enum: [playwright, vitest]
+        suggestedPath:
+          $ref: "#/components/schemas/ProjectPath"
+    ProductionFeedbackResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - accepted
+        - candidateId
+        - feedbackId
+        - occurrenceCount
+        - replayed
+        - schemaVersion
+      properties:
+        accepted:
+          type: boolean
+          const: true
+        candidateId:
+          type: string
+          format: uuid
+        feedbackId:
+          type: string
+          format: uuid
+        occurrenceCount:
+          type: integer
+          minimum: 1
+        replayed:
+          type: boolean
+        schemaVersion:
+          type: integer
+          const: 1
+    Problem:
+      type: object
+      additionalProperties: false
+      required: [detail, instance, status, title, type]
+      properties:
+        detail:
+          type: string
+        instance:
+          type: string
+          description: Request correlation identifier.
+        status:
+          type: integer
+          minimum: 400
+          maximum: 599
+        title:
+          type: string
+        type:
+          type: string
+          format: uri
