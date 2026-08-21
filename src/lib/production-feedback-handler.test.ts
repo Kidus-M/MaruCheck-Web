@@ -73,12 +73,12 @@ function dependencies(
 }
 
 describe("production feedback route boundary", () => {
-  it("authenticates, validates, and returns a located resource for a new event", async () => {
+  it("authenticates, validates, and returns the created resource identifiers", async () => {
     const deps = dependencies();
     const response = await handleProductionFeedbackRequest(request(), deps);
 
     expect(response.status).toBe(201);
-    expect(response.headers.get("location")).toBe("/api/v1/production-events/feedback-1");
+    expect(response.headers.get("location")).toBeNull();
     expect(response.headers.get("x-request-id")).toBe("req-test-1");
     await expect(response.json()).resolves.toMatchObject({
       accepted: true,
@@ -109,6 +109,7 @@ describe("production feedback route boundary", () => {
   it.each([
     ["missing bearer token", request(undefined, { authorization: "" }), 401],
     ["missing idempotency key", request(undefined, { "idempotency-key": "" }), 400],
+    ["unsupported content type", request(undefined, { "content-type": "text/plain" }), 415],
     ["mismatched idempotency key", request(undefined, { "idempotency-key": "other" }), 409],
     ["invalid JSON", request("{"), 400],
   ])("returns a problem response for %s", async (_name, input, status) => {

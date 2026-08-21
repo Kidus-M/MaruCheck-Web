@@ -92,6 +92,11 @@ export async function ingestProductionFeedback(
       }
 
       const event = envelope.event;
+      // Serialize deliveries for one external event key so concurrent retries cannot increment
+      // the aggregate before the unique delivery record becomes visible.
+      await transaction.execute(
+        sql`select pg_advisory_xact_lock(hashtext(${credential.projectId}), hashtext(${`${event.source}:${event.id}`}))`,
+      );
       const [delivery] = await transaction
         .select({
           candidateId: qaMemoryCandidate.id,

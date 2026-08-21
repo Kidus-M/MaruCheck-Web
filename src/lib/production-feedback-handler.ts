@@ -79,6 +79,15 @@ export async function handleProductionFeedbackRequest(
   if (!idempotencyKey) {
     return problem(400, "idempotency-key-required", "Idempotency-Key is required.", requestId);
   }
+  const contentType = request.headers.get("content-type")?.split(";", 1)[0]?.trim().toLowerCase();
+  if (contentType !== "application/json") {
+    return problem(
+      415,
+      "unsupported-media-type",
+      "Content-Type must be application/json.",
+      requestId,
+    );
+  }
 
   let envelope: ProductionFeedbackEnvelope;
   try {
@@ -134,7 +143,6 @@ export async function handleProductionFeedbackRequest(
       },
       result.status === "accepted" ? 201 : 200,
       requestId,
-      { location: `/api/v1/production-events/${result.feedbackId}` },
     );
   } catch (error) {
     if (error instanceof FeedbackServiceError) {
@@ -190,8 +198,10 @@ function problem(
         : status === 409
           ? "Conflict"
           : status === 413
-            ? "Payload too large"
-            : status === 429
+          ? "Payload too large"
+          : status === 415
+            ? "Unsupported media type"
+          : status === 429
               ? "Too many requests"
               : status === 503
                 ? "Service unavailable"
