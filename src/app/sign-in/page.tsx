@@ -38,7 +38,7 @@ export default async function SignInPage() {
           signupMode={getBetaSignupMode()}
         />
         <footer>
-          Private beta access is limited to approved accounts. {" "}
+          Private beta access is limited to approved accounts.{" "}
           <Link href="/">Return to the product site</Link>
         </footer>
       </section>

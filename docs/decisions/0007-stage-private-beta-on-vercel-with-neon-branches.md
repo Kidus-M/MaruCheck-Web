@@ -65,4 +65,3 @@ branches provide the production schema boundary without sharing beta state.
 
 Deferred. Vercel and Neon already match the implemented runtime. Error monitoring should be chosen
 after beta traffic shows whether Vercel-native signals are sufficient or Sentry is warranted.
-

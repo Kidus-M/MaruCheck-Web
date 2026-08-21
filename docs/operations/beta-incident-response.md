@@ -50,4 +50,3 @@ before changing application traffic.
 Within two working days, document impact, timeline, detection, root cause, evidence, recovery,
 missing guardrails, and one owned prevention task. Convert confirmed regressions into reviewed QA
 Memory only after a repository test reproduces the issue.
-

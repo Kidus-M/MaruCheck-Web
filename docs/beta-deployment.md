@@ -42,16 +42,16 @@ The beta is deliberately closed by default. Production signup is enabled only fo
 
 Set these values for the environment that serves the beta:
 
-| Variable | Required | Value |
-| --- | --- | --- |
-| `DATABASE_URL` | yes | pooled TLS URL for the persistent Neon `beta` branch |
-| `DATABASE_URL_UNPOOLED` | migration job only | direct TLS URL; do not expose it to the browser |
-| `BETTER_AUTH_SECRET` | yes | independent random value of at least 32 characters |
-| `BETTER_AUTH_URL` | yes | exact stable HTTPS beta origin |
-| `CRON_SECRET` | yes | separate random value used by the retention endpoint |
-| `MARUCHECK_BETA_EMAILS` | recommended | comma-separated approved tester addresses |
-| `MARUCHECK_OPEN_SIGNUPS` | optional | leave unset or `false` for private beta |
-| `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` | optional pair | beta GitHub OAuth application |
+| Variable                                      | Required           | Value                                                |
+| --------------------------------------------- | ------------------ | ---------------------------------------------------- |
+| `DATABASE_URL`                                | yes                | pooled TLS URL for the persistent Neon `beta` branch |
+| `DATABASE_URL_UNPOOLED`                       | migration job only | direct TLS URL; do not expose it to the browser      |
+| `BETTER_AUTH_SECRET`                          | yes                | independent random value of at least 32 characters   |
+| `BETTER_AUTH_URL`                             | yes                | exact stable HTTPS beta origin                       |
+| `CRON_SECRET`                                 | yes                | separate random value used by the retention endpoint |
+| `MARUCHECK_BETA_EMAILS`                       | recommended        | comma-separated approved tester addresses            |
+| `MARUCHECK_OPEN_SIGNUPS`                      | optional           | leave unset or `false` for private beta              |
+| `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` | optional pair      | beta GitHub OAuth application                        |
 
 Do not reuse a project ingest token, database password, Better Auth secret, cron secret, or Vercel
 bypass secret for another purpose.
@@ -73,6 +73,7 @@ bypass secret for another purpose.
 
    Production migrations additionally require `ALLOW_PRODUCTION_MIGRATION=true`; this is an
    intentional confirmation gate.
+
 4. Deploy or promote the tested commit to the protected beta hostname.
 5. Run **Beta deployment smoke** with the HTTPS beta origin. The check proves liveness, database
    readiness, key public routes, sign-in rendering, and required security headers.
@@ -107,4 +108,3 @@ migration. Follow [the beta incident runbook](operations/beta-incident-response.
 - [Vercel deployment checks](https://vercel.com/docs/deployment-checks)
 - [Vercel promoting a deployment](https://vercel.com/docs/deployments/promoting-a-deployment)
 - [Vercel production rollback](https://vercel.com/docs/deployments/rollback-production-deployment)
-
