@@ -157,6 +157,150 @@ export async function createMemoryAction(formData: FormData): Promise<void> {
   redirect("/memory");
 }
 
+export async function reviewProductionFeedbackAction(
+  _previousState: ReviewFeedbackState,
+  formData: FormData,
+): Promise<ReviewFeedbackState> {
+  const context = await requireWorkspaceContext();
+  const candidateId = field(formData, "candidateId");
+  if (!/^[a-f0-9-]{36}$/u.test(candidateId)) {
+    return { message: "The feedback candidate identifier is invalid.", status: "error" };
+  }
+
+  let review: ReturnType<typeof parseFeedbackReviewInput>;
+  try {
+    review = parseFeedbackReviewInput({
+      decision: field(formData, "decision"),
+      regressionAdapter: field(formData, "regressionAdapter") || undefined,
+      regressionId: field(formData, "regressionId") || undefined,
+      regressionPath: field(formData, "regressionPath") || undefined,
+      rootCause: field(formData, "rootCause") || undefined,
+    });
+  } catch (error) {
+    return {
+      message:
+        error instanceof FeedbackValidationError
+          ? error.message
+          : "The feedback review could not be validated.",
+      status: "error",
+    };
+  }
+
+  const connection = getDatabase();
+  try {
+    const result = await connection.database.transaction(async (transaction) => {
+      const [candidate] = await transaction
+        .select({
+          feedbackId: qaMemoryCandidate.feedbackId,
+          projectId: qaMemoryCandidate.projectId,
+          regressionProposal: qaMemoryCandidate.regressionProposal,
+          relatedContracts: qaMemoryCandidate.relatedContracts,
+          relatedFiles: qaMemoryCandidate.relatedFiles,
+          severity: qaMemoryCandidate.severity,
+          status: qaMemoryCandidate.status,
+          summary: qaMemoryCandidate.summary,
+          title: qaMemoryCandidate.title,
+        })
+        .from(qaMemoryCandidate)
+        .where(
+          and(
+            eq(qaMemoryCandidate.id, candidateId),
+            eq(qaMemoryCandidate.organizationId, context.organization.id),
+          ),
+        )
+        .limit(1)
+        .for("update");
+      if (!candidate) return "not-found" as const;
+      if (candidate.status !== "pending") return "already-reviewed" as const;
+
+      if (review.decision === "reject") {
+        await transaction
+          .update(qaMemoryCandidate)
+          .set({
+            reviewedAt: new Date(),
+            reviewedBy: context.viewer.email,
+            status: "rejected",
+            updatedAt: new Date(),
+          })
+          .where(eq(qaMemoryCandidate.id, candidateId));
+        return "rejected" as const;
+      }
+
+      const [memory] = await transaction
+        .insert(qaMemory)
+        .values({
+          memoryKey: `MEM-${randomUUID().slice(0, 8).toUpperCase()}`,
+          organizationId: context.organization.id,
+          projectId: candidate.projectId,
+          regressionCount: 1,
+          regressionTests: [
+            {
+              adapter: review.regression.adapter,
+              id: review.regression.id,
+              path: review.regression.path,
+              requirementRefs: candidate.regressionProposal.requirementRefs,
+            },
+          ],
+          relatedContracts: candidate.relatedContracts,
+          relatedFiles: candidate.relatedFiles,
+          rootCause: review.rootCause,
+          severity: candidate.severity,
+          source: "production-feedback",
+          summary: candidate.summary,
+          tags: ["production-feedback", "reviewed"],
+          title: candidate.title,
+          type: "production-regression",
+        })
+        .returning({ id: qaMemory.id });
+      if (!memory) throw new Error("QA memory creation returned no record.");
+      const reviewedAt = new Date();
+      await transaction
+        .update(qaMemoryCandidate)
+        .set({
+          memoryId: memory.id,
+          reviewedAt,
+          reviewedBy: context.viewer.email,
+          rootCause: review.rootCause,
+          status: "approved",
+          updatedAt: reviewedAt,
+        })
+        .where(eq(qaMemoryCandidate.id, candidateId));
+      await transaction
+        .update(productionFeedback)
+        .set({ resolvedAt: reviewedAt, status: "resolved" })
+        .where(
+          and(
+            eq(productionFeedback.id, candidate.feedbackId),
+            eq(productionFeedback.organizationId, context.organization.id),
+          ),
+        );
+      return "approved" as const;
+    });
+
+    if (result === "not-found") {
+      return { message: "Feedback was not found in this organization.", status: "error" };
+    }
+    if (result === "already-reviewed") {
+      return { message: "This feedback proposal was already reviewed.", status: "error" };
+    }
+    revalidatePath("/feedback");
+    revalidatePath(`/feedback/${candidateId}`);
+    revalidatePath("/memory");
+    return {
+      message:
+        result === "approved"
+          ? "QA memory and its reviewed regression link are now active."
+          : "The proposal was rejected without creating QA memory.",
+      status: "success",
+    };
+  } catch (error) {
+    console.error("Unable to review production feedback", error);
+    return { message: "The feedback review could not be saved. Try again.", status: "error" };
+  } finally {
+    await connection.close();
+  }
+}
+
 export async function rotateProjectTokenAction(
   _previousState: RotateProjectTokenState,
   formData: FormData,
