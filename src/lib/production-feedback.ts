@@ -69,6 +69,18 @@ export interface FeedbackCandidateDraft {
   readonly title: string;
 }
 
+export type FeedbackReviewInput =
+  | { readonly decision: "reject" }
+  | {
+      readonly decision: "approve";
+      readonly regression: {
+        readonly adapter: "playwright" | "vitest";
+        readonly id: string;
+        readonly path: string;
+      };
+      readonly rootCause: string;
+    };
+
 export class FeedbackValidationError extends Error {
   public constructor(message: string) {
     super(message);
@@ -186,6 +198,35 @@ export function deriveFeedbackCandidate(event: ProductionFeedbackEvent): Feedbac
     status: "pending",
     summary: event.exception.message,
     title: event.title,
+  };
+}
+
+export function parseFeedbackReviewInput(value: unknown): FeedbackReviewInput {
+  const input = object(value, "review", [
+    "decision",
+    "regressionAdapter",
+    "regressionId",
+    "regressionPath",
+    "rootCause",
+  ]);
+  const decision = oneOf(input.decision, "review.decision", ["approve", "reject"] as const);
+  if (decision === "reject") return { decision };
+  return {
+    decision,
+    regression: {
+      adapter: oneOf(input.regressionAdapter, "review.regressionAdapter", [
+        "playwright",
+        "vitest",
+      ] as const),
+      id: pattern(
+        input.regressionId,
+        "review.regressionId",
+        100,
+        /^[a-z0-9]+(?:-[a-z0-9]+)*$/u,
+      ),
+      path: projectPath(input.regressionPath, "review.regressionPath"),
+    },
+    rootCause: string(input.rootCause, "review.rootCause", 5_000),
   };
 }
 
