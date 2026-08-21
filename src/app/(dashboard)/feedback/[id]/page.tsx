@@ -74,7 +74,9 @@ export default async function ProductionFeedbackDetailPage({
           <dl>
             <div>
               <dt>Adapter</dt>
-              <dd>{feedback.candidate.regressionProposal.suggestedAdapter ?? "Reviewer chooses"}</dd>
+              <dd>
+                {feedback.candidate.regressionProposal.suggestedAdapter ?? "Reviewer chooses"}
+              </dd>
             </div>
             <div>
               <dt>Suggested path</dt>
@@ -96,7 +98,9 @@ export default async function ProductionFeedbackDetailPage({
       ) : (
         <section className="review-complete panel">
           <p className="eyebrow">Review complete</p>
-          <h2>{feedback.candidate.status === "approved" ? "QA memory active" : "Proposal rejected"}</h2>
+          <h2>
+            {feedback.candidate.status === "approved" ? "QA memory active" : "Proposal rejected"}
+          </h2>
           <p>
             {feedback.candidate.rootCause ??
               "No QA memory or regression link was created from this production signal."}

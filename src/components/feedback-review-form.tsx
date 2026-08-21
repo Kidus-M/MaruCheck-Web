@@ -1,10 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import {
-  reviewProductionFeedbackAction,
-  type ReviewFeedbackState,
-} from "@/lib/product-actions";
+import { reviewProductionFeedbackAction, type ReviewFeedbackState } from "@/lib/product-actions";
 
 const INITIAL_STATE: ReviewFeedbackState = { message: "", status: "idle" };
 
@@ -17,10 +14,7 @@ export function FeedbackReviewForm({
   readonly suggestedAdapter?: "playwright" | "vitest";
   readonly suggestedPath?: string;
 }) {
-  const [state, action, pending] = useActionState(
-    reviewProductionFeedbackAction,
-    INITIAL_STATE,
-  );
+  const [state, action, pending] = useActionState(reviewProductionFeedbackAction, INITIAL_STATE);
 
   return (
     <form action={action} className="feedback-review form-card panel">

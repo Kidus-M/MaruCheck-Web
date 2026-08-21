@@ -147,6 +147,9 @@ describe("production feedback route boundary", () => {
     );
     expect(response.status).toBe(status);
     if (code === "RATE_LIMITED") expect(response.headers.get("retry-after")).toBe("60");
-    await expect(response.json()).resolves.toMatchObject({ detail: "Safe failure detail.", status });
+    await expect(response.json()).resolves.toMatchObject({
+      detail: "Safe failure detail.",
+      status,
+    });
   });
 });

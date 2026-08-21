@@ -245,7 +245,10 @@ export async function ingestProductionFeedback(
             verificationRunId: linkedRun?.id ?? null,
           },
         })
-        .returning({ id: productionFeedback.id, occurrenceCount: productionFeedback.occurrenceCount });
+        .returning({
+          id: productionFeedback.id,
+          occurrenceCount: productionFeedback.occurrenceCount,
+        });
       if (!feedback) throw new Error("Production feedback upsert returned no record.");
 
       await transaction.insert(productionFeedbackDelivery).values({

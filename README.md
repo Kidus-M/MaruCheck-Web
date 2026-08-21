@@ -24,20 +24,20 @@ The hosted feature foundation is implemented, but this repository is not yet pro
 
 ## Commands
 
-| Command               | Description                                       |
-| --------------------- | ------------------------------------------------- |
-| `npm run dev`         | Start the development server                      |
-| `npm run build`       | Create a production build                         |
-| `npm run start`       | Serve the production build                        |
-| `npm run db:generate` | Generate reviewed SQL from the Drizzle schema     |
-| `npm run db:check`    | Check the Drizzle migration history               |
-| `npm run db:migrate`  | Apply migrations using the direct Neon connection |
-| `npm run db:studio`   | Open Drizzle Studio                               |
-| `npm run feedback:prune` | Dry-run production-feedback retention cleanup |
-| `npm run lint`        | Run ESLint and Next.js rules                      |
-| `npm test`            | Run deterministic Vitest suites                   |
-| `npm run typecheck`   | Run TypeScript without emitting files             |
-| `npm run check`       | Run all repository quality gates                  |
+| Command                  | Description                                       |
+| ------------------------ | ------------------------------------------------- |
+| `npm run dev`            | Start the development server                      |
+| `npm run build`          | Create a production build                         |
+| `npm run start`          | Serve the production build                        |
+| `npm run db:generate`    | Generate reviewed SQL from the Drizzle schema     |
+| `npm run db:check`       | Check the Drizzle migration history               |
+| `npm run db:migrate`     | Apply migrations using the direct Neon connection |
+| `npm run db:studio`      | Open Drizzle Studio                               |
+| `npm run feedback:prune` | Dry-run production-feedback retention cleanup     |
+| `npm run lint`           | Run ESLint and Next.js rules                      |
+| `npm test`               | Run deterministic Vitest suites                   |
+| `npm run typecheck`      | Run TypeScript without emitting files             |
+| `npm run check`          | Run all repository quality gates                  |
 
 ## Architecture
 

@@ -484,10 +484,7 @@ export const qaMemoryCandidate = pgTable(
   },
   (table) => [
     uniqueIndex("qa_memory_candidate_feedback_unique").on(table.feedbackId),
-    index("qa_memory_candidate_organization_status_idx").on(
-      table.organizationId,
-      table.status,
-    ),
+    index("qa_memory_candidate_organization_status_idx").on(table.organizationId, table.status),
     index("qa_memory_candidate_project_idx").on(table.projectId),
   ],
 );

@@ -168,7 +168,9 @@ export function parseProductionFeedbackEnvelope(
 }
 
 export function productionFeedbackPayloadHash(value: ProductionFeedbackEnvelope): string {
-  return createHash("sha256").update(JSON.stringify(canonicalize(value))).digest("hex");
+  return createHash("sha256")
+    .update(JSON.stringify(canonicalize(value)))
+    .digest("hex");
 }
 
 export function decideFeedbackDelivery(
@@ -182,8 +184,7 @@ export function decideFeedbackDelivery(
 export function deriveFeedbackCandidate(event: ProductionFeedbackEvent): FeedbackCandidateDraft {
   return {
     regressionProposal: {
-      objective:
-        event.regression?.objective ?? `Reproduce production failure: ${event.title}`,
+      objective: event.regression?.objective ?? `Reproduce production failure: ${event.title}`,
       requirementRefs: event.regression?.requirementRefs ?? event.requirementRefs,
       status: "proposed",
       ...(event.regression?.suggestedAdapter === undefined
@@ -218,12 +219,7 @@ export function parseFeedbackReviewInput(value: unknown): FeedbackReviewInput {
         "playwright",
         "vitest",
       ] as const),
-      id: pattern(
-        input.regressionId,
-        "review.regressionId",
-        100,
-        /^[a-z0-9]+(?:-[a-z0-9]+)*$/u,
-      ),
+      id: pattern(input.regressionId, "review.regressionId", 100, /^[a-z0-9]+(?:-[a-z0-9]+)*$/u),
       path: projectPath(input.regressionPath, "review.regressionPath"),
     },
     rootCause: string(input.rootCause, "review.rootCause", 5_000),
@@ -272,11 +268,7 @@ function regression(value: unknown): NonNullable<ProductionFeedbackEvent["regres
   ]);
   return {
     objective: string(input.objective, "event.regression.objective", 2_000),
-    requirementRefs: referenceArray(
-      input.requirementRefs,
-      "event.regression.requirementRefs",
-      50,
-    ),
+    requirementRefs: referenceArray(input.requirementRefs, "event.regression.requirementRefs", 50),
     ...(input.suggestedAdapter === undefined
       ? {}
       : {

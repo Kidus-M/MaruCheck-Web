@@ -4,27 +4,27 @@ The hosted dashboard answers one primary question: **Can this release ship, and 
 
 ## Implemented surfaces
 
-| Surface         | Route                  | Purpose                                                               |
-| --------------- | ---------------------- | --------------------------------------------------------------------- |
-| Overview        | `/dashboard`           | Release decision, proof orbit, findings, activity, and project health |
-| Projects        | `/projects`            | Connected repository health and coverage                              |
-| Project detail  | `/projects/[slug]`     | Project gate, runs, findings, and contract coverage                   |
-| Connect project | `/projects/connect`    | GitHub connection and local-execution boundary                        |
-| Contracts       | `/contracts`           | Approval state, protected intent, versions, owners, and coverage      |
-| New contract    | `/contracts/new`       | Draft creation surface                                                |
-| Runs            | `/runs`                | Verification history with commit, risk, evidence, and status          |
-| Run detail      | `/runs/[id]`           | Gate, plan, and evidence bundle                                       |
-| Findings        | `/findings`            | Severity-ordered release issues                                       |
-| Finding detail  | `/findings/[id]`       | Expected versus actual behavior, reproduction, owner, and artifacts   |
-| Coverage        | `/coverage`            | Feature-to-requirement-to-evidence mapping                            |
-| QA memory       | `/memory`              | Search and filtering for historical failures and regression links     |
-| New memory      | `/memory/new`          | Historical record creation surface                                    |
-| Production feedback | `/feedback`         | Aggregated failures and pending QA-memory review queue                 |
-| Feedback detail | `/feedback/[id]`        | Structured evidence, linkage, and reviewer checkpoint                 |
-| Organization    | `/organization`        | Members, workspace metadata, and hosted data boundary                 |
-| Invite member   | `/organization/invite` | Owner-only Better Auth invitation flow and shareable link             |
-| Accept invite   | `/accept-invitation`   | Authenticated invitation acceptance                                   |
-| Sign in         | `/sign-in`             | Better Auth email/password and optional GitHub authentication         |
+| Surface             | Route                  | Purpose                                                               |
+| ------------------- | ---------------------- | --------------------------------------------------------------------- |
+| Overview            | `/dashboard`           | Release decision, proof orbit, findings, activity, and project health |
+| Projects            | `/projects`            | Connected repository health and coverage                              |
+| Project detail      | `/projects/[slug]`     | Project gate, runs, findings, and contract coverage                   |
+| Connect project     | `/projects/connect`    | GitHub connection and local-execution boundary                        |
+| Contracts           | `/contracts`           | Approval state, protected intent, versions, owners, and coverage      |
+| New contract        | `/contracts/new`       | Draft creation surface                                                |
+| Runs                | `/runs`                | Verification history with commit, risk, evidence, and status          |
+| Run detail          | `/runs/[id]`           | Gate, plan, and evidence bundle                                       |
+| Findings            | `/findings`            | Severity-ordered release issues                                       |
+| Finding detail      | `/findings/[id]`       | Expected versus actual behavior, reproduction, owner, and artifacts   |
+| Coverage            | `/coverage`            | Feature-to-requirement-to-evidence mapping                            |
+| QA memory           | `/memory`              | Search and filtering for historical failures and regression links     |
+| New memory          | `/memory/new`          | Historical record creation surface                                    |
+| Production feedback | `/feedback`            | Aggregated failures and pending QA-memory review queue                |
+| Feedback detail     | `/feedback/[id]`       | Structured evidence, linkage, and reviewer checkpoint                 |
+| Organization        | `/organization`        | Members, workspace metadata, and hosted data boundary                 |
+| Invite member       | `/organization/invite` | Owner-only Better Auth invitation flow and shareable link             |
+| Accept invite       | `/accept-invitation`   | Authenticated invitation acceptance                                   |
+| Sign in             | `/sign-in`             | Better Auth email/password and optional GitHub authentication         |
 
 All product routes use Server Components except active navigation and the one-time project-token
 result. Dynamic project, run, and finding routes resolve organization-scoped records at request

@@ -103,9 +103,7 @@ describe("production feedback parsing", () => {
     const parsed = parseProductionFeedbackEnvelope(validEnvelope(), { now: NOW });
     const reordered = { schemaVersion: parsed.schemaVersion, event: parsed.event };
     expect(productionFeedbackPayloadHash(parsed)).toMatch(/^[a-f0-9]{64}$/u);
-    expect(productionFeedbackPayloadHash(reordered)).toBe(
-      productionFeedbackPayloadHash(parsed),
-    );
+    expect(productionFeedbackPayloadHash(reordered)).toBe(productionFeedbackPayloadHash(parsed));
   });
 });
 

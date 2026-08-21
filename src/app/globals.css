@@ -3862,7 +3862,9 @@ svg {
   padding: 1.2rem;
   color: inherit;
   text-decoration: none;
-  transition: border-color 160ms ease, transform 160ms ease;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
 }
 
 .feedback-row:hover {

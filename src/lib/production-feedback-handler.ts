@@ -22,10 +22,7 @@ export interface FeedbackIngestionResult {
 }
 
 export interface ProductionFeedbackHandlerDependencies {
-  readonly authenticate: (
-    rawToken: string,
-    now: Date,
-  ) => Promise<FeedbackCredential | undefined>;
+  readonly authenticate: (rawToken: string, now: Date) => Promise<FeedbackCredential | undefined>;
   readonly ingest: (
     credential: FeedbackCredential,
     envelope: ProductionFeedbackEnvelope,
@@ -67,9 +64,15 @@ export async function handleProductionFeedbackRequest(
 
   const authorization = request.headers.get("authorization");
   if (!authorization?.startsWith("Bearer ")) {
-    return problem(401, "authentication-required", "A project bearer token is required.", requestId, {
-      "www-authenticate": 'Bearer realm="production-feedback"',
-    });
+    return problem(
+      401,
+      "authentication-required",
+      "A project bearer token is required.",
+      requestId,
+      {
+        "www-authenticate": 'Bearer realm="production-feedback"',
+      },
+    );
   }
   const rawToken = authorization.slice("Bearer ".length).trim();
   if (!/^maru_[A-Za-z0-9_-]{20,123}$/u.test(rawToken)) {
@@ -198,14 +201,14 @@ function problem(
         : status === 409
           ? "Conflict"
           : status === 413
-          ? "Payload too large"
-          : status === 415
-            ? "Unsupported media type"
-          : status === 429
-              ? "Too many requests"
-              : status === 503
-                ? "Service unavailable"
-                : "Production feedback failed";
+            ? "Payload too large"
+            : status === 415
+              ? "Unsupported media type"
+              : status === 429
+                ? "Too many requests"
+                : status === 503
+                  ? "Service unavailable"
+                  : "Production feedback failed";
   return new Response(
     JSON.stringify({
       detail,
