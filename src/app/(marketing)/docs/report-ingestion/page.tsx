@@ -21,8 +21,9 @@ export default function ReportIngestionDocsPage() {
       <DocsCallout>
         <strong>Upload is always explicit.</strong>
         <p>
-          <code>maru upload</code> sends the selected report only. It does not send source code,
-          execute repository commands in the hosted service, or upload merely because you signed in.
+          <code>maru upload</code> selects the newest completed report and sends that report only.
+          It does not send source code, execute repository commands in the hosted service, or
+          upload merely because you signed in.
         </p>
       </DocsCallout>
       <section className="docs-section">
@@ -35,11 +36,11 @@ export default function ReportIngestionDocsPage() {
             Use the same project name reported by <code>maru scan</code>.
           </li>
           <li>
-            Copy the one-time <code>maru_…</code> token before leaving the confirmation screen.
+            Copy the two-line connection setup before leaving the confirmation screen.
           </li>
           <li>
-            Store it as <code>MARUCHECK_TOKEN</code> in your shell or CI provider’s encrypted
-            secrets. Never add it to a command committed to the repository.
+            Paste it into <code>.maru/connection.env</code>. <code>maru init</code> adds that file to
+            the nested Git ignore rules automatically.
           </li>
         </ol>
         <p>
@@ -49,19 +50,21 @@ export default function ReportIngestionDocsPage() {
       </section>
       <section className="docs-section">
         <h2>2. Produce the local report</h2>
-        <CodeBlock>{`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\nnpx --no-install maru verify --diff\n# Copy the report path printed by the command:\n# .maru/artifacts/runs/<run-id>/report.json`}</CodeBlock>
+        <CodeBlock>{`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\nnpx --no-install maru init\nnpx --no-install maru verify --diff`}</CodeBlock>
       </section>
       <section className="docs-section">
         <h2>3. Upload that report</h2>
         <p>
-          Set <code>MARUCHECK_TOKEN</code> outside the command, then use the exact host shown in
-          your browser. The CLI reads the current branch, commit SHA, and commit title from Git.
+          MaruCheck reads the ignored connection file and selects the valid report with the newest
+          generated timestamp. It also reads the current branch, commit SHA, and commit title from
+          Git.
         </p>
-        <CodeBlock>{`npx --no-install maru upload \\\n  --report .maru/artifacts/runs/<run-id>/report.json \\\n  --url https://your-marucheck-host`}</CodeBlock>
+        <CodeBlock>{`npx --no-install maru upload`}</CodeBlock>
         <p>
-          You may set <code>MARUCHECK_URL</code> instead of passing <code>--url</code>. Remote hosts
-          require HTTPS; HTTP is accepted only for local development. A successful upload prints the
-          accepted run ID and dashboard link.
+          CI may provide <code>MARUCHECK_TOKEN</code> and <code>MARUCHECK_URL</code> as encrypted
+          environment variables instead. Use <code>--report</code> or <code>--url</code> only when a
+          particular run or host must override those defaults. A successful upload prints the
+          selected report path, accepted run ID, and dashboard link.
         </p>
       </section>
       <section className="docs-section">
@@ -78,6 +81,9 @@ export default function ReportIngestionDocsPage() {
         <ul>
           <li>
             <code>HOSTED_AUTH_REQUIRED</code>: <code>MARUCHECK_TOKEN</code> is missing or malformed.
+          </li>
+          <li>
+            <code>HOSTED_REPORT_NOT_FOUND</code>: run <code>maru verify --diff</code> first.
           </li>
           <li>
             <code>401</code>: the project token is invalid, expired, or revoked.
