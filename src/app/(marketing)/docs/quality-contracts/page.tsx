@@ -32,11 +32,11 @@ export default function ContractsDocsPage() {
         </p>
       </DocsCallout>
       <section className="docs-section">
-        <h2>Illustrative structure</h2>
-        <CodeBlock>{`contract: invoice-access\nowner: billing\ncriticality: critical\nrequirements:\n  - id: INV-001\n    intent: A user can only read invoices owned by their organization\n    evidence:\n      - authorization-test\n      - cross-tenant-challenge`}</CodeBlock>
+        <h2>Version 1 structure</h2>
+        <CodeBlock>{`version: 1\nid: invoice-access\ntitle: Invoice Access\nstatus: draft\ncriticality: critical\nintent: Keep invoice reads inside the authenticated organization.\nowners:\n  - billing\nrequirements:\n  - id: INV-001\n    statement: A user can only read invoices owned by their organization.\n    priority: required\ninvariants:\n  - id: INV-INV-001\n    statement: A client-supplied organization ID never grants invoice access.\nedge_cases:\n  - a user guesses an invoice ID from another organization\nsecurity:\n  - enforce organization ownership on the server\ndata_integrity:\n  - preserve the invoice organization relationship\nevidence_policy:\n  blocking_requirements:\n    - INV-001\n    - INV-INV-001`}</CodeBlock>
         <p>
-          Use the schema produced by the current CLI as the canonical format; this example shows the
-          conceptual fields.
+          This uses the current version 1 schema. Create contracts through the CLI when possible so
+          validation and review prompts are applied consistently.
         </p>
       </section>
       <section className="docs-section">
@@ -46,6 +46,10 @@ export default function ContractsDocsPage() {
           <li>Make the expected behavior observable.</li>
           <li>Call out security and data boundaries explicitly.</li>
           <li>Approve contract changes separately from incidental code changes.</li>
+          <li>
+            Keep a contract in draft or review until its proposed blocking policy is ready to gate
+            releases.
+          </li>
         </ol>
       </section>
     </>

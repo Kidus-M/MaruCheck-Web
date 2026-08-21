@@ -20,7 +20,7 @@ The hosted foundation includes a verification-command public site built from rea
 
 ## Current readiness
 
-The repository now has one guarded production release path: closed-by-default signup, durable authentication rate limiting, liveness/readiness checks, authenticated scheduled retention, security headers, disposable-Neon integration acceptance, desktop/mobile Playwright coverage, a staged Vercel deployment, and smoke checks before and after promotion. The source is deployable for invited developer testing; external Vercel/Neon configuration and the first recorded production release still need to be completed.
+The repository has one guarded production release path: configurable open, allowlisted, or locked signup; durable authentication rate limiting; liveness/readiness checks; authenticated scheduled retention; security headers; disposable-Neon integration acceptance; desktop/mobile Playwright coverage; staged Vercel promotion; and smoke checks before and after promotion. The application is deployed for developer testing. Environment values, migrations, OAuth/email delivery, monitoring, and external acceptance still need to be verified in each deployment rather than inferred from source code.
 
 Follow the [production deployment runbook](docs/production-deployment.md), [testing strategy](docs/testing.md), and [incident response runbook](docs/operations/production-incident-response.md).
 
@@ -69,7 +69,7 @@ Any supported MCP client can launch the public CLI directly:
 ```toml
 [mcp_servers.maru]
 command = "npx"
-args = ["--yes", "marucheck@0.2.0", "mcp"]
+args = ["--yes", "marucheck@0.2.2", "mcp"]
 ```
 
-For reproducible teams, install `marucheck@0.2.0` exactly and replace the arguments with `["--no-install", "maru", "mcp"]`. The server is not marked as required, so contributors who use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Current Codex, Claude Code, and Cursor setup instructions are served at `/docs/mcp` by the application and maintained in the [CLI repository guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).
+For reproducible teams, install `marucheck@0.2.2` exactly and replace the arguments with `["--no-install", "maru", "mcp"]`. The server is not marked as required, so contributors who use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Current Codex, Claude Code, and Cursor setup instructions are served at `/docs/mcp` by the application and maintained in the [CLI repository guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).

@@ -33,7 +33,8 @@ export default function ReportIngestionDocsPage() {
             Sign in and open <Link href="/projects/connect">Connect project</Link>.
           </li>
           <li>
-            Use the same project name reported by <code>maru scan</code>.
+            Choose the dashboard display name your team will recognize. It does not need to match
+            the local package or repository name.
           </li>
           <li>Copy the two-line connection setup before leaving the confirmation screen.</li>
           <li>
@@ -54,8 +55,8 @@ export default function ReportIngestionDocsPage() {
         <h2>3. Upload that report</h2>
         <p>
           MaruCheck reads the ignored connection file and selects the valid report with the newest
-          generated timestamp. It also reads the current branch, commit SHA, and commit title from
-          Git.
+          generated timestamp, so you do not need to find or type a run ID. It also reads the
+          current branch, commit SHA, and commit title from Git.
         </p>
         <CodeBlock>{`npx --no-install maru upload`}</CodeBlock>
         <p>
@@ -85,6 +86,10 @@ export default function ReportIngestionDocsPage() {
           </li>
           <li>
             <code>401</code>: the project token is invalid, expired, or revoked.
+          </li>
+          <li>
+            <code>409</code>: the same run ID already exists with different submitted content; make
+            a new verification run instead of changing an existing run.
           </li>
           <li>
             <code>413</code>: the versioned request exceeds the 2 MB boundary.

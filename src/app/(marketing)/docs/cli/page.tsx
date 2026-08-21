@@ -109,7 +109,11 @@ export default function CliDocsPage() {
           <li>
             Confirmed QA memory is stored under <code>.maru/memory/</code>.
           </li>
-          <li>A blocking verification or CI gate returns a non-zero exit code.</li>
+          <li>
+            Approved contract policies can block; draft and review policies remain advisory unless
+            an independent high-risk or security rule requires a blocking check.
+          </li>
+          <li>A blocked verification or CI gate returns a non-zero exit code.</li>
           <li>
             Use <code>maru --version</code> to confirm the active package release.
           </li>
