@@ -55,7 +55,7 @@ export function MarketingNavigation() {
             Sign in
           </Link>
           <Link className="nav-console-link" href="/docs/getting-started">
-            Verify a change <span aria-hidden="true">↗</span>
+            Get started <span aria-hidden="true">↗</span>
           </Link>
         </div>
         <button
