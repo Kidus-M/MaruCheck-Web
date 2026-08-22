@@ -5,6 +5,8 @@
 Accepted
 
 This decision partially supersedes [ADR-004](0004-use-verification-command-public-system.md).
+[ADR-010](0010-use-gsap-for-public-motion.md) supersedes this decision's no-animation-library
+constraint.
 
 ## Date
 
@@ -18,6 +20,10 @@ small type, and directory-style footer made the site feel assembled from familia
 
 MaruCheck also has no approved pricing model. The project may remain proprietary, become open
 source, or adopt a mixed model. Publishing provisional tiers would create a false product promise.
+
+The product name is inspired by the Kobayashi Maru concept: testing a system under difficult and
+unexpected conditions rather than merely checking the happy path. Circular interface elements may
+support the diagnostic visual language, but they are not the name's etymology.
 
 ## Decision
 

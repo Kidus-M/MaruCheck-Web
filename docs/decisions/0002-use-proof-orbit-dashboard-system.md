@@ -20,7 +20,7 @@ the authenticated dashboard.
 
 Phase 11 introduces the first hosted product surface for MaruCheck. It must cover organizations, projects, contracts, verification runs, findings, requirement coverage, and QA memory without becoming a generic analytics dashboard. The primary audience is an engineering lead, product owner, or QA owner deciding whether a release has enough proof to ship.
 
-The name must inform the interface rather than appear only in a logo. In Japanese usage, a circle (maru) marks an answer as correct; a double circle indicates stronger approval. That meaning fits MaruCheck's role: not merely observing activity, but connecting approved intent, challenged behavior, and evidence into a defensible release decision.
+The original design rationale connected the Maru name to a correctness circle. ADR-009 corrects the product origin: MaruCheck is named for the Kobayashi Maru concept of testing under difficult and unexpected conditions rather than only the happy path. Circular indicators remain a useful interface motif, but are not the name's etymology.
 
 Current highly regarded developer dashboards converge on several useful patterns:
 

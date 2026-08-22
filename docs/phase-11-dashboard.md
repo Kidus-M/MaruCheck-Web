@@ -47,13 +47,13 @@ The dashboard now sits behind a complete public experience rather than occupying
 
 The redesigned public site uses a scroll-led verification-command system grounded in the implemented CLI, Quality Contracts, deterministic risk, QA memory, semantic drift, MCP tools, and hosted release evidence. The homepage moves through one continuous pressure test rather than repeating equal-weight feature sections. Product, About, and Docs share the same command-system hierarchy. Pricing is intentionally absent until a commercial or open-source model has been approved; the former URL redirects to Product.
 
-Motion uses CSS choreography and focused Intersection Observer client components. The changing pressure-test instrument, navigation, and interactive CLI example are small client islands. The site respects reduced-motion preferences and does not add an animation library to the client bundle.
+Motion uses GSAP/ScrollTrigger for coordinated public-page entrances and scroll relationships, plus focused client components for the changing pressure-test instrument, navigation, and interactive CLI example. Content remains visible before JavaScript initializes, animation cleanup follows App Router navigation, and the site respects reduced-motion preferences. See [ADR-010](decisions/0010-use-gsap-for-public-motion.md).
 
 ## Visual language
 
-Maru means circle, and the circle is used in Japan to mark an answer correct. The product applies that meaning through:
+MaruCheck is named for the Kobayashi Maru concept: testing a system under difficult and unexpected conditions rather than merely checking the happy path. The product expresses that pressure-test mindset through:
 
-- a double-ring brand mark;
+- a double-ring brand mark used as a visual system indicator, not as the name's etymology;
 - a proof orbit connecting quality score, coverage, and the current gap;
 - single and double circles for drafts, approved contracts, and historical memory;
 - coral interruption points when the proof loop is incomplete;

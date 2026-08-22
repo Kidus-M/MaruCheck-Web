@@ -6,6 +6,7 @@ Accepted
 
 ADR-009 supersedes this decision's homepage composition, navigation, footer, and Pricing-route
 details. The underlying verification-command language remains active.
+[ADR-010](0010-use-gsap-for-public-motion.md) supersedes the no-motion-library constraint.
 
 This decision supersedes the public marketing portions of
 [ADR-002](0002-use-proof-orbit-dashboard-system.md). ADR-002 remains active for the authenticated
