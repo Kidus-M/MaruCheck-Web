@@ -1,0 +1,793 @@
+/* Product and About use their own narrative cadence while sharing the MaruCheck system. */
+.product-v2-hero,
+.about-v2-hero {
+  position: relative;
+  min-height: 92svh;
+  overflow: hidden;
+  padding: 11rem 0 8rem;
+  color: #edf2f0;
+  background:
+    radial-gradient(ellipse at 82% 25%, rgba(102, 120, 232, 0.3), transparent 38%),
+    linear-gradient(145deg, #091119, #15212d 65%, #0b151f);
+}
+.product-v2-hero__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 7rem 7rem;
+  mask-image: linear-gradient(to bottom, black, transparent 90%);
+}
+.product-v2-hero .marketing-container,
+.about-v2-hero .marketing-container {
+  position: relative;
+  z-index: 2;
+}
+.product-v2-hero h1,
+.about-v2-hero h1 {
+  margin: 3.5rem 0 0;
+  font-size: clamp(4.5rem, 8.4vw, 8.6rem);
+  font-weight: 580;
+  line-height: 0.87;
+  letter-spacing: -0.08em;
+}
+.product-v2-hero h1 em,
+.about-v2-hero h1 em {
+  color: #8796f0;
+  font-style: normal;
+}
+.product-v2-hero__foot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  align-items: end;
+  margin-top: 5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.product-v2-hero__foot > p {
+  max-width: 650px;
+  margin: 0;
+  color: #acb7ba;
+  font-size: 1.24rem;
+  line-height: 1.62;
+}
+.product-v2-hero__route {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto 1fr;
+  align-items: center;
+  gap: 0.8rem;
+  color: #6f7c82;
+  font:
+    700 0.65rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  letter-spacing: 0.08em;
+}
+.product-v2-hero__route b {
+  color: #d8dfdd;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.product-v2-hero__route i {
+  color: #8796f0;
+  font-style: normal;
+}
+.product-act {
+  position: relative;
+  padding: 11rem 0;
+}
+.product-act--contract {
+  background:
+    radial-gradient(circle at 7% 15%, rgba(102, 120, 232, 0.14), transparent 30rem),
+    linear-gradient(160deg, #e7eaec 0%, #f5f4ee 45%, #e9ede8 100%);
+}
+.product-act__heading {
+  display: grid;
+  grid-template-columns: 0.55fr 1.45fr 0.75fr;
+  gap: 3rem;
+  align-items: end;
+}
+.product-act__heading h2 {
+  margin: 0;
+  font-size: clamp(3.2rem, 5.7vw, 6.2rem);
+  font-weight: 560;
+  line-height: 0.94;
+  letter-spacing: -0.065em;
+}
+.product-act__heading > p:last-child {
+  margin: 0;
+  color: #68747a;
+  font-size: 1.06rem;
+  line-height: 1.65;
+}
+.product-contract {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  margin-top: 6rem;
+  border: 1px solid rgba(16, 23, 32, 0.16);
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow: 0 40px 100px rgba(31, 42, 49, 0.1);
+}
+.product-contract__code {
+  min-width: 0;
+  border-right: 1px solid rgba(16, 23, 32, 0.14);
+  background: #111b24;
+  color: #dfe6e4;
+}
+.product-contract__code header,
+.product-evidence header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.15rem 1.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #768289;
+  font:
+    700 0.66rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  letter-spacing: 0.06em;
+}
+.product-contract__code header b {
+  color: #a8e6cf;
+}
+.product-contract__code pre {
+  overflow-x: auto;
+  margin: 0;
+  padding: 2.2rem;
+  color: #bbc6c5;
+  font:
+    0.9rem/1.8 "Cascadia Mono",
+    Consolas,
+    monospace;
+}
+.product-contract__trace {
+  display: flex;
+  min-height: 500px;
+  flex-direction: column;
+  padding: 2.5rem;
+}
+.product-contract__trace > span {
+  color: #455ab5;
+  font:
+    700 0.7rem "Cascadia Mono",
+    Consolas,
+    monospace;
+}
+.product-contract__trace h3 {
+  margin: 1rem 0 2.5rem;
+  font-size: 2.2rem;
+  letter-spacing: -0.05em;
+}
+.product-contract__trace ol {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+  color: #58666c;
+  list-style: none;
+}
+.product-contract__trace li {
+  padding: 1rem 0;
+  border-top: 1px solid rgba(16, 23, 32, 0.12);
+}
+.product-contract__trace li i {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.8rem;
+  border-radius: 50%;
+  background: #68b99a;
+}
+.product-contract__trace > strong {
+  margin-top: auto;
+  color: #318b70;
+  font:
+    700 0.7rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  letter-spacing: 0.08em;
+}
+.product-act--risk {
+  color: #edf2f0;
+  background:
+    radial-gradient(circle at 92% 50%, rgba(69, 90, 181, 0.22), transparent 35rem),
+    linear-gradient(145deg, #0b131c, #15212b 62%, #0d1822);
+}
+.product-act__heading--dark > p:last-child {
+  color: #94a0a5;
+}
+.product-act--risk .section-index {
+  color: #718087;
+}
+.product-risk-flow {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr 80px 0.8fr;
+  align-items: stretch;
+  margin-top: 7rem;
+}
+.product-risk-flow > article {
+  min-height: 400px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.025);
+}
+.product-risk-flow > i {
+  align-self: center;
+  height: 1px;
+  background: linear-gradient(90deg, #6678e8, #ff675f);
+}
+.product-risk-flow article > span {
+  color: #78858a;
+  font:
+    700 0.66rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  letter-spacing: 0.08em;
+}
+.product-risk-flow h3 {
+  margin: 2.5rem 0 1.4rem;
+  font-size: 1.7rem;
+  letter-spacing: -0.045em;
+}
+.product-risk-flow code {
+  display: block;
+  overflow: hidden;
+  padding: 0.75rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  color: #8f9ba0;
+  font-size: 0.7rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.product-risk-flow p {
+  color: #919da2;
+  line-height: 1.65;
+}
+.product-risk-flow article > b {
+  display: inline-block;
+  margin-top: 2rem;
+  color: #ff8179;
+  font:
+    700 0.7rem "Cascadia Mono",
+    Consolas,
+    monospace;
+}
+.product-risk-flow article.is-risk {
+  background: #b83b3e;
+}
+.product-risk-flow .is-risk > span,
+.product-risk-flow .is-risk p {
+  color: rgba(255, 255, 255, 0.68);
+}
+.product-risk-flow .is-risk > strong {
+  display: block;
+  margin-top: 3rem;
+  font-size: 5.5rem;
+  font-weight: 560;
+  line-height: 1;
+  letter-spacing: -0.08em;
+}
+.product-risk-flow .is-risk > strong small {
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+.product-act--evidence {
+  background:
+    radial-gradient(circle at 15% 90%, rgba(168, 230, 207, 0.28), transparent 28rem),
+    linear-gradient(150deg, #edf0ec, #f7f5ef 48%, #e3e8e9);
+}
+.product-evidence-grid {
+  display: grid;
+  grid-template-columns: 0.78fr 1.22fr;
+  gap: 8vw;
+  align-items: center;
+}
+.product-evidence-grid .product-act__heading {
+  display: block;
+}
+.product-evidence-grid .product-act__heading h2 {
+  margin: 1.5rem 0 2rem;
+}
+.product-evidence-grid .product-act__heading > p:last-child {
+  max-width: 520px;
+}
+.product-evidence {
+  border: 1px solid rgba(16, 23, 32, 0.15);
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 40px 100px rgba(31, 42, 49, 0.12);
+}
+.product-evidence header {
+  border-color: rgba(16, 23, 32, 0.12);
+}
+.product-evidence > div {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 2rem;
+  padding: 1.4rem;
+  border-bottom: 1px solid rgba(16, 23, 32, 0.1);
+}
+.product-evidence > div span {
+  color: #788288;
+  font:
+    700 0.67rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  text-transform: uppercase;
+}
+.product-evidence > div strong {
+  font-size: 0.95rem;
+}
+.product-evidence > div code {
+  overflow: hidden;
+  color: #455ab5;
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+}
+.product-evidence > div.is-fail {
+  color: #fff1ed;
+  background: #b83b3e;
+}
+.product-evidence > div.is-fail span {
+  color: rgba(255, 255, 255, 0.65);
+}
+.product-evidence footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.7rem;
+  background: #111b24;
+  color: #dce3e1;
+  font:
+    700 0.7rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  letter-spacing: 0.08em;
+}
+.product-evidence footer b {
+  color: #ff7770;
+  font-size: 1.4rem;
+}
+.product-principles-v2 {
+  padding: 11rem 0;
+  color: #eef2f0;
+  background: linear-gradient(145deg, #455ab5, #344aab 55%, #263782);
+}
+.product-principles-v2 h2 {
+  max-width: 900px;
+  margin: 1.6rem 0 5rem;
+  font-size: clamp(3.5rem, 6vw, 6.5rem);
+  font-weight: 560;
+  line-height: 0.92;
+  letter-spacing: -0.07em;
+}
+.product-principles-v2 .section-index {
+  color: rgba(255, 255, 255, 0.58);
+}
+.product-principles-v2 .marketing-container > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255, 255, 255, 0.24);
+}
+.product-principles-v2 article {
+  min-height: 260px;
+  padding: 1.7rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+.product-principles-v2 article:last-child {
+  border-right: 0;
+}
+.product-principles-v2 article span {
+  color: #b8c1ff;
+  font:
+    700 0.68rem "Cascadia Mono",
+    Consolas,
+    monospace;
+}
+.product-principles-v2 article h3 {
+  margin: 3.5rem 0 1rem;
+  font-size: 1.35rem;
+}
+.product-principles-v2 article p {
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.6;
+}
+.product-principles-v2 .marketing-button {
+  margin-top: 3rem;
+  background: white;
+  color: #17212b;
+}
+
+/* About */
+.about-v2-hero {
+  background:
+    radial-gradient(circle at 74% 42%, rgba(168, 230, 207, 0.12), transparent 18rem),
+    radial-gradient(circle at 76% 45%, rgba(102, 120, 232, 0.24), transparent 38rem),
+    linear-gradient(145deg, #091119, #14202b 66%, #0b151f);
+}
+.about-v2-hero__rings {
+  position: absolute;
+  top: 49%;
+  right: 8%;
+  width: min(44vw, 620px);
+  aspect-ratio: 1;
+  transform: translateY(-42%);
+}
+.about-v2-hero__rings::before,
+.about-v2-hero__rings i {
+  position: absolute;
+  border: 1px solid rgba(135, 150, 240, 0.3);
+  border-radius: 50%;
+  content: "";
+}
+.about-v2-hero__rings::before {
+  inset: 0;
+}
+.about-v2-hero__rings i:nth-child(1) {
+  inset: 17%;
+  border-style: dashed;
+  animation: orbit-spin 28s linear infinite;
+}
+.about-v2-hero__rings i:nth-child(2) {
+  inset: 34%;
+  background: rgba(102, 120, 232, 0.05);
+}
+.about-v2-hero__rings i:nth-child(3) {
+  top: 16%;
+  right: 17%;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 0;
+  background: #ff675f;
+  box-shadow: 0 0 0 12px rgba(255, 103, 95, 0.08);
+}
+.about-v2-hero h1 {
+  position: relative;
+  z-index: 2;
+  max-width: 1050px;
+}
+.about-v2-hero__intro {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 8vw;
+  max-width: 900px;
+  align-items: end;
+  margin-top: 5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.about-v2-hero__intro p {
+  margin: 0;
+  color: #b5c0c1;
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+.about-v2-hero__intro > span {
+  color: #78858a;
+  font:
+    700 0.66rem/1.7 "Cascadia Mono",
+    Consolas,
+    monospace;
+  letter-spacing: 0.08em;
+}
+.about-v2-hero__intro strong {
+  color: #dce4e2;
+  font-size: 0.85rem;
+}
+.name-story {
+  padding: 12rem 0;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(102, 120, 232, 0.15), transparent 28rem),
+    linear-gradient(160deg, #e5e9eb, #f6f4ee 48%, #e9ede8);
+}
+.name-story__grid {
+  display: grid;
+  grid-template-columns: 0.45fr 1.2fr 0.9fr;
+  gap: 5vw;
+  align-items: start;
+}
+.name-equation {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  border-top: 1px solid rgba(16, 23, 32, 0.18);
+}
+.name-equation > div {
+  grid-column: 1;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(16, 23, 32, 0.15);
+}
+.name-equation > div span {
+  font-size: clamp(2.5rem, 4vw, 4.5rem);
+  font-weight: 580;
+  letter-spacing: -0.06em;
+}
+.name-equation > div p {
+  max-width: 360px;
+  margin: 0.7rem 0 0;
+  color: #667278;
+  line-height: 1.6;
+}
+.name-equation > i,
+.name-equation > b {
+  grid-column: 2;
+  align-self: center;
+  padding-left: 2rem;
+  color: #455ab5;
+  font-size: 2rem;
+  font-style: normal;
+}
+.name-equation > strong {
+  grid-column: 1/-1;
+  padding-top: 2rem;
+  color: #455ab5;
+  font-size: clamp(2.7rem, 4vw, 4.8rem);
+  letter-spacing: -0.06em;
+}
+.name-story__copy h2,
+.origin-story__heading h2,
+.maker-story h2,
+.beliefs-v2 h2 {
+  margin: 0 0 2rem;
+  font-size: clamp(3rem, 5.5vw, 5.8rem);
+  font-weight: 560;
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+}
+.name-story__copy p,
+.maker-story__grid > div:last-child p {
+  color: #626f75;
+  font-size: 1.04rem;
+  line-height: 1.72;
+}
+.origin-story {
+  padding: 12rem 0;
+  color: #edf2f0;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(102, 120, 232, 0.25), transparent 32rem),
+    linear-gradient(145deg, #0a121a, #15212b);
+}
+.origin-story__heading {
+  display: grid;
+  grid-template-columns: 0.45fr 2fr;
+  gap: 5vw;
+}
+.origin-story .section-index {
+  color: #718087;
+}
+.origin-sequence {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 7rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.origin-sequence article {
+  min-height: 350px;
+  padding: 1.7rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+.origin-sequence article > span {
+  color: #8796f0;
+  font:
+    700 0.7rem "Cascadia Mono",
+    Consolas,
+    monospace;
+}
+.origin-sequence article h3 {
+  margin: 4rem 0 1rem;
+  font-size: 1.45rem;
+  letter-spacing: -0.04em;
+}
+.origin-sequence article p {
+  color: #929fa3;
+  line-height: 1.65;
+}
+.origin-sequence article.is-answer {
+  background: #455ab5;
+}
+.origin-sequence article.is-answer > span,
+.origin-sequence article.is-answer p {
+  color: rgba(255, 255, 255, 0.72);
+}
+.maker-story {
+  padding: 12rem 0;
+  background:
+    radial-gradient(circle at 85% 80%, rgba(168, 230, 207, 0.3), transparent 28rem),
+    linear-gradient(145deg, #e7ebec, #f7f5ef 58%, #e6ece7);
+}
+.maker-story__grid {
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  gap: 10vw;
+}
+.maker-story .section-index {
+  margin-bottom: 2rem;
+}
+.beliefs-v2 {
+  padding: 12rem 0;
+  color: #edf2f0;
+  background: linear-gradient(145deg, #455ab5, #344aab 58%, #25367e);
+}
+.beliefs-v2 .section-index {
+  color: rgba(255, 255, 255, 0.58);
+}
+.beliefs-v2 .marketing-container > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 3rem 0 8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+.beliefs-v2 article {
+  min-height: 260px;
+  padding: 1.7rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+.beliefs-v2 article > span {
+  color: #bbc4ff;
+  font:
+    700 0.68rem "Cascadia Mono",
+    Consolas,
+    monospace;
+}
+.beliefs-v2 article h3 {
+  margin: 3.8rem 0 1rem;
+  font-size: 1.35rem;
+}
+.beliefs-v2 article p {
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.65;
+}
+.beliefs-v2 h2 em {
+  color: #bfead9;
+  font-style: normal;
+}
+.beliefs-v2 .marketing-button {
+  background: white;
+  color: #17212b;
+}
+
+@media (max-width: 1000px) {
+  .product-act__heading,
+  .name-story__grid {
+    grid-template-columns: 1fr 3fr;
+  }
+  .product-act__heading > p:last-child,
+  .name-story__copy {
+    grid-column: 2;
+  }
+  .product-risk-flow {
+    grid-template-columns: 1fr 40px 1fr;
+  }
+  .product-risk-flow > i:nth-of-type(2) {
+    display: none;
+  }
+  .product-risk-flow article.is-risk {
+    grid-column: 1/-1;
+    min-height: 280px;
+  }
+  .origin-sequence {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .product-v2-hero,
+  .about-v2-hero {
+    min-height: auto;
+    padding: 9rem 0 6rem;
+  }
+  .product-v2-hero h1,
+  .about-v2-hero h1 {
+    margin-top: 2.5rem;
+    font-size: clamp(3.6rem, 16vw, 5.2rem);
+  }
+  .product-v2-hero .hero-word-clip--offset,
+  .about-v2-hero .hero-word-clip--offset {
+    margin-left: 0;
+  }
+  .product-v2-hero__foot,
+  .about-v2-hero__intro,
+  .product-act__heading,
+  .product-contract,
+  .product-evidence-grid,
+  .name-story__grid,
+  .origin-story__heading,
+  .maker-story__grid {
+    display: block;
+  }
+  .product-v2-hero__route {
+    margin-top: 2.5rem;
+  }
+  .about-v2-hero__rings {
+    right: -30%;
+    width: 110vw;
+    opacity: 0.55;
+  }
+  .about-v2-hero__intro > span {
+    display: block;
+    margin-top: 2rem;
+  }
+  .product-act,
+  .name-story,
+  .origin-story,
+  .maker-story,
+  .beliefs-v2,
+  .product-principles-v2 {
+    padding: 8rem 0;
+  }
+  .product-act__heading h2,
+  .name-story__copy h2,
+  .origin-story__heading h2,
+  .maker-story h2,
+  .beliefs-v2 h2 {
+    margin-top: 1.7rem;
+    font-size: clamp(3rem, 13vw, 4.6rem);
+  }
+  .product-act__heading > p:last-child {
+    margin-top: 1.5rem;
+  }
+  .product-contract {
+    margin-top: 4rem;
+  }
+  .product-contract__code {
+    border-right: 0;
+  }
+  .product-contract__code pre {
+    padding: 1.4rem;
+    font-size: 0.72rem;
+  }
+  .product-contract__trace {
+    min-height: 430px;
+  }
+  .product-risk-flow {
+    display: block;
+    margin-top: 4rem;
+  }
+  .product-risk-flow > i {
+    display: block;
+    width: 1px;
+    height: 3rem;
+    margin-inline: auto;
+  }
+  .product-risk-flow > i:nth-of-type(2) {
+    display: block;
+  }
+  .product-risk-flow > article {
+    min-height: 330px;
+  }
+  .product-evidence {
+    margin-top: 4rem;
+  }
+  .product-evidence > div {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  .product-principles-v2 .marketing-container > div,
+  .beliefs-v2 .marketing-container > div,
+  .origin-sequence {
+    grid-template-columns: 1fr;
+  }
+  .product-principles-v2 article,
+  .beliefs-v2 article,
+  .origin-sequence article {
+    min-height: 260px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .name-equation {
+    margin: 4rem 0;
+  }
+  .origin-sequence {
+    margin-top: 4rem;
+  }
+  .beliefs-v2 .marketing-container > div {
+    margin-bottom: 5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-v2-hero__rings i:nth-child(1) {
+    animation: none;
+  }
+}

@@ -21,8 +21,8 @@ export default async function SignInPage() {
           <p className="eyebrow">Proof has a shape</p>
           <h1>Close the loop between intent and release.</h1>
           <p>
-            Maru is the circle used to mark an answer correct. MaruCheck gives every release that
-            same standard: approved meaning, challenged behavior, and inspectable proof.
+            Inspired by the Kobayashi Maru concept, MaruCheck tests software under difficult and
+            unexpected conditions—not only the happy path.
           </p>
         </div>
         <footer>

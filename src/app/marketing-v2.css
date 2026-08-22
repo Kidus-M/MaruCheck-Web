@@ -201,7 +201,10 @@
 }
 .v2-hero__premise span {
   color: #737f85;
-  font: 700 0.65rem "Cascadia Mono", Consolas, monospace;
+  font:
+    700 0.65rem "Cascadia Mono",
+    Consolas,
+    monospace;
   letter-spacing: 0.1em;
 }
 .v2-hero__premise p {
@@ -765,7 +768,9 @@
 /* Memory, MCP and CLI */
 .memory-recall {
   padding: 13rem 0;
-  background: var(--v2-paper);
+  background:
+    radial-gradient(circle at 88% 18%, rgba(168, 230, 207, 0.3), transparent 30rem),
+    linear-gradient(155deg, #e7eaec 0%, #f5f4ee 48%, #e8ede8 100%);
 }
 .memory-recall__grid {
   display: grid;
@@ -949,7 +954,9 @@
 }
 .v2-cli {
   padding: 12rem 0;
-  background: #dfe2dd;
+  background:
+    radial-gradient(circle at 12% 30%, rgba(102, 120, 232, 0.15), transparent 30rem),
+    linear-gradient(145deg, #e2e6e8 0%, #f2f2ec 52%, #dde4df 100%);
 }
 .v2-cli__heading {
   display: grid;
@@ -1231,7 +1238,10 @@
     width: 100%;
   }
   .v2-hero__deck {
-    grid-template-columns: 1fr 0.9fr;
+    grid-template-columns: 0.75fr 1fr;
+  }
+  .v2-hero__answer {
+    grid-column: 2;
   }
   .v2-trust-rail .marketing-container {
     grid-template-columns: repeat(3, 1fr);
@@ -1337,11 +1347,17 @@
   .v2-hero h1 em {
     margin-left: 0;
   }
+  .hero-word-clip--offset {
+    margin-left: 0;
+  }
   .v2-hero__deck {
     display: block;
     margin-top: 2.3rem;
   }
-  .v2-hero__deck > p {
+  .v2-hero__premise {
+    margin-bottom: 2rem;
+  }
+  .v2-hero__answer > p {
     font-size: 1.08rem;
   }
   .v2-hero__deck .marketing-actions {

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import "./marketing.css";
 import "./marketing-v2.css";
+import "./marketing-pages-v2.css";
 
 export const metadata: Metadata = {
   description:
