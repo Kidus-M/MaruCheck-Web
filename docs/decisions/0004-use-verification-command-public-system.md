@@ -4,6 +4,9 @@
 
 Accepted
 
+ADR-009 supersedes this decision's homepage composition, navigation, footer, and Pricing-route
+details. The underlying verification-command language remains active.
+
 This decision supersedes the public marketing portions of
 [ADR-002](0002-use-proof-orbit-dashboard-system.md). ADR-002 remains active for the authenticated
 dashboard.
@@ -67,6 +70,6 @@ avoid a large dependency and preserve server-rendered content and reduced-motion
 
 - The homepage explains the complete product loop visually within the first viewport and through
   the scroll narrative.
-- Public Product, Pricing, About, and Docs routes share one coherent command-system language.
+- Public Product, About, and Docs routes share one coherent command-system language.
 - Marketing examples must remain synchronized with the CLI and dashboard models as those evolve.
 - Visual QA should include desktop and mobile screenshots when browser automation is available.

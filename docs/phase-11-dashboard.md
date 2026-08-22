@@ -38,7 +38,6 @@ The dashboard now sits behind a complete public experience rather than occupying
 | ----------------- | ------------------------- | --------------------------------------------------------- |
 | Landing page      | `/`                       | Positioning, proof-loop narrative, capabilities, and CTAs |
 | Product           | `/product`                | Detailed contract-to-evidence product model               |
-| Pricing           | `/pricing`                | Honest preview, private-beta, and design-partner stages   |
 | About             | `/about`                  | Maru name, circle identity, and product principles        |
 | Documentation     | `/docs`                   | Documentation map and proof-loop overview                 |
 | Getting started   | `/docs/getting-started`   | Current source-based CLI setup                            |
@@ -46,9 +45,9 @@ The dashboard now sits behind a complete public experience rather than occupying
 | CI integration    | `/docs/ci`                | Pull-request gate and evidence-handling guidance          |
 | MCP workflow      | `/docs/mcp`               | Codex and client-neutral MCP operating model              |
 
-The redesigned public site uses a verification-command visual system grounded in the implemented CLI, Quality Contracts, deterministic risk, QA memory, semantic drift, MCP tools, and hosted release evidence. The signature hero is an animated verification deck rather than a generic screenshot or card composition. Product, Pricing, About, and Docs use the same command-system hierarchy.
+The redesigned public site uses a scroll-led verification-command system grounded in the implemented CLI, Quality Contracts, deterministic risk, QA memory, semantic drift, MCP tools, and hosted release evidence. The homepage moves through one continuous pressure test rather than repeating equal-weight feature sections. Product, About, and Docs share the same command-system hierarchy. Pricing is intentionally absent until a commercial or open-source model has been approved; the former URL redirects to Product.
 
-Motion uses CSS choreography and one small Intersection Observer client component. Navigation and the interactive CLI example are focused client islands. The site respects reduced-motion preferences and does not add an animation library to the client bundle.
+Motion uses CSS choreography and focused Intersection Observer client components. The changing pressure-test instrument, navigation, and interactive CLI example are small client islands. The site respects reduced-motion preferences and does not add an animation library to the client bundle.
 
 ## Visual language
 

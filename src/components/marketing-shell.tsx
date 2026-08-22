@@ -1,68 +1,57 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/icon";
+import { MarketingGsap } from "@/components/marketing-gsap";
 import { MaruMark } from "@/components/maru-mark";
 import { MarketingMotion } from "@/components/marketing-motion";
 import { MarketingNavigation } from "@/components/marketing-navigation";
 
-const footerGroups = [
-  {
-    title: "Product",
-    links: [
-      ["Overview", "/product"],
-      ["Proof dashboard", "/dashboard"],
-      ["Pricing", "/pricing"],
-      ["Sign in", "/sign-in"],
-    ],
-  },
-  {
-    title: "Developers",
-    links: [
-      ["Documentation", "/docs"],
-      ["Getting started", "/docs/getting-started"],
-      ["CLI reference", "/docs/cli"],
-      ["Quality Contracts", "/docs/quality-contracts"],
-      ["MCP integration", "/docs/mcp"],
-      ["Hosted reports", "/docs/report-ingestion"],
-    ],
-  },
-  {
-    title: "System",
-    links: [
-      ["CI verification", "/docs/ci"],
-      ["About", "/about"],
-      ["Service health", "/api/health"],
-      ["GitHub", "https://github.com/Kidus-M/MaruCheck"],
-    ],
-  },
+const footerLinks = [
+  ["Product", "/product"],
+  ["How it works", "/#workflow"],
+  ["Documentation", "/docs"],
+  ["About", "/about"],
+  ["GitHub", "https://github.com/Kidus-M/MaruCheck"],
+  ["System status", "/api/health/live"],
+  ["Sign in", "/sign-in"],
 ] as const;
 
 export function MarketingShell({ children }: { readonly children: ReactNode }) {
   return (
     <div className="marketing-site">
       <MarketingMotion />
+      <MarketingGsap />
       <MarketingNavigation />
       <main id="main-content">{children}</main>
       <footer className="marketing-footer">
         <section className="footer-proof">
           <div className="marketing-container footer-proof__inner" data-reveal>
             <p className="signal-label">
-              <span /> Final verification
+              <span /> The independent check
             </p>
             <h2>
               The coding agent builds.
               <span>MaruCheck proves.</span>
             </h2>
+            <p className="footer-proof__copy">
+              Give your next AI-authored change a contract, a memory, and a release decision you can
+              inspect.
+            </p>
             <div className="footer-proof__actions">
               <Link
                 className="marketing-button marketing-button--signal"
                 href="/docs/getting-started"
               >
-                Start with MaruCheck <Icon name="arrow" />
+                Verify your first change <Icon name="arrow" />
               </Link>
-              <Link className="marketing-button marketing-button--ghost-dark" href="/docs">
-                Read the system docs
+              <Link className="marketing-button marketing-button--ghost-dark" href="/dashboard">
+                Inspect the proof console
               </Link>
+            </div>
+            <div className="footer-command">
+              <span>$</span>
+              <code>npm install --save-dev --save-exact marucheck@0.2.2</code>
+              <Link href="/docs/getting-started">Copy the full setup →</Link>
             </div>
           </div>
           <div className="footer-proof__trace" aria-hidden="true">
@@ -71,24 +60,20 @@ export function MarketingShell({ children }: { readonly children: ReactNode }) {
             <i />
           </div>
         </section>
-        <div className="marketing-container marketing-footer__grid">
+        <div className="marketing-container marketing-footer__rail">
           <div className="marketing-footer__brand">
             <MaruMark />
-            <p>Independent verification for software built at AI speed.</p>
-            <span className="system-state">
-              <i /> Local-first core operational
-            </span>
           </div>
-          {footerGroups.map((group) => (
-            <nav aria-label={`${group.title} links`} key={group.title}>
-              <strong>{group.title}</strong>
-              {group.links.map(([label, href]) => (
-                <Link href={href} key={href}>
-                  {label}
-                </Link>
-              ))}
-            </nav>
-          ))}
+          <nav aria-label="Footer navigation">
+            {footerLinks.map(([label, href]) => (
+              <Link href={href} key={href}>
+                {label}
+              </Link>
+            ))}
+          </nav>
+          <span className="system-state">
+            <i /> Local-first core operational
+          </span>
         </div>
         <div className="marketing-container marketing-footer__bottom">
           <span>© {new Date().getFullYear()} MaruCheck</span>

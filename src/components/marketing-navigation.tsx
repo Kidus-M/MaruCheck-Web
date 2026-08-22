@@ -7,9 +7,8 @@ import { MaruMark } from "@/components/maru-mark";
 
 const links = [
   { href: "/product", label: "Product" },
-  { href: "/#workflow", label: "Workflow" },
+  { href: "/#workflow", label: "How it works" },
   { href: "/docs", label: "Docs" },
-  { href: "/pricing", label: "Pricing" },
   { href: "/about", label: "About" },
 ] as const;
 
@@ -30,21 +29,33 @@ export function MarketingNavigation() {
     <header
       className={`marketing-header${scrolled ? " is-scrolled" : ""}${lightPage ? " is-light-context" : ""}`}
     >
-      <div className="marketing-container marketing-header__inner">
+      <div className="marketing-header__inner">
         <MaruMark />
         <nav aria-label="Primary navigation" className="marketing-nav">
-          {links.map((link) => (
-            <Link href={link.href} key={link.href} onClick={() => setOpen(false)}>
-              {link.label}
-            </Link>
-          ))}
+          {links.map((link) => {
+            const active =
+              link.href === "/docs"
+                ? pathname.startsWith("/docs")
+                : link.href !== "/#workflow" && pathname === link.href;
+            return (
+              <Link
+                aria-current={active ? "page" : undefined}
+                className={active ? "is-active" : ""}
+                href={link.href}
+                key={link.href}
+                onClick={() => setOpen(false)}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
         <div className="marketing-header__actions">
           <Link className="nav-sign-in" href="/sign-in">
             Sign in
           </Link>
-          <Link className="nav-console-link" href="/dashboard">
-            Open console <span aria-hidden="true">↗</span>
+          <Link className="nav-console-link" href="/docs/getting-started">
+            Verify a change <span aria-hidden="true">↗</span>
           </Link>
         </div>
         <button
@@ -60,17 +71,20 @@ export function MarketingNavigation() {
       </div>
       <div className={`marketing-mobile-panel${open ? " is-open" : ""}`}>
         <nav aria-label="Mobile navigation">
-          {links.map((link, index) => (
-            <Link href={link.href} key={link.href}>
-              <span>0{index + 1}</span>
+          {links.map((link) => (
+            <Link href={link.href} key={link.href} onClick={() => setOpen(false)}>
               {link.label}
             </Link>
           ))}
           <Link href="/sign-in" onClick={() => setOpen(false)}>
-            <span>06</span>Sign in
+            Sign in
           </Link>
-          <Link className="mobile-console-link" href="/dashboard" onClick={() => setOpen(false)}>
-            Open proof console <span aria-hidden="true">↗</span>
+          <Link
+            className="mobile-console-link"
+            href="/docs/getting-started"
+            onClick={() => setOpen(false)}
+          >
+            Verify your first change <span aria-hidden="true">↗</span>
           </Link>
         </nav>
       </div>
