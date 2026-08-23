@@ -18,6 +18,15 @@ export default function GettingStartedPage() {
         inspectable local release decision before you connect a dashboard, an AI client, or CI.
       </p>
       <DocsCallout>
+        <strong>CLI first; MCP when you want agent assistance.</strong>
+        <p>
+          You do not need MCP for local verification. Connect MaruCheck&apos;s MCP server when you
+          want Codex, Claude Code, Cursor, or another compatible client to inspect contracts, assess
+          risk, run verification, and coordinate a separate Challenger review. MaruCheck uses the AI
+          client you already have—it does not require a second model provider or API key.
+        </p>
+      </DocsCallout>
+      <DocsCallout>
         <strong>Before you begin</strong>
         <p>
           MaruCheck v{MARUCHECK_CLI_VERSION} requires Node.js 24 or newer, npm 11 or newer, and Git.
@@ -76,15 +85,37 @@ export default function GettingStartedPage() {
         </p>
       </section>
       <section className="docs-section">
-        <h2>6. Add integrations in this order</h2>
+        <h2>6. Connect the agent you already use</h2>
+        <p>
+          Follow the <Link href="/docs/mcp">MCP connection guide</Link> for Codex, Claude Code, or
+          Cursor. Once connected, the coding agent can call MaruCheck&apos;s bounded local tools
+          instead of scraping terminal output.
+        </p>
+        <ol className="docs-steps">
+          <li>
+            <b>Builder</b>
+            <span>Your existing coding agent implements the change.</span>
+          </li>
+          <li>
+            <b>Verifier</b>
+            <span>MaruCheck deterministically checks contracts, risk, tests, and evidence.</span>
+          </li>
+          <li>
+            <b>Challenger</b>
+            <span>A fresh thread or subagent proposes failure scenarios for risky work.</span>
+          </li>
+          <li>
+            <b>Decision</b>
+            <span>Executed checks and evidence—not the agent&apos;s opinion—pass or block.</span>
+          </li>
+        </ol>
+      </section>
+      <section className="docs-section">
+        <h2>7. Add shared infrastructure when useful</h2>
         <ol>
           <li>
             Optionally <Link href="/docs/report-ingestion">connect a dashboard project</Link>, save
             its token in the ignored connection file, and upload one completed report.
-          </li>
-          <li>
-            Connect the <Link href="/docs/mcp">MCP server</Link> so Codex, Claude Code, Cursor, or
-            another client can request the same local analysis and verification.
           </li>
           <li>
             Add the <Link href="/docs/ci">GitHub pull-request gate</Link> only after the local

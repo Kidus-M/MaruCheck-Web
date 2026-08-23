@@ -36,7 +36,7 @@ const entries = [
   [
     "05",
     "MCP workflow",
-    "Connect Codex, Claude Code, Cursor, or another compatible client to the local MaruCheck server.",
+    "Connect the coding agent you already use, then run local verification and isolated Challenger review without another model provider.",
     "/docs/mcp",
   ],
   [
