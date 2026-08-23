@@ -9,18 +9,21 @@ import type { SignupMode } from "@/lib/runtime-config";
 export function AuthPanel({
   configured,
   githubConfigured,
+  googleConfigured,
   signupMode,
 }: {
   readonly configured: boolean;
   readonly githubConfigured: boolean;
+  readonly googleConfigured: boolean;
   readonly signupMode: SignupMode;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<string | undefined>(() => oauthError(searchParams.get("error")));
   const [pending, setPending] = useState(false);
   const callbackURL = safeCallback(searchParams.get("callbackURL"));
+  const socialConfigured = githubConfigured || googleConfigured;
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -60,13 +63,18 @@ export function AuthPanel({
     }
   }
 
-  async function signInWithGithub() {
-    if (!configured || !githubConfigured || pending) return;
+  async function signInWithProvider(provider: "github" | "google") {
+    if (!configured || pending) return;
     setPending(true);
     setError(undefined);
-    const result = await authClient.signIn.social({ provider: "github", callbackURL });
+    const result = await authClient.signIn.social({
+      callbackURL,
+      errorCallbackURL: "/sign-in",
+      provider,
+      requestSignUp: mode === "sign-up",
+    });
     if (result?.error) {
-      setError(result.error.message ?? "GitHub sign-in failed.");
+      setError(result.error.message ?? `${providerName(provider)} authentication failed.`);
       setPending(false);
     }
   }
@@ -98,18 +106,31 @@ export function AuthPanel({
           <span>Existing members can continue signing in.</span>
         </div>
       )}
-      {githubConfigured && mode === "sign-in" && (
+      {githubConfigured && (
         <button
           className="auth-provider"
           disabled={!configured || pending}
-          onClick={signInWithGithub}
+          onClick={() => signInWithProvider("github")}
           type="button"
         >
-          <span>GH</span>Continue with GitHub
+          <span>GH</span>
+          {mode === "sign-in" ? "Continue with GitHub" : "Sign up with GitHub"}
           <Icon name="arrow" />
         </button>
       )}
-      {githubConfigured && mode === "sign-in" && (
+      {googleConfigured && (
+        <button
+          className="auth-provider"
+          disabled={!configured || pending}
+          onClick={() => signInWithProvider("google")}
+          type="button"
+        >
+          <span>G</span>
+          {mode === "sign-in" ? "Continue with Google" : "Sign up with Google"}
+          <Icon name="arrow" />
+        </button>
+      )}
+      {socialConfigured && (
         <div className="auth-divider">
           <span>or</span>
         </div>
@@ -187,8 +208,8 @@ export function AuthPanel({
         </button>
       )}
       <small>
-        Passwords must contain at least 12 characters. GitHub sign-in appears when its OAuth
-        credentials are configured.
+        Passwords must contain at least 12 characters. Social sign-in creates an account on first
+        use when registration is open or your email is approved.
       </small>
     </div>
   );
@@ -196,6 +217,15 @@ export function AuthPanel({
 
 function safeCallback(value: string | null): string {
   return value?.startsWith("/") && !value.startsWith("//") ? value : "/dashboard";
+}
+
+function oauthError(value: string | null): string | undefined {
+  if (!value) return undefined;
+  return "Social authentication could not be completed. Check the provider account and try again.";
+}
+
+function providerName(provider: "github" | "google"): "GitHub" | "Google" {
+  return provider === "github" ? "GitHub" : "Google";
 }
 
 function slugify(value: string): string {

@@ -27,6 +27,13 @@ export function getAuth(): MaruAuth {
           clientSecret: process.env.GITHUB_CLIENT_SECRET,
         }
       : undefined;
+  const google =
+    process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+      ? {
+          clientId: process.env.GOOGLE_CLIENT_ID,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        }
+      : undefined;
 
   authInstance = createMaruAuth({
     allowedSignupEmails: resolveSignupPolicy(process.env, {
@@ -35,6 +42,7 @@ export function getAuth(): MaruAuth {
     baseURL: process.env.BETTER_AUTH_URL ?? "http://localhost:3000",
     database: createDatabase(databaseUrl),
     github,
+    google,
     secret,
   });
   return authInstance;
@@ -42,6 +50,10 @@ export function getAuth(): MaruAuth {
 
 export function isGithubAuthConfigured(): boolean {
   return Boolean(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET);
+}
+
+export function isGoogleAuthConfigured(): boolean {
+  return Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
 }
 
 export function getSignupMode(): SignupMode {

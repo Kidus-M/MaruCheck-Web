@@ -13,6 +13,10 @@ interface MaruAuthOptions {
     readonly clientId: string;
     readonly clientSecret: string;
   };
+  readonly google?: {
+    readonly clientId: string;
+    readonly clientSecret: string;
+  };
   readonly secret: string;
 }
 
@@ -26,6 +30,9 @@ export function createMaruAuth(options: MaruAuthOptions) {
       provider: "pg",
       schema,
     }),
+    account: {
+      encryptOAuthTokens: true,
+    },
     emailAndPassword: {
       autoSignIn: true,
       disableSignUp: !signupsEnabled,
@@ -58,7 +65,10 @@ export function createMaruAuth(options: MaruAuthOptions) {
       storage: "database",
       window: 60,
     },
-    socialProviders: options.github === undefined ? {} : { github: options.github },
+    socialProviders: {
+      ...(options.github === undefined ? {} : { github: options.github }),
+      ...(options.google === undefined ? {} : { google: options.google }),
+    },
   });
 }
 
