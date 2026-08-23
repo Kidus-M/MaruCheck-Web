@@ -836,3 +836,241 @@
     animation: none;
   }
 }
+
+/* Open source — the public trust boundary. */
+.oss-hero {
+  position: relative;
+  min-height: 88svh;
+  overflow: hidden;
+  padding: 11rem 0 7rem;
+  color: #edf2f0;
+  background:
+    radial-gradient(ellipse at 78% 16%, rgba(102, 120, 232, 0.3), transparent 39%),
+    linear-gradient(145deg, #091119, #15212d 65%, #0b151f);
+}
+.oss-hero__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 7rem 7rem;
+  mask-image: linear-gradient(to bottom, black, transparent 92%);
+}
+.oss-hero__inner {
+  position: relative;
+  z-index: 1;
+}
+.oss-hero h1 {
+  max-width: 1050px;
+  margin: 3.5rem 0 0;
+  font-size: clamp(5rem, 9.5vw, 10rem);
+  font-weight: 580;
+  line-height: 0.82;
+  letter-spacing: -0.085em;
+}
+.oss-hero h1 em {
+  color: #8796f0;
+  font-style: normal;
+}
+.oss-hero__foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4rem;
+  align-items: end;
+  margin-top: 5rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+.oss-hero__foot > p {
+  max-width: 690px;
+  margin: 0;
+  color: #b8c1c1;
+  font-size: 1.25rem;
+  line-height: 1.65;
+}
+.oss-install,
+.oss-repositories,
+.oss-contribute {
+  padding: 10rem 0;
+}
+.oss-install {
+  color: #17212b;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(102, 120, 232, 0.12), transparent 30rem),
+    linear-gradient(180deg, #f6f7f2, #eceee8);
+}
+.oss-install__grid,
+.oss-contribute__grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.5fr);
+  gap: 8vw;
+}
+.oss-install h2,
+.oss-repositories h2,
+.oss-contribute h2 {
+  margin: 2rem 0 0;
+  font-size: clamp(3.4rem, 6vw, 6.7rem);
+  font-weight: 560;
+  line-height: 0.94;
+  letter-spacing: -0.065em;
+}
+.oss-install__terminal {
+  align-self: end;
+  overflow: hidden;
+  border: 1px solid rgba(17, 28, 39, 0.16);
+  border-radius: 0.65rem;
+  color: #dce5e1;
+  background: #0c141d;
+  box-shadow: 0 35px 90px rgba(10, 17, 25, 0.2);
+}
+.oss-install__terminal header,
+.oss-install__terminal footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  color: #7f8d92;
+  font: 700 0.67rem "Cascadia Mono", Consolas, monospace;
+  letter-spacing: 0.08em;
+}
+.oss-install__terminal header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.oss-install__terminal header b {
+  color: #a8e6cf;
+}
+.oss-install__terminal code {
+  display: block;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: clamp(0.7rem, 1.2vw, 0.92rem);
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.oss-install__terminal code i {
+  margin-right: 0.8rem;
+  color: #8796f0;
+  font-style: normal;
+}
+.oss-install__terminal footer a {
+  color: #b8c1c1;
+}
+.oss-install__terminal footer a:hover {
+  color: white;
+}
+.oss-repositories {
+  color: #edf2f0;
+  background: #0a1119;
+}
+.oss-repositories__heading {
+  display: grid;
+  grid-template-columns: 0.65fr 1.5fr 0.85fr;
+  gap: 4vw;
+  align-items: end;
+}
+.oss-repositories__heading h2 {
+  margin: 0;
+}
+.oss-repositories__heading > p:last-child {
+  margin: 0;
+  color: #93a0a3;
+  line-height: 1.7;
+}
+.oss-repository-list {
+  margin-top: 7rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+.oss-repository-list a {
+  display: grid;
+  grid-template-columns: 0.35fr 1.5fr auto;
+  gap: 3rem;
+  align-items: start;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  color: inherit;
+  transition: padding 0.25s ease, color 0.25s ease;
+}
+.oss-repository-list a:hover {
+  padding-inline: 1rem;
+  color: #bbc4ff;
+}
+.oss-repository-list > a > span,
+.oss-repository-list small {
+  color: #718086;
+  font: 700 0.69rem "Cascadia Mono", Consolas, monospace;
+  letter-spacing: 0.09em;
+}
+.oss-repository-list h3 {
+  margin: 0.55rem 0;
+  font-size: clamp(2rem, 3vw, 3.4rem);
+  font-weight: 550;
+  letter-spacing: -0.045em;
+}
+.oss-repository-list p {
+  max-width: 720px;
+  margin: 0;
+  color: #93a0a3;
+  line-height: 1.65;
+}
+.oss-repository-list > a > b {
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+.oss-contribute {
+  color: #17212b;
+  background:
+    radial-gradient(circle at 88% 24%, rgba(168, 230, 207, 0.32), transparent 31rem),
+    linear-gradient(150deg, #f7f7f2, #e8ebe5);
+}
+.oss-contribute__grid > div > p {
+  max-width: 740px;
+  margin: 2rem 0 2.5rem;
+  color: #526067;
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .oss-hero__foot,
+  .oss-install__grid,
+  .oss-repositories__heading,
+  .oss-contribute__grid {
+    grid-template-columns: 1fr;
+  }
+  .oss-install__terminal {
+    margin-top: 3rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .oss-hero {
+    min-height: auto;
+    padding: 9rem 0 6rem;
+  }
+  .oss-hero h1 {
+    font-size: clamp(4.2rem, 19vw, 6rem);
+  }
+  .oss-hero__foot {
+    margin-top: 3.5rem;
+  }
+  .oss-install,
+  .oss-repositories,
+  .oss-contribute {
+    padding: 7rem 0;
+  }
+  .oss-install h2,
+  .oss-repositories h2,
+  .oss-contribute h2 {
+    font-size: clamp(3rem, 14vw, 4.8rem);
+  }
+  .oss-repository-list {
+    margin-top: 4rem;
+  }
+  .oss-repository-list a {
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+  }
+}

@@ -7,6 +7,8 @@ Accepted
 This decision partially supersedes [ADR-004](0004-use-verification-command-public-system.md).
 [ADR-010](0010-use-gsap-for-public-motion.md) supersedes this decision's no-animation-library
 constraint.
+[ADR-012](0012-open-source-public-repositories-under-mit.md) resolves the licensing uncertainty
+recorded here.
 
 ## Date
 

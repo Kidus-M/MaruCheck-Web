@@ -2,6 +2,6 @@
 # Pinning the public package keeps this portable when the CLI repository is not present.
 [mcp_servers.maru]
 command = "npx"
-args = ["--yes", "marucheck@0.2.2", "mcp"]
+args = ["--yes", "marucheck@0.3.0", "mcp"]
 required = false
 default_tools_approval_mode = "writes"

@@ -1,6 +1,13 @@
 # MaruCheck Web
 
+[![CI](https://github.com/Kidus-M/MaruCheck-Web/actions/workflows/ci.yml/badge.svg)](https://github.com/Kidus-M/MaruCheck-Web/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-6678e8.svg)](LICENSE)
+
 The Next.js full-stack dashboard and hosted API for MaruCheck. It is maintained separately from the local-first CLI so cloud deployments and CLI releases remain independent.
+
+MaruCheck Web is open source under the [MIT License](LICENSE). The local verifier lives in the
+separate [MaruCheck CLI repository](https://github.com/Kidus-M/MaruCheck); issues and focused pull
+requests are welcome in the repository that owns the affected behavior.
 
 ## Quick start
 
@@ -70,7 +77,17 @@ Any supported MCP client can launch the public CLI directly:
 ```toml
 [mcp_servers.maru]
 command = "npx"
-args = ["--yes", "marucheck@0.2.2", "mcp"]
+args = ["--yes", "marucheck@0.3.0", "mcp"]
 ```
 
-For reproducible teams, install `marucheck@0.2.2` exactly and replace the arguments with `["--no-install", "maru", "mcp"]`. The server is not marked as required, so contributors who use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Current Codex, Claude Code, and Cursor setup instructions are served at `/docs/mcp` by the application and maintained in the [CLI repository guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).
+For reproducible teams, install `marucheck@0.3.0` exactly and replace the arguments with `["--no-install", "maru", "mcp"]`. The server is not marked as required, so contributors who use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Current Codex, Claude Code, and Cursor setup instructions are served at `/docs/mcp` by the application and maintained in the [CLI repository guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).
+
+## Contributing
+
+Open a focused issue or pull request in [MaruCheck Web](https://github.com/Kidus-M/MaruCheck-Web).
+Run `npm run check` before requesting review. CLI behavior and adapters should be proposed in the
+[CLI repository](https://github.com/Kidus-M/MaruCheck/blob/main/CONTRIBUTING.md).
+
+## License
+
+Copyright 2026 Kidus Mesfin Teferi. Distributed under the [MIT License](LICENSE).

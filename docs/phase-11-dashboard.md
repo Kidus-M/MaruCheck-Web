@@ -39,13 +39,14 @@ The dashboard now sits behind a complete public experience rather than occupying
 | Landing page      | `/`                       | Positioning, proof-loop narrative, capabilities, and CTAs |
 | Product           | `/product`                | Detailed contract-to-evidence product model               |
 | About             | `/about`                  | Maru name, circle identity, and product principles        |
+| Open source       | `/open-source`            | MIT license, repositories, releases, and contribution path |
 | Documentation     | `/docs`                   | Documentation map and proof-loop overview                 |
-| Getting started   | `/docs/getting-started`   | Current source-based CLI setup                            |
+| Getting started   | `/docs/getting-started`   | Current npm CLI setup and first local verification         |
 | Quality Contracts | `/docs/quality-contracts` | Durable behavior-contract guidance                        |
 | CI integration    | `/docs/ci`                | Pull-request gate and evidence-handling guidance          |
 | MCP workflow      | `/docs/mcp`               | Codex and client-neutral MCP operating model              |
 
-The redesigned public site uses a scroll-led verification-command system grounded in the implemented CLI, Quality Contracts, deterministic risk, QA memory, semantic drift, MCP tools, and hosted release evidence. The homepage moves through one continuous pressure test rather than repeating equal-weight feature sections. Product, About, and Docs share the same command-system hierarchy. Pricing is intentionally absent until a commercial or open-source model has been approved; the former URL redirects to Product.
+The redesigned public site uses a scroll-led verification-command system grounded in the implemented CLI, Quality Contracts, deterministic risk, QA memory, semantic drift, MCP tools, and hosted release evidence. The homepage moves through one continuous pressure test rather than repeating equal-weight feature sections. Product, About, Open source, and Docs share the same command-system hierarchy. Pricing remains intentionally absent because no commercial tiers have been approved; the former URL redirects to Product. Both repositories are MIT licensed and the site exposes direct source, release, issue, and contribution paths.
 
 Motion uses GSAP/ScrollTrigger for coordinated public-page entrances and scroll relationships, plus focused client components for the changing pressure-test instrument, navigation, and interactive CLI example. Content remains visible before JavaScript initializes, animation cleanup follows App Router navigation, and the site respects reduced-motion preferences. See [ADR-010](decisions/0010-use-gsap-for-public-motion.md).
 
