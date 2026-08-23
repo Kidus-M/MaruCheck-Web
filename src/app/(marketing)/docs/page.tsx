@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DocsCallout } from "@/components/docs-shell";
-import { MARUCHECK_CLI_VERSION, MARUCHECK_NPM_URL } from "@/lib/public-release";
+import {
+  MARUCHECK_CLI_VERSION,
+  MARUCHECK_CONTRIBUTING_URL,
+  MARUCHECK_NPM_URL,
+} from "@/lib/public-release";
 
 export const metadata: Metadata = {
   title: "Documentation",
@@ -62,11 +66,11 @@ export default function DocsHomePage() {
         Start with product intent. End with a release decision that links back to concrete evidence.
       </p>
       <DocsCallout>
-        <strong>MaruCheck CLI v{MARUCHECK_CLI_VERSION} is available now.</strong>
+        <strong>MaruCheck CLI v{MARUCHECK_CLI_VERSION} is open source under MIT.</strong>
         <p>
           Install it from <a href={MARUCHECK_NPM_URL}>npm</a>. Core verification is local-first and
           does not require a MaruCheck account; the hosted dashboard is an optional proof-sharing
-          layer.
+          layer. Read the source or <a href={MARUCHECK_CONTRIBUTING_URL}>contribute on GitHub</a>.
         </p>
       </DocsCallout>
       <nav className="docs-index" aria-label="Documentation topics">

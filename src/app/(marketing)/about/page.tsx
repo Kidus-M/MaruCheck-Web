@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { MarketingCta } from "@/components/marketing-ui";
+import { MARUCHECK_CONTRIBUTING_URL, MARUCHECK_SOURCE_URL } from "@/lib/public-release";
 
 export const metadata: Metadata = {
   title: "About",
@@ -132,6 +133,16 @@ export default function AboutPage() {
               Its first users are developers working with coding agents—people who want the speed of
               AI without handing the same agent complete authority over what “correct” means.
             </p>
+            <p>
+              Both the verifier and hosted application are open source under MIT. The system that
+              decides whether a release has enough proof should itself be available for inspection.
+            </p>
+            <div className="marketing-actions">
+              <MarketingCta href={MARUCHECK_SOURCE_URL}>Read the source</MarketingCta>
+              <MarketingCta href={MARUCHECK_CONTRIBUTING_URL} secondary>
+                Contribute
+              </MarketingCta>
+            </div>
           </div>
         </div>
       </section>

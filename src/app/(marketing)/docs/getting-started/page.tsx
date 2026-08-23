@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
-import { MARUCHECK_CLI_SPEC, MARUCHECK_CLI_VERSION } from "@/lib/public-release";
+import {
+  MARUCHECK_CLI_SPEC,
+  MARUCHECK_CLI_VERSION,
+  MARUCHECK_CONTRIBUTING_URL,
+  MARUCHECK_SOURCE_URL,
+} from "@/lib/public-release";
 
 export const metadata: Metadata = {
   title: "Getting started",
@@ -32,6 +37,14 @@ export default function GettingStartedPage() {
           MaruCheck v{MARUCHECK_CLI_VERSION} requires Node.js 24 or newer, npm 11 or newer, and Git.
           Run these commands from the root of the Next.js, React, or TypeScript repository you want
           to verify.
+        </p>
+      </DocsCallout>
+      <DocsCallout>
+        <strong>Open source and inspectable.</strong>
+        <p>
+          MaruCheck is MIT licensed. <a href={MARUCHECK_SOURCE_URL}>Read the verifier</a> or{" "}
+          <a href={MARUCHECK_CONTRIBUTING_URL}>contribute a focused fix</a> before trusting it in a
+          release path.
         </p>
       </DocsCallout>
       <section className="docs-section">

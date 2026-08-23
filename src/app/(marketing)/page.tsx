@@ -4,6 +4,7 @@ import { MarketingTerminal } from "@/components/marketing-terminal";
 import { MarketingCta } from "@/components/marketing-ui";
 import { PressureSequence } from "@/components/pressure-sequence";
 import { VerificationDemo } from "@/components/verification-demo";
+import { MARUCHECK_CONTRIBUTING_URL } from "@/lib/public-release";
 
 export default function HomePage() {
   return (
@@ -12,7 +13,7 @@ export default function HomePage() {
         <div className="v2-hero__grid" aria-hidden="true" />
         <div className="marketing-container v2-hero__copy">
           <p className="v2-kicker">
-            <span>MARU / 01</span> Independent verification for AI-coded software
+            <span>OPEN SOURCE / MIT</span> Independent verification for AI-coded software
           </p>
           <h1>
             <span className="hero-word-clip">
@@ -36,6 +37,9 @@ export default function HomePage() {
               </p>
               <div className="marketing-actions">
                 <MarketingCta href="/docs/getting-started">Verify your first change</MarketingCta>
+                <a className="v2-watch-link" href={MARUCHECK_CONTRIBUTING_URL}>
+                  Contribute on GitHub <span>↗</span>
+                </a>
                 <a className="v2-watch-link" href="#workflow">
                   See the decision unfold <span>↓</span>
                 </a>

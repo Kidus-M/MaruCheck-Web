@@ -5,13 +5,24 @@ import { MarketingGsap } from "@/components/marketing-gsap";
 import { MaruMark } from "@/components/maru-mark";
 import { MarketingMotion } from "@/components/marketing-motion";
 import { MarketingNavigation } from "@/components/marketing-navigation";
+import {
+  MARUCHECK_CLI_SPEC,
+  MARUCHECK_CONTRIBUTING_URL,
+  MARUCHECK_LICENSE_URL,
+  MARUCHECK_RELEASES_URL,
+  MARUCHECK_SOURCE_URL,
+} from "@/lib/public-release";
 
 const footerLinks = [
   ["Product", "/product"],
   ["How it works", "/#workflow"],
   ["Documentation", "/docs"],
+  ["Open source", "/open-source"],
   ["About", "/about"],
-  ["GitHub", "https://github.com/Kidus-M/MaruCheck"],
+  ["Source", MARUCHECK_SOURCE_URL],
+  ["Contribute", MARUCHECK_CONTRIBUTING_URL],
+  ["Releases", MARUCHECK_RELEASES_URL],
+  ["MIT license", MARUCHECK_LICENSE_URL],
   ["System status", "/api/health/live"],
   ["Sign in", "/sign-in"],
 ] as const;
@@ -47,10 +58,16 @@ export function MarketingShell({ children }: { readonly children: ReactNode }) {
               <Link className="marketing-button marketing-button--ghost-dark" href="/dashboard">
                 Inspect the proof console
               </Link>
+              <Link
+                className="marketing-button marketing-button--ghost-dark"
+                href={MARUCHECK_CONTRIBUTING_URL}
+              >
+                Contribute on GitHub
+              </Link>
             </div>
             <div className="footer-command">
               <span>$</span>
-              <code>npm install --save-dev --save-exact marucheck@0.2.2</code>
+              <code>npm install --save-dev --save-exact {MARUCHECK_CLI_SPEC}</code>
               <Link href="/docs/getting-started">Copy the full setup →</Link>
             </div>
           </div>
@@ -72,7 +89,7 @@ export function MarketingShell({ children }: { readonly children: ReactNode }) {
             ))}
           </nav>
           <span className="system-state">
-            <i /> Local-first core operational
+            <i /> Open source · MIT licensed
           </span>
         </div>
         <div className="marketing-container marketing-footer__bottom">
