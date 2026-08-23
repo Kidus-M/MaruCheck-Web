@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AuthPanel } from "@/components/auth-panel";
@@ -37,17 +38,33 @@ export default async function SignInPage() {
         </footer>
       </section>
       <section className="auth-form">
-        <AuthPanel
-          configured={isAuthConfigured()}
-          githubConfigured={isGithubAuthConfigured()}
-          googleConfigured={isGoogleAuthConfigured()}
-          signupMode={getSignupMode()}
-        />
+        <Suspense fallback={<AuthPanelFallback />}>
+          <AuthPanel
+            configured={isAuthConfigured()}
+            githubConfigured={isGithubAuthConfigured()}
+            googleConfigured={isGoogleAuthConfigured()}
+            signupMode={getSignupMode()}
+          />
+        </Suspense>
         <footer>
           Early access is limited to approved accounts.{" "}
           <Link href="/">Return to the product site</Link>
         </footer>
       </section>
     </main>
+  );
+}
+
+function AuthPanelFallback() {
+  return (
+    <div className="auth-panel-loading" aria-busy="true" aria-live="polite">
+      <p className="eyebrow">Welcome to MaruCheck</p>
+      <h2>Sign in to your workspace</h2>
+      <p>Preparing secure sign-in…</p>
+      <div className="auth-loading-line" aria-hidden="true" />
+      <div className="auth-loading-field" aria-hidden="true" />
+      <div className="auth-loading-field" aria-hidden="true" />
+      <div className="auth-loading-button" aria-hidden="true" />
+    </div>
   );
 }

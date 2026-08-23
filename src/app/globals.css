@@ -3829,6 +3829,30 @@ svg {
   line-height: 1.5;
 }
 
+.auth-panel-loading > div {
+  overflow: hidden;
+  border-radius: 0.45rem;
+  background: var(--surface-soft);
+}
+
+.auth-loading-line {
+  width: 45%;
+  height: 0.65rem;
+  margin-bottom: 1.35rem;
+}
+
+.auth-loading-field,
+.auth-loading-button {
+  width: 100%;
+  height: 2.8rem;
+  margin-top: 0.85rem;
+}
+
+.auth-loading-button {
+  margin-top: 1.6rem;
+  background: color-mix(in srgb, var(--indigo) 16%, var(--surface-soft));
+}
+
 .auth-provider {
   display: grid;
   width: 100%;
