@@ -933,7 +933,10 @@
   gap: 1rem;
   padding: 1rem 1.25rem;
   color: #7f8d92;
-  font: 700 0.67rem "Cascadia Mono", Consolas, monospace;
+  font:
+    700 0.67rem "Cascadia Mono",
+    Consolas,
+    monospace;
   letter-spacing: 0.08em;
 }
 .oss-install__terminal header {
@@ -991,7 +994,9 @@
   padding: 2.5rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   color: inherit;
-  transition: padding 0.25s ease, color 0.25s ease;
+  transition:
+    padding 0.25s ease,
+    color 0.25s ease;
 }
 .oss-repository-list a:hover {
   padding-inline: 1rem;
@@ -1000,7 +1005,10 @@
 .oss-repository-list > a > span,
 .oss-repository-list small {
   color: #718086;
-  font: 700 0.69rem "Cascadia Mono", Consolas, monospace;
+  font:
+    700 0.69rem "Cascadia Mono",
+    Consolas,
+    monospace;
   letter-spacing: 0.09em;
 }
 .oss-repository-list h3 {
