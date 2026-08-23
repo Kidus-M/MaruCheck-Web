@@ -1626,6 +1626,140 @@ svg {
   text-transform: uppercase;
 }
 
+.repository-picker {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.repository-picker legend {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.55rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.repository-picker legend small {
+  color: var(--muted);
+  font-size: 0.65rem;
+  font-weight: 400;
+}
+
+.repository-picker > div {
+  display: grid;
+  max-height: 20rem;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+}
+
+.repository-picker label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.repository-picker label:last-child {
+  border-bottom: 0;
+}
+
+.repository-picker label:has(input:checked) {
+  background: var(--indigo-soft);
+  box-shadow: inset 3px 0 var(--indigo);
+}
+
+.repository-picker input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--indigo);
+}
+
+.repository-picker label > span {
+  display: grid;
+  min-width: 0;
+  gap: 0.18rem;
+}
+
+.repository-picker label > span:first-of-type small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.66rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.repository-picker__meta {
+  justify-items: end;
+  font-family: var(--font-data);
+}
+
+.repository-picker__meta b {
+  color: var(--indigo);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.repository-picker__meta small {
+  color: var(--muted);
+  font-size: 0.6rem;
+}
+
+.private-repository-access,
+.repository-setup {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--surface-soft);
+}
+
+.private-repository-access p,
+.repository-setup > p {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.private-repository-access strong,
+.repository-setup strong {
+  color: var(--ink);
+}
+
+.private-repository-access code {
+  color: var(--indigo);
+}
+
+.github-account-action {
+  flex: 0 0 auto;
+}
+
+.github-account-action .form-error {
+  max-width: 20rem;
+  margin: 0.6rem 0 0;
+}
+
+.repository-setup.auth-notice {
+  display: grid;
+  justify-content: stretch;
+}
+
 .connect-fields {
   display: grid;
   gap: 1.15rem;
@@ -4331,6 +4465,30 @@ svg {
   .connect-form > footer .button,
   .connect-success__footer .button {
     width: 100%;
+  }
+
+  .private-repository-access,
+  .repository-setup {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .github-account-action .button {
+    width: 100%;
+  }
+
+  .repository-picker legend {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .repository-picker label {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .repository-picker__meta {
+    grid-column: 2;
+    justify-items: start;
   }
 
   .connect-preview dl {

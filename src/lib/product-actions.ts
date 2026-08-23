@@ -12,6 +12,7 @@ import {
   qaMemoryCandidate,
   qualityContract,
 } from "@/db/schema";
+import { getGitHubRepositoryConnection } from "@/lib/github-repositories";
 import { FeedbackValidationError, parseFeedbackReviewInput } from "@/lib/production-feedback";
 import { requireWorkspaceContext } from "@/lib/session";
 import { hashProjectToken } from "@/lib/project-tokens";
@@ -43,15 +44,30 @@ export async function connectProjectAction(
     return { message: "Only organization owners can connect repositories.", status: "error" };
   }
 
-  const name = field(formData, "name");
-  const repository = field(formData, "repository");
-  const branch = field(formData, "branch") || "main";
-  if (!name || !repository) {
-    return { message: "Project name and repository are required.", status: "error" };
+  const selectedRepository = field(formData, "repository");
+  if (!selectedRepository) {
+    return { message: "Choose a GitHub repository to connect.", status: "error" };
   }
 
-  const slug = slugify(name);
-  if (!slug) return { message: "Use at least one letter or number in the name.", status: "error" };
+  const github = await getGitHubRepositoryConnection();
+  if (github.status !== "ready") {
+    return {
+      message: "Reconnect GitHub before connecting a repository.",
+      status: "error",
+    };
+  }
+  const selected = github.repositories.find(
+    (repository) => repository.fullName.toLowerCase() === selectedRepository.toLowerCase(),
+  );
+  if (!selected) {
+    return {
+      message: "That repository is not available through the linked GitHub account.",
+      status: "error",
+    };
+  }
+
+  const slug = slugify(selected.fullName);
+  if (!slug) return { message: "GitHub returned an invalid repository name.", status: "error" };
 
   const token = `maru_${randomBytes(32).toString("base64url")}`;
   const tokenHash = hashProjectToken(token);
@@ -62,10 +78,10 @@ export async function connectProjectAction(
       const [createdProject] = await transaction
         .insert(project)
         .values({
-          branch,
-          name,
+          branch: selected.defaultBranch,
+          name: selected.name,
           organizationId: context.organization.id,
-          repository,
+          repository: selected.fullName,
           slug,
         })
         .returning({ id: project.id });

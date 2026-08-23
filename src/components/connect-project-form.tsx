@@ -3,15 +3,23 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { CopyButton } from "@/components/copy-button";
+import { GitHubAccountButton } from "@/components/github-account-button";
 import { Icon } from "@/components/icon";
 import { connectProjectAction } from "@/lib/product-actions";
 import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
+import type { GitHubRepositoryConnection } from "@/lib/github-repositories";
 import type { ConnectProjectState } from "@/lib/product-actions";
 
 const initialConnectProjectState: ConnectProjectState = { message: "", status: "idle" };
 const endpoint = "/api/v1/ingest/runs";
 
-export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }) {
+export function ConnectProjectForm({
+  github,
+  hostedURL,
+}: {
+  readonly github: GitHubRepositoryConnection;
+  readonly hostedURL: string;
+}) {
   const [state, action, pending] = useActionState(connectProjectAction, initialConnectProjectState);
   const uploadCommand = `npx --yes ${MARUCHECK_CLI_SPEC} upload`;
 
@@ -114,7 +122,7 @@ export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }
           </span>
           <p>
             <strong>GitHub repository</strong>
-            <small>Manual connection</small>
+            <small>Fetched from GitHub</small>
           </p>
         </div>
         <ol>
@@ -151,11 +159,11 @@ export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }
 
       <form action={action} className="connect-form">
         <header>
-          <p className="eyebrow">Repository identity</p>
-          <h2>Connect a source of truth.</h2>
+          <p className="eyebrow">GitHub repositories</p>
+          <h2>Choose a source of truth.</h2>
           <p>
-            Use the name engineers already recognize. You can configure GitHub automation after the
-            credential is created.
+            MaruCheck reads repository identity and the default branch from GitHub. Source code and
+            repository secrets stay where they are.
           </p>
         </header>
 
@@ -165,44 +173,56 @@ export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }
           </span>
           <span>
             <strong>GitHub</strong>
-            <small>Repository metadata + CI report ingestion</small>
+            <small>Repository metadata only + CI report ingestion</small>
           </span>
-          <b>Selected</b>
+          <b>{githubProviderStatus(github)}</b>
         </div>
 
-        <div className="connect-fields">
-          <label>
-            <span>
-              Project name <small>Shown throughout MaruCheck</small>
-            </span>
-            <input autoComplete="off" name="name" placeholder="maru-web" required />
-          </label>
-          <label>
-            <span>
-              Repository <small>owner/repository</small>
-            </span>
-            <div className="input-prefix">
-              <span>github.com/</span>
-              <input
-                autoComplete="off"
-                name="repository"
-                placeholder="Kidus-M/MaruCheck-Web"
-                required
-              />
-            </div>
-          </label>
-          <label>
-            <span>
-              Production branch <small>Used as the default baseline</small>
-            </span>
-            <div className="input-prefix input-prefix--branch">
-              <span>
-                <Icon name="branch" />
-              </span>
-              <input defaultValue="main" name="branch" required />
-            </div>
-          </label>
-        </div>
+        {github.status === "ready" && github.repositories.length > 0 ? (
+          <>
+            <fieldset className="repository-picker">
+              <legend>
+                Available repositories <small>{github.repositories.length} most recently pushed</small>
+              </legend>
+              <div>
+                {github.repositories.map((repository, index) => (
+                  <label key={repository.id}>
+                    <input
+                      defaultChecked={index === 0}
+                      name="repository"
+                      required
+                      type="radio"
+                      value={repository.fullName}
+                    />
+                    <span>
+                      <strong>{repository.fullName}</strong>
+                      <small>{repository.description ?? "No repository description"}</small>
+                    </span>
+                    <span className="repository-picker__meta">
+                      <b>{repository.private ? "Private" : "Public"}</b>
+                      <small>
+                        {repository.defaultBranch}
+                        {repository.archived ? " · Archived" : ""}
+                      </small>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            {!github.privateAccess ? (
+              <div className="private-repository-access">
+                <p>
+                  <strong>Need a private repository?</strong>
+                  GitHub OAuth exposes private repositories through its broad <code>repo</code>
+                  permission. Request it only if you need it.
+                </p>
+                <GitHubAccountButton action="private-access" />
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <GitHubRepositorySetup github={github} />
+        )}
 
         {state.status === "error" ? (
           <p className="form-error" role="alert">
@@ -210,15 +230,17 @@ export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }
           </p>
         ) : null}
 
-        <footer>
-          <p>
-            <span aria-hidden="true">◌</span> A project-scoped token will be generated next.
-          </p>
-          <button className="button button--primary" disabled={pending} type="submit">
-            {pending ? "Establishing connection…" : "Connect repository"}
-            <Icon name="arrow" />
-          </button>
-        </footer>
+        {github.status === "ready" && github.repositories.length > 0 ? (
+          <footer>
+            <p>
+              <span aria-hidden="true">◌</span> Name and default branch will be verified with GitHub.
+            </p>
+            <button className="button button--primary" disabled={pending} type="submit">
+              {pending ? "Establishing connection…" : "Connect repository"}
+              <Icon name="arrow" />
+            </button>
+          </footer>
+        ) : null}
       </form>
 
       <aside className="connect-preview">
@@ -261,4 +283,60 @@ export function ConnectProjectForm({ hostedURL }: { readonly hostedURL: string }
       </aside>
     </section>
   );
+}
+
+function GitHubRepositorySetup({
+  github,
+}: {
+  readonly github: GitHubRepositoryConnection;
+}) {
+  if (github.status === "unconfigured") {
+    return (
+      <div className="repository-setup auth-notice" role="status">
+        <strong>GitHub OAuth is not configured.</strong>
+        <span>Add GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET, then restart MaruCheck.</span>
+      </div>
+    );
+  }
+
+  if (github.status === "error") {
+    return (
+      <div className="repository-setup">
+        <p className="form-error" role="alert">
+          {github.message}
+        </p>
+        <GitHubAccountButton action="reconnect" />
+      </div>
+    );
+  }
+
+  if (github.status === "unlinked") {
+    return (
+      <div className="repository-setup">
+        <p>
+          <strong>Connect your GitHub account.</strong>
+          MaruCheck will request identity access first and return here with your public
+          repositories.
+        </p>
+        <GitHubAccountButton action="link" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="repository-setup">
+      <p>
+        <strong>No repositories were returned.</strong>
+        If the repository is private, grant private repository access and try again.
+      </p>
+      {!github.privateAccess ? <GitHubAccountButton action="private-access" /> : null}
+    </div>
+  );
+}
+
+function githubProviderStatus(github: GitHubRepositoryConnection): string {
+  if (github.status === "ready") return github.privateAccess ? "Private access" : "Connected";
+  if (github.status === "error") return "Needs attention";
+  if (github.status === "unlinked") return "Not connected";
+  return "Setup required";
 }

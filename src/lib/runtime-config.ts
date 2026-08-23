@@ -44,6 +44,9 @@ export function inspectProductionEnvironment(
   if (Boolean(environment.GITHUB_CLIENT_ID) !== Boolean(environment.GITHUB_CLIENT_SECRET)) {
     errors.push("GitHub OAuth requires both GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET.");
   }
+  if (Boolean(environment.GOOGLE_CLIENT_ID) !== Boolean(environment.GOOGLE_CLIENT_SECRET)) {
+    errors.push("Google OAuth requires both GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.");
+  }
 
   const directUrl = parsedUrl(environment.DATABASE_URL_UNPOOLED);
   if (directUrl?.hostname.includes("-pooler.")) {

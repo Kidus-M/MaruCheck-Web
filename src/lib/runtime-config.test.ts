@@ -29,6 +29,7 @@ describe("production runtime configuration", () => {
         DATABASE_URL:
           "postgresql://user:password@ep-example.us-east-2.aws.neon.tech/neondb?sslmode=require",
         GITHUB_CLIENT_ID: "configured-without-secret",
+        GOOGLE_CLIENT_SECRET: "configured-without-client-id",
       },
       { production: true },
     );
@@ -43,6 +44,7 @@ describe("production runtime configuration", () => {
         expect.stringContaining("BETTER_AUTH_SECRET"),
         expect.stringContaining("CRON_SECRET"),
         expect.stringContaining("GitHub OAuth"),
+        expect.stringContaining("Google OAuth"),
       ]),
     );
   });
