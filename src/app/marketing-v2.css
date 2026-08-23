@@ -1030,14 +1030,21 @@
     monospace;
 }
 .source-boundary__flow > i {
+  position: relative;
+  display: block;
   height: 1px;
   background: rgba(255, 255, 255, 0.5);
 }
 .source-boundary__flow > i::after {
-  float: right;
-  margin-top: -0.45rem;
-  color: white;
-  content: "→";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-top: 2px solid white;
+  border-right: 2px solid white;
+  content: "";
+  transform: translateY(-50%) rotate(45deg);
 }
 .source-boundary .marketing-actions {
   justify-content: center;
@@ -1486,10 +1493,11 @@
     margin-inline: auto;
   }
   .source-boundary__flow > i::after {
-    float: none;
-    display: block;
-    padding-top: 2rem;
-    content: "↓";
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) rotate(135deg);
   }
   .source-boundary .marketing-actions {
     align-items: stretch;

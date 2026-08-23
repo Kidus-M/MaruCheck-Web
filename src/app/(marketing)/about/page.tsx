@@ -121,7 +121,7 @@ export default function AboutPage() {
         <div className="marketing-container maker-story__grid">
           <div data-gsap>
             <p className="section-index">03 — THE MAKER</p>
-            <h2>Created by Kidus Mesfin Teferi.</h2>
+            <h2>Independent proof for an agent-built world.</h2>
           </div>
           <div data-gsap>
             <p>
