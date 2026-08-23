@@ -16,6 +16,12 @@ export interface Organization {
   readonly slug: string;
 }
 
+export interface OrganizationOption {
+  readonly id: string;
+  readonly name: string;
+  readonly slug: string;
+}
+
 export interface ProjectSummary {
   readonly activeContracts: number;
   readonly branch: string;

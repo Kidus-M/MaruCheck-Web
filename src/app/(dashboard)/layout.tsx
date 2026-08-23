@@ -3,9 +3,9 @@ import { DashboardShell } from "@/components/dashboard-shell";
 import { requireWorkspaceContext } from "@/lib/session";
 
 export default async function ProductLayout({ children }: { readonly children: ReactNode }) {
-  const { organization, viewer } = await requireWorkspaceContext();
+  const { organization, organizations, viewer } = await requireWorkspaceContext();
   return (
-    <DashboardShell organization={organization} viewer={viewer}>
+    <DashboardShell organization={organization} organizations={organizations} viewer={viewer}>
       {children}
     </DashboardShell>
   );

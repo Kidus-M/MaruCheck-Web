@@ -5,15 +5,18 @@ import { DashboardNavigation, MobileNavigation } from "@/components/dashboard-na
 import { navigationGroups } from "@/components/dashboard-navigation-data";
 import { Icon } from "@/components/icon";
 import { MaruMark } from "@/components/maru-mark";
-import type { Organization, Viewer } from "@/lib/dashboard-data";
+import { OrganizationSwitcher } from "@/components/organization-switcher";
+import type { Organization, OrganizationOption, Viewer } from "@/lib/dashboard-data";
 
 export function DashboardShell({
   children,
   organization,
+  organizations,
   viewer,
 }: {
   readonly children: ReactNode;
   readonly organization: Organization;
+  readonly organizations: readonly OrganizationOption[];
   readonly viewer: Viewer;
 }) {
   return (
@@ -23,16 +26,7 @@ export function DashboardShell({
           <MaruMark href="/dashboard" />
         </div>
 
-        <button className="organization-switcher" type="button" aria-label="Switch organization">
-          <span className="organization-switcher__seal" aria-hidden="true">
-            M
-          </span>
-          <span>
-            <strong>{organization.name}</strong>
-            <small>{organization.plan}</small>
-          </span>
-          <Icon name="chevron" />
-        </button>
+        <OrganizationSwitcher activeOrganization={organization} organizations={organizations} />
 
         <DashboardNavigation />
 

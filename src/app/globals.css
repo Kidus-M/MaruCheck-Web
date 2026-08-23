@@ -166,6 +166,18 @@ svg {
   text-align: left;
 }
 
+.organization-switcher-menu {
+  position: relative;
+}
+
+.organization-switcher-menu > summary {
+  list-style: none;
+}
+
+.organization-switcher-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
 .organization-switcher__seal {
   display: grid;
   width: 2rem;
@@ -196,6 +208,100 @@ svg {
 .organization-switcher > svg {
   width: 0.85rem;
   transform: rotate(90deg);
+  transition: transform 160ms ease;
+}
+
+.organization-switcher-menu[open] .organization-switcher > svg {
+  transform: rotate(-90deg);
+}
+
+.organization-switcher-menu__list {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.45rem;
+  padding: 0.45rem;
+  border: 1px solid var(--line-dark);
+  border-radius: 0.7rem;
+  background: var(--nav-soft);
+}
+
+.organization-switcher-menu__list > p:first-child {
+  margin: 0;
+  padding: 0.4rem 0.5rem 0.25rem;
+  color: #71808b;
+  font-family: var(--font-data);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.organization-switcher-menu__list > button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.55rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.organization-switcher-menu__list > button:hover,
+.organization-switcher-menu__list > button[aria-current="true"] {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.organization-switcher-menu__list > button > span:first-child {
+  display: grid;
+  width: 1.65rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: #eef0fb;
+  color: var(--indigo);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.organization-switcher-menu__list > button > span:nth-child(2) {
+  min-width: 0;
+}
+
+.organization-switcher-menu__list > button strong,
+.organization-switcher-menu__list > button small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.organization-switcher-menu__list > button strong {
+  font-size: 0.7rem;
+}
+
+.organization-switcher-menu__list > button small {
+  margin-top: 0.12rem;
+  color: #91a0aa;
+  font-size: 0.6rem;
+}
+
+.organization-switcher-menu__list > button > svg {
+  width: 0.8rem;
+  color: var(--mint);
+}
+
+.organization-switcher-menu__error {
+  margin: 0.25rem 0 0;
+  padding: 0.5rem;
+  border-left: 2px solid var(--coral);
+  color: #f4aaa0;
+  font-size: 0.62rem;
+  line-height: 1.45;
 }
 
 .sidebar__nav {

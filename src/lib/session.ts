@@ -3,7 +3,7 @@ import { cache } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getAuth, isAuthConfigured } from "@/lib/auth";
-import type { Organization, Viewer } from "@/lib/dashboard-types";
+import type { Organization, OrganizationOption, Viewer } from "@/lib/dashboard-types";
 
 export const getSession = cache(async () => {
   if (!isAuthConfigured()) return null;
@@ -20,6 +20,7 @@ export const getWorkspaceContext = cache(
       readonly role: "Owner" | "Member";
     }[];
     readonly organization: Organization;
+    readonly organizations: readonly OrganizationOption[];
     readonly viewer: Viewer;
   } | null> => {
     const session = await getSession();
@@ -60,6 +61,11 @@ export const getWorkspaceContext = cache(
         plan: "Founding team",
         slug: activeOrganization.slug,
       },
+      organizations: organizations.map((organization) => ({
+        id: organization.id,
+        name: organization.name,
+        slug: organization.slug,
+      })),
       viewer: {
         email: session.user.email,
         initials: initialsFor(session.user.name),
