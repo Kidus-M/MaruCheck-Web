@@ -55,10 +55,14 @@ Vercel Production environment variables:
 | `MARUCHECK_ALLOWED_SIGNUP_EMAILS`             | optional      | leave unset for public testing; use to return to invites  |
 | `MARUCHECK_OPEN_SIGNUPS`                      | tester launch | set to `true` for public account creation                 |
 | `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` | optional pair | production GitHub OAuth application                       |
+| `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` | optional pair | production Google OAuth web client                        |
 
 Register `<BETTER_AUTH_URL>/api/auth/callback/github` in the GitHub OAuth application when GitHub
-sign-in is enabled. Do not reuse credentials between the database, authentication, cron, project
-ingestion, or deployment protection.
+sign-in or repository discovery is enabled. Register
+`<BETTER_AUTH_URL>/api/auth/callback/google` as an authorized redirect URI in Google Cloud when
+Google sign-in is enabled. Follow the [OAuth and GitHub setup guide](oauth-and-github-setup.md) and
+do not reuse credentials between environments, authentication, cron, project ingestion, or
+deployment protection.
 
 ## Release procedure
 

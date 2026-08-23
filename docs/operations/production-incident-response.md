@@ -27,8 +27,8 @@ in doubt, ingestion is corrupt or unexpectedly rejected, or secrets may have lea
 - Revoke or rotate affected project ingest tokens from the project page.
 - Rotate `BETTER_AUTH_SECRET` only with an explicit session-invalidation plan; users will need to
   sign in again.
-- Rotate `CRON_SECRET`, Neon credentials, GitHub OAuth credentials, or the Vercel automation bypass
-  independently when exposure is suspected.
+- Rotate `CRON_SECRET`, Neon credentials, GitHub/Google OAuth credentials, or the Vercel automation
+  bypass independently when exposure is suspected.
 - Never reuse replacement values across systems.
 
 ## Database safety

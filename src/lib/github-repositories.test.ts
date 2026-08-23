@@ -54,8 +54,9 @@ describe("GitHub repository discovery", () => {
   });
 
   it("rejects a non-list repository payload", async () => {
-    const fetcher = vi.fn().mockResolvedValue(Response.json({ message: "unexpected" })) as unknown as
-      typeof fetch;
+    const fetcher = vi
+      .fn()
+      .mockResolvedValue(Response.json({ message: "unexpected" })) as unknown as typeof fetch;
 
     await expect(fetchGitHubRepositories("github-token", fetcher)).rejects.toThrow(
       "GitHub returned an invalid repository response.",

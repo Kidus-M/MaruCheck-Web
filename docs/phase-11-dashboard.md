@@ -9,7 +9,7 @@ The hosted dashboard answers one primary question: **Can this release ship, and 
 | Overview            | `/dashboard`           | Release decision, proof orbit, findings, activity, and project health |
 | Projects            | `/projects`            | Connected repository health and coverage                              |
 | Project detail      | `/projects/[slug]`     | Project gate, runs, findings, and contract coverage                   |
-| Connect project     | `/projects/connect`    | GitHub connection and local-execution boundary                        |
+| Connect project     | `/projects/connect`    | Server-loaded GitHub repository picker and local-execution boundary   |
 | Contracts           | `/contracts`           | Approval state, protected intent, versions, owners, and coverage      |
 | New contract        | `/contracts/new`       | Draft creation surface                                                |
 | Runs                | `/runs`                | Verification history with commit, risk, evidence, and status          |
@@ -24,7 +24,7 @@ The hosted dashboard answers one primary question: **Can this release ship, and 
 | Organization        | `/organization`        | Members, workspace metadata, and hosted data boundary                 |
 | Invite member       | `/organization/invite` | Owner-only Better Auth invitation flow and shareable link             |
 | Accept invite       | `/accept-invitation`   | Authenticated invitation acceptance                                   |
-| Sign in             | `/sign-in`             | Better Auth email/password and optional GitHub authentication         |
+| Sign in             | `/sign-in`             | Better Auth email/password, GitHub, and Google authentication         |
 
 All product routes use Server Components except active navigation and the one-time project-token
 result. Dynamic project, run, and finding routes resolve organization-scoped records at request
@@ -86,10 +86,18 @@ and a concrete repository test link before creating active QA Memory. See the
 [production-feedback guide](api/production-feedback.md) and
 [ADR-006](decisions/0006-ingest-bounded-production-feedback-as-reviewable-memory.md).
 
-The connect flow reveals the raw credential once with a copy control. Each project page continues
-to show safe token metadata even before its first report: prefix, status, creation, expiry, and last
-use. Owners can revoke a credential or rotate it; rotation revokes the previous active token and
-reveals the replacement once.
+The connect flow loads up to 100 recently pushed repositories from the signed-in user's linked
+GitHub account. The selected repository name and default branch are revalidated against GitHub in
+the server action before project creation. Public repositories use the identity token's default
+scopes; private repositories require explicit consent to GitHub's broad `repo` OAuth scope. Provider
+tokens remain server-only and are encrypted in the Better Auth account table. See the
+[OAuth and GitHub setup guide](oauth-and-github-setup.md) and
+[ADR-011](decisions/0011-use-social-oauth-for-repository-discovery.md).
+
+After selection, the flow reveals the raw MaruCheck project credential once with a copy control.
+Each project page continues to show safe token metadata even before its first report: prefix,
+status, creation, expiry, and last use. Owners can revoke a credential or rotate it; rotation
+revokes the previous active token and reveals the replacement once.
 
 Project creation plus token creation and report ingestion use short WebSocket-backed transactions.
 Parallel dashboard reads use Neon HTTP. The cloud stores normalized metadata and configured
@@ -103,7 +111,10 @@ npm run db:migrate
 npm run dev
 ```
 
-Create `.env.local` from `.env.example` before running the migration. Open `http://localhost:3000` for the public site, `http://localhost:3000/sign-in` to create the first owner and workspace, or `http://localhost:3000/dashboard` for the protected product overview.
+Create `.env.local` from `.env.example` before running the migration. Follow the
+[OAuth setup guide](oauth-and-github-setup.md) to enable GitHub and Google. Open
+`http://localhost:3000` for the public site, `http://localhost:3000/sign-in` to create the first
+owner and workspace, or `http://localhost:3000/dashboard` for the protected product overview.
 
 ## Validation
 

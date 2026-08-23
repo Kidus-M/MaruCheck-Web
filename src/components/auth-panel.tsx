@@ -20,7 +20,9 @@ export function AuthPanel({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
-  const [error, setError] = useState<string | undefined>(() => oauthError(searchParams.get("error")));
+  const [error, setError] = useState<string | undefined>(() =>
+    oauthError(searchParams.get("error")),
+  );
   const [pending, setPending] = useState(false);
   const callbackURL = safeCallback(searchParams.get("callbackURL"));
   const socialConfigured = githubConfigured || googleConfigured;
@@ -113,7 +115,9 @@ export function AuthPanel({
           onClick={() => signInWithProvider("github")}
           type="button"
         >
-          <span>GH</span>
+          <span>
+            <Icon fill="currentColor" name="github" stroke="none" />
+          </span>
           {mode === "sign-in" ? "Continue with GitHub" : "Sign up with GitHub"}
           <Icon name="arrow" />
         </button>
@@ -125,7 +129,9 @@ export function AuthPanel({
           onClick={() => signInWithProvider("google")}
           type="button"
         >
-          <span>G</span>
+          <span>
+            <Icon name="google" stroke="none" />
+          </span>
           {mode === "sign-in" ? "Continue with Google" : "Sign up with Google"}
           <Icon name="arrow" />
         </button>

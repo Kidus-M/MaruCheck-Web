@@ -182,7 +182,8 @@ export function ConnectProjectForm({
           <>
             <fieldset className="repository-picker">
               <legend>
-                Available repositories <small>{github.repositories.length} most recently pushed</small>
+                Available repositories{" "}
+                <small>{github.repositories.length} most recently pushed</small>
               </legend>
               <div>
                 {github.repositories.map((repository, index) => (
@@ -233,7 +234,8 @@ export function ConnectProjectForm({
         {github.status === "ready" && github.repositories.length > 0 ? (
           <footer>
             <p>
-              <span aria-hidden="true">◌</span> Name and default branch will be verified with GitHub.
+              <span aria-hidden="true">◌</span> Name and default branch will be verified with
+              GitHub.
             </p>
             <button className="button button--primary" disabled={pending} type="submit">
               {pending ? "Establishing connection…" : "Connect repository"}
@@ -285,11 +287,7 @@ export function ConnectProjectForm({
   );
 }
 
-function GitHubRepositorySetup({
-  github,
-}: {
-  readonly github: GitHubRepositoryConnection;
-}) {
+function GitHubRepositorySetup({ github }: { readonly github: GitHubRepositoryConnection }) {
   if (github.status === "unconfigured") {
     return (
       <div className="repository-setup auth-notice" role="status">

@@ -12,24 +12,30 @@ export function InviteMemberForm({ organizationId }: { readonly organizationId: 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (pending) return;
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     setError(undefined);
     setInviteUrl(undefined);
     setPending(true);
 
-    const result = await authClient.organization.inviteMember({
-      email: String(form.get("email") ?? "").trim(),
-      organizationId,
-      role: String(form.get("role") ?? "member") as "member" | "owner",
-    });
+    try {
+      const result = await authClient.organization.inviteMember({
+        email: String(form.get("email") ?? "").trim(),
+        organizationId,
+        role: String(form.get("role") ?? "member") as "member" | "owner",
+      });
 
-    if (result.error) {
-      setError(result.error.message ?? "The invitation could not be created.");
-    } else if (result.data) {
-      setInviteUrl(`${window.location.origin}/accept-invitation?id=${result.data.id}`);
-      event.currentTarget.reset();
+      if (result.error) {
+        setError(result.error.message ?? "The invitation could not be created.");
+      } else if (result.data) {
+        setInviteUrl(`${window.location.origin}/accept-invitation?id=${result.data.id}`);
+        formElement.reset();
+      }
+    } catch {
+      setError("The invitation could not be created. Please try again.");
+    } finally {
+      setPending(false);
     }
-    setPending(false);
   }
 
   async function copyInvite() {
