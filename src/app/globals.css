@@ -124,19 +124,12 @@ svg {
 }
 
 .brand__mark {
-  display: grid;
+  display: block;
+  flex: 0 0 auto;
   width: 1.65rem;
+  height: 1.65rem;
   aspect-ratio: 1;
-  place-items: center;
-  border: 2px solid #f6f8f6;
-  border-radius: 50%;
-}
-
-.brand__mark span {
-  width: 0.7rem;
-  aspect-ratio: 1;
-  border: 1px solid #f6f8f6;
-  border-radius: 50%;
+  object-fit: contain;
 }
 
 .brand__name span {
@@ -145,11 +138,6 @@ svg {
 
 .brand--compact {
   color: var(--ink);
-}
-
-.brand--compact .brand__mark,
-.brand--compact .brand__mark span {
-  border-color: var(--indigo);
 }
 
 .organization-switcher {
@@ -4033,11 +4021,6 @@ svg {
 .onboarding-page > .brand {
   justify-self: start;
   color: var(--ink);
-}
-
-.onboarding-page > .brand .brand__mark,
-.onboarding-page > .brand .brand__mark span {
-  border-color: var(--indigo);
 }
 
 .onboarding-page > div {

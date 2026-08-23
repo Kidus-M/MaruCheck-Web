@@ -133,11 +133,7 @@
 
 .marketing-site .brand__mark {
   width: 1.55rem;
-  border-color: #7585db;
-}
-
-.marketing-site .brand__mark span {
-  border-color: #7585db;
+  height: 1.55rem;
 }
 
 .marketing-site .brand__name span {

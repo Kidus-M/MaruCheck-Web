@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function MaruMark({
@@ -13,9 +14,14 @@ export function MaruMark({
       href={href}
       aria-label="MaruCheck home"
     >
-      <span className="brand__mark" aria-hidden="true">
-        <span />
-      </span>
+      <Image
+        className="brand__mark"
+        src="/brand/marucheck-logo.png"
+        alt=""
+        width={28}
+        height={28}
+        aria-hidden="true"
+      />
       <span className="brand__name">
         Maru<span>Check</span>
       </span>
