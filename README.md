@@ -9,6 +9,8 @@ MaruCheck Web is open source under the [MIT License](LICENSE). The local verifie
 separate [MaruCheck CLI repository](https://github.com/Kidus-M/MaruCheck); issues and focused pull
 requests are welcome in the repository that owns the affected behavior.
 
+Production: [marucheck.dev](https://marucheck.dev)
+
 ## Quick start
 
 Requirements: Node.js 24 LTS and npm 11 or newer.

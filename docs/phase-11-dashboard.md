@@ -34,6 +34,10 @@ time.
 
 The dashboard now sits behind a complete public experience rather than occupying the root route:
 
+The canonical production origin is `https://marucheck.dev`. Metadata, OAuth callbacks, generated
+project connection settings, and production smoke verification use the same origin; see
+[ADR-013](decisions/0013-use-marucheck-dev-as-the-canonical-production-origin.md).
+
 | Surface           | Route                     | Purpose                                                    |
 | ----------------- | ------------------------- | ---------------------------------------------------------- |
 | Landing page      | `/`                       | Positioning, proof-loop narrative, capabilities, and CTAs  |

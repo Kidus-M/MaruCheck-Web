@@ -38,7 +38,7 @@ export default function ProductionFeedbackDocsPage() {
           Use the one-time project token from the connection flow. The idempotency header must
           exactly match the event ID in the JSON body.
         </p>
-        <CodeBlock>{`curl --fail-with-body https://your-marucheck-host/api/v1/production-events \\
+        <CodeBlock>{`curl --fail-with-body https://marucheck.dev/api/v1/production-events \\
   -H "Authorization: Bearer $MARUCHECK_TOKEN" \\
   -H "Content-Type: application/json" \\
   -H "Idempotency-Key: evt-prod-0001" \\

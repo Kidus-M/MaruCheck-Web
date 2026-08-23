@@ -37,8 +37,9 @@ GITHUB_CLIENT_SECRET=...
 ```
 
 For production, create a separate OAuth app and use the exact callback
-`https://your-domain.example/api/auth/callback/github`. Set `BETTER_AUTH_URL` to that same HTTPS
-origin without a trailing slash. Avoid wildcard callback matching.
+`https://marucheck.dev/api/auth/callback/github`. Set `BETTER_AUTH_URL=https://marucheck.dev`.
+Avoid wildcard callback matching and remove the old Vercel callback after the canonical-domain
+login succeeds.
 
 Better Auth requests `read:user` and `user:email` for sign-in. Those scopes let MaruCheck discover
 public repositories associated with the user. The **Include private repositories** control asks for
@@ -53,7 +54,7 @@ repository scope: `repo` is broad, so the consent is deliberately separate from 
 3. Open **Clients**, create an OAuth client, and choose **Web application**.
 4. Add these authorized redirect URIs:
    - `http://localhost:3000/api/auth/callback/google`
-   - `https://your-domain.example/api/auth/callback/google`
+   - `https://marucheck.dev/api/auth/callback/google`
 5. Copy the client ID and secret into `.env.local`:
 
 ```dotenv
@@ -94,8 +95,9 @@ locked.
 
 ## 5. Configure Vercel
 
-Add the production values to the Vercel project, including the production `BETTER_AUTH_URL`, both
-provider credential pairs, and the existing database/auth values. Redeploy after changing them.
+Add the production values to the Vercel project, including
+`BETTER_AUTH_URL=https://marucheck.dev`, both provider credential pairs, and the existing
+database/auth values. Redeploy after changing them.
 Run `npm run deploy:env:check` before promotion; it rejects a half-configured GitHub or Google
 credential pair.
 

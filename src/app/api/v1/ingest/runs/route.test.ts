@@ -78,7 +78,7 @@ describe("POST /api/v1/ingest/runs", () => {
   it("binds a differently named local report to the bearer token's project", async () => {
     const generatedAt = "2026-08-21T13:27:51.548Z";
     const response = await POST(
-      new Request("https://maru-check.vercel.app/api/v1/ingest/runs", {
+      new Request("https://marucheck.dev/api/v1/ingest/runs", {
         body: JSON.stringify({
           branch: "main",
           commitSha: "0123456789abcdef",

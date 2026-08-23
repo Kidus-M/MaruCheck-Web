@@ -4,6 +4,10 @@ MaruCheck uses one production workflow for release testing and deployment. There
 beta application or beta database. Early developer access is controlled through the production
 email allowlist while friends test the same deployment that will eventually become public.
 
+The canonical production origin is `https://marucheck.dev`. Keep the Vercel-generated domain
+attached as an operational alias, but redirect public traffic to the canonical origin rather than
+advertising two URLs.
+
 ## Release flow
 
 ```text
@@ -35,7 +39,7 @@ Create a GitHub environment named `production`, add required reviewers, and conf
 | `VERCEL_ORG_ID`                   | secret          | non-interactive Vercel account/team selection      |
 | `VERCEL_PROJECT_ID`               | secret          | non-interactive Vercel project selection           |
 | `VERCEL_AUTOMATION_BYPASS_SECRET` | optional secret | smoke a protected deployment                       |
-| `PRODUCTION_URL`                  | variable        | stable HTTPS origin, without a trailing slash      |
+| `PRODUCTION_URL`                  | variable        | `https://marucheck.dev`                            |
 
 The Neon API key should have only the project access required for branch lifecycle operations. The
 Vercel token should be limited to the MaruCheck project/team.
@@ -50,16 +54,16 @@ Vercel Production environment variables:
 | `DATABASE_URL`                                | yes           | pooled TLS URL for the production Neon branch             |
 | `DATABASE_URL_UNPOOLED`                       | yes           | direct TLS URL used only by the guarded migration command |
 | `BETTER_AUTH_SECRET`                          | yes           | independent random value of at least 32 characters        |
-| `BETTER_AUTH_URL`                             | yes           | exact stable HTTPS production origin                      |
+| `BETTER_AUTH_URL`                             | yes           | `https://marucheck.dev`                                   |
 | `CRON_SECRET`                                 | yes           | separate random value for authenticated retention         |
 | `MARUCHECK_ALLOWED_SIGNUP_EMAILS`             | optional      | leave unset for public testing; use to return to invites  |
 | `MARUCHECK_OPEN_SIGNUPS`                      | tester launch | set to `true` for public account creation                 |
 | `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` | optional pair | production GitHub OAuth application                       |
 | `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` | optional pair | production Google OAuth web client                        |
 
-Register `<BETTER_AUTH_URL>/api/auth/callback/github` in the GitHub OAuth application when GitHub
-sign-in or repository discovery is enabled. Register
-`<BETTER_AUTH_URL>/api/auth/callback/google` as an authorized redirect URI in Google Cloud when
+Register `https://marucheck.dev/api/auth/callback/github` in the GitHub OAuth application when
+GitHub sign-in or repository discovery is enabled. Register
+`https://marucheck.dev/api/auth/callback/google` as an authorized redirect URI in Google Cloud when
 Google sign-in is enabled. Follow the [OAuth and GitHub setup guide](oauth-and-github-setup.md) and
 do not reuse credentials between environments, authentication, cron, project ingestion, or
 deployment protection.
@@ -67,7 +71,9 @@ deployment protection.
 ## Release procedure
 
 1. Push the reviewed web commit and confirm normal CI is green.
-2. In GitHub Actions, run **Production release** and approve the `production` environment.
+2. Confirm the GitHub `PRODUCTION_URL` variable and Vercel `BETTER_AUTH_URL` both equal
+   `https://marucheck.dev`. In GitHub Actions, run **Production release** and approve the
+   `production` environment.
 3. The workflow proves migrations and behavior on a disposable Neon branch before it can touch the
    production database.
 4. The guarded migration runs with Vercel's Production environment variables. It accepts only a
@@ -82,7 +88,7 @@ deployment protection.
 ## Rollback
 
 For an application regression, use Vercel rollback to restore the previous accepted deployment and
-rerun `npm run deploy:smoke -- <production-url>`. Do not reverse a schema migration automatically.
+rerun `npm run deploy:smoke -- https://marucheck.dev`. Do not reverse a schema migration automatically.
 Preserve the Neon state, compare schema compatibility, and use a recovery branch when data restore
 is required. Follow the [production incident runbook](operations/production-incident-response.md).
 

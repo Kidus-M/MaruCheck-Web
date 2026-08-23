@@ -6,7 +6,7 @@ info:
     Bounded, project-scoped ingestion of production failures. This contract accepts structured
     metadata and proposals; it does not accept source code or execute tests.
 servers:
-  - url: https://your-marucheck-host
+  - url: https://marucheck.dev
     description: Replace with the deployed MaruCheck origin.
 tags:
   - name: Production feedback

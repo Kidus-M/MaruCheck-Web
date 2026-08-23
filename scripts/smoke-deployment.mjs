@@ -20,7 +20,8 @@ const headers = protectionSecret
 const checks = [
   ["/api/health/live", '"status":"alive"'],
   ["/api/health/ready", '"status":"ready"'],
-  ["/", "Independent QA for AI-generated software"],
+  ["/", "Test what"],
+  ["/open-source", "The verifier"],
   ["/docs/production-feedback", "Production feedback"],
   ["/sign-in", "Sign in to your workspace"],
 ];

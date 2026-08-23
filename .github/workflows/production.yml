@@ -91,7 +91,11 @@ jobs:
         run: vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
 
       - name: Validate configured production environment
-        run: vercel env run -e production --token="${{ secrets.VERCEL_TOKEN }}" -- npm run deploy:env:check
+        run: vercel env run -e production --token="${{ secrets.VERCEL_TOKEN }}" -- npm run deploy:env:check -- https://marucheck.dev
+
+      - name: Require the canonical production domain
+        shell: bash
+        run: test "${{ vars.PRODUCTION_URL }}" = "https://marucheck.dev"
 
       - name: Apply reviewed production migrations
         env:

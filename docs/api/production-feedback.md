@@ -27,7 +27,7 @@ Delivery behavior is explicit:
 ## Example
 
 ```bash
-curl --fail-with-body https://your-marucheck-host/api/v1/production-events \
+curl --fail-with-body https://marucheck.dev/api/v1/production-events \
   -H "Authorization: Bearer $MARUCHECK_TOKEN" \
   -H "Content-Type: application/json" \
   -H "Idempotency-Key: evt-prod-0001" \

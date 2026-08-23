@@ -5,7 +5,7 @@
   "description": "MaruCheck hosted dashboard and API",
   "license": "MIT",
   "type": "module",
-  "homepage": "https://maru-check.vercel.app/",
+  "homepage": "https://marucheck.dev/",
   "bugs": {
     "url": "https://github.com/Kidus-M/MaruCheck-Web/issues"
   },

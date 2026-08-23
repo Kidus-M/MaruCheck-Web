@@ -54,7 +54,7 @@ curl --fail-with-body \
   -H "Authorization: Bearer $MARUCHECK_TOKEN" \
   -H "Content-Type: application/json" \
   --data-binary @ingest.json \
-  https://your-marucheck-host/api/v1/ingest/runs
+  https://marucheck.dev/api/v1/ingest/runs
 ```
 
 ## Responses

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { MARUCHECK_PRODUCTION_ORIGIN } from "@/lib/public-site";
 import "./globals.css";
 import "./marketing.css";
 import "./marketing-v2.css";
@@ -8,6 +9,7 @@ import "./marketing-pages-v2.css";
 export const metadata: Metadata = {
   description:
     "MaruCheck independently verifies that AI-generated software still satisfies approved product behavior.",
+  metadataBase: new URL(MARUCHECK_PRODUCTION_ORIGIN),
   title: {
     default: "MaruCheck — Test what your AI didn't",
     template: "%s · MaruCheck",
