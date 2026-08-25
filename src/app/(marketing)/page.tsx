@@ -1,19 +1,36 @@
 import Link from "next/link";
+import { CopyButton } from "@/components/copy-button";
 import { Icon } from "@/components/icon";
 import { MarketingTerminal } from "@/components/marketing-terminal";
 import { MarketingCta } from "@/components/marketing-ui";
 import { PressureSequence } from "@/components/pressure-sequence";
 import { VerificationDemo } from "@/components/verification-demo";
-import { MARUCHECK_CONTRIBUTING_URL } from "@/lib/public-release";
+import { fetchStarCount, formatStarCount } from "@/lib/github-stars";
+import { MARUCHECK_CLI_SPEC, MARUCHECK_SOURCE_URL } from "@/lib/public-release";
 
-export default function HomePage() {
+const INSTALL_COMMAND = `npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}`;
+
+export default async function HomePage() {
+  const stars = await fetchStarCount();
+
   return (
     <>
       <section className="v2-hero" data-gsap-hero>
         <div className="v2-hero__grid" aria-hidden="true" />
+        <div className="v2-hero__glow" aria-hidden="true" />
         <div className="marketing-container v2-hero__copy">
           <p className="v2-kicker">
-            <span>OPEN SOURCE / MIT</span> Independent verification for AI-coded software
+            <a
+              className="v2-kicker__badge"
+              href={MARUCHECK_SOURCE_URL}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <Icon fill="currentColor" name="github" stroke="none" />
+              Open source / MIT
+              {stars === null ? null : <b>{formatStarCount(stars)}</b>}
+            </a>
+            Independent verification for AI-coded software
           </p>
           <h1>
             <span className="hero-word-clip">
@@ -37,13 +54,24 @@ export default function HomePage() {
               </p>
               <div className="marketing-actions">
                 <MarketingCta href="/docs/getting-started">Verify your first change</MarketingCta>
-                <a className="v2-watch-link" href={MARUCHECK_CONTRIBUTING_URL}>
-                  Contribute on GitHub <span>↗</span>
-                </a>
-                <a className="v2-watch-link" href="#workflow">
-                  See the decision unfold <span>↓</span>
+                <a
+                  className="v2-source-button"
+                  href={MARUCHECK_SOURCE_URL}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <Icon fill="currentColor" name="github" stroke="none" />
+                  Read the CLI source
                 </a>
               </div>
+              <div className="v2-hero__install">
+                <span aria-hidden="true">$</span>
+                <code>npm i -D {MARUCHECK_CLI_SPEC}</code>
+                <CopyButton label="Copy install command" value={INSTALL_COMMAND} />
+              </div>
+              <a className="v2-watch-link v2-watch-link--scroll" href="#workflow">
+                See the decision unfold <span>↓</span>
+              </a>
             </div>
           </div>
         </div>

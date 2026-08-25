@@ -5,6 +5,7 @@ import { MarketingGsap } from "@/components/marketing-gsap";
 import { MaruMark } from "@/components/maru-mark";
 import { MarketingMotion } from "@/components/marketing-motion";
 import { MarketingNavigation } from "@/components/marketing-navigation";
+import { fetchStarCount } from "@/lib/github-stars";
 import {
   MARUCHECK_CLI_SPEC,
   MARUCHECK_CONTRIBUTING_URL,
@@ -27,12 +28,14 @@ const footerLinks = [
   ["Sign in", "/sign-in"],
 ] as const;
 
-export function MarketingShell({ children }: { readonly children: ReactNode }) {
+export async function MarketingShell({ children }: { readonly children: ReactNode }) {
+  const stars = await fetchStarCount();
+
   return (
     <div className="marketing-site">
       <MarketingMotion />
       <MarketingGsap />
-      <MarketingNavigation />
+      <MarketingNavigation stars={stars} />
       <main id="main-content">{children}</main>
       <footer className="marketing-footer">
         <section className="footer-proof">
