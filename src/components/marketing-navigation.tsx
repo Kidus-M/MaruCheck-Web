@@ -64,7 +64,7 @@ export function MarketingNavigation({ stars = null }: { readonly stars?: number 
 
   return (
     <header
-      className={`marketing-header${scrolled ? " is-scrolled" : ""}${lightPage ? " is-light-context" : ""}${open ? " is-menu-open" : ""}`}
+      className={`marketing-header${scrolled ? " is-scrolled" : ""}${lightPage ? " is-light-context" : ""}`}
     >
       <div className="marketing-header__inner">
         <MaruMark />

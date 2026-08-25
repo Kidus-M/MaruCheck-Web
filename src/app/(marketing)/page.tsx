@@ -67,7 +67,7 @@ export default async function HomePage() {
               <div className="v2-hero__install">
                 <span aria-hidden="true">$</span>
                 <code>npm i -D {MARUCHECK_CLI_SPEC}</code>
-                <CopyButton label="Copy install command" value={INSTALL_COMMAND} />
+                <CopyButton label="Copy" value={INSTALL_COMMAND} />
               </div>
               <a className="v2-watch-link v2-watch-link--scroll" href="#workflow">
                 See the decision unfold <span>↓</span>
