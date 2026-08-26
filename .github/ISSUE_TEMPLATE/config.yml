@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Starter issues
+    url: https://github.com/Kidus-M/MaruCheck-Web/blob/main/docs/contributing/starter-issues.md
+    about: Scoped tasks with acceptance criteria, if you are looking for somewhere to start
+  - name: CLI, contracts, and verification behavior
+    url: https://github.com/Kidus-M/MaruCheck/issues
+    about: Anything about the maru CLI, adapters, Quality Contracts, drift, or the MCP server

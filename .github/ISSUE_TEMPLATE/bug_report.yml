@@ -1,0 +1,47 @@
+name: Bug report
+description: Something in the dashboard, the product site, or the hosted API behaved incorrectly
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Verification behavior — risk scores, findings, contracts, drift — belongs in the
+        [CLI repository](https://github.com/Kidus-M/MaruCheck/issues). This tracker is for
+        marucheck.dev, the dashboard, and the hosted API.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce
+      description: The page or endpoint, the steps, and whether you were signed in.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      placeholder: "marucheck.dev, or a local dev server at commit <sha>"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, viewport, and operating system
+      placeholder: "Firefox 141, 1280x800, Windows 11"
+  - type: textarea
+    id: console
+    attributes:
+      label: Console or server output
+      description: Redact tokens, connection strings, and anything else sensitive.
+      render: text

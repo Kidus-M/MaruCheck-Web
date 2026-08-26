@@ -1,0 +1,26 @@
+name: Feature request
+description: Something the dashboard, product site, or hosted API should do
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to see or do that the application makes hard today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like it to do
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints this proposal respects
+      options:
+        - label: Verification still happens locally in the CLI
+        - label: No source files, diffs, or artifact contents are sent to the hosted API
+        - label: Data stays scoped to one organization
+        - label: The page works without client-side JavaScript, or degrades sensibly

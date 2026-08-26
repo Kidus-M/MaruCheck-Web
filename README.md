@@ -2,14 +2,35 @@
 
 [![CI](https://github.com/Kidus-M/MaruCheck-Web/actions/workflows/ci.yml/badge.svg)](https://github.com/Kidus-M/MaruCheck-Web/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-6678e8.svg)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-16-405768.svg)](https://nextjs.org)
+[![CLI](https://img.shields.io/badge/CLI-marucheck-C13B2B.svg)](https://github.com/Kidus-M/MaruCheck)
 
-The Next.js full-stack dashboard and hosted API for MaruCheck. It is maintained separately from the local-first CLI so cloud deployments and CLI releases remain independent.
+The Next.js application and hosted API behind [marucheck.dev](https://marucheck.dev): the public
+product site, and the dashboard where a team's verification runs, findings, requirement coverage,
+and QA memory live once the CLI sends them.
 
-MaruCheck Web is open source under the [MIT License](LICENSE). The local verifier lives in the
-separate [MaruCheck CLI repository](https://github.com/Kidus-M/MaruCheck); issues and focused pull
-requests are welcome in the repository that owns the affected behavior.
+<p align="center">
+  <img src="docs/assets/marketing-home.jpg" alt="The MaruCheck product site: Test what your AI didn't" width="880">
+</p>
 
-Production: [marucheck.dev](https://marucheck.dev)
+## What this repository is, and is not
+
+MaruCheck's verification is local-first and stays that way. The CLI scores a diff, runs the
+selected tests, and writes evidence to `.maru/` on your machine with no account and no API key.
+This repository is the **optional** layer on top: a place for a team to keep that history, see
+requirement coverage across runs, and read findings without SSH-ing into a CI job.
+
+| Question                         | Answer                                                            |
+| -------------------------------- | ----------------------------------------------------------------- |
+| Where does verification happen?  | Locally, in the [CLI](https://github.com/Kidus-M/MaruCheck)       |
+| What does this app receive?      | The versioned JSON report, plus Git run identity                  |
+| What does it never receive?      | Source files, diffs, or artifact contents                         |
+| Is it required to use MaruCheck? | No. `maru upload` is an explicit, opt-in action                   |
+| Where do CLI bugs go?            | The [CLI repository](https://github.com/Kidus-M/MaruCheck/issues) |
+
+New to MaruCheck? Start with the runnable example in the CLI repository — an AI change that keeps
+the test suite green and gets blocked anyway:
+[`examples/quota-app`](https://github.com/Kidus-M/MaruCheck/tree/main/examples/quota-app).
 
 ## Quick start
 
@@ -86,9 +107,13 @@ For reproducible teams, install `marucheck@0.3.0` exactly and replace the argume
 
 ## Contributing
 
-Open a focused issue or pull request in [MaruCheck Web](https://github.com/Kidus-M/MaruCheck-Web).
-Run `npm run check` before requesting review. CLI behavior and adapters should be proposed in the
-[CLI repository](https://github.com/Kidus-M/MaruCheck/blob/main/CONTRIBUTING.md).
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup, the test commands, and how much of this
+application you can work on without a database (most of it). Scoped tasks with acceptance criteria
+are listed in [starter issues](docs/contributing/starter-issues.md). CLI behavior and adapters
+belong in the [CLI repository](https://github.com/Kidus-M/MaruCheck/blob/main/CONTRIBUTING.md).
+
+Every issue and pull request gets a reply within 24 hours, even when that reply is "this needs a
+few days to look at properly".
 
 ## License
 
