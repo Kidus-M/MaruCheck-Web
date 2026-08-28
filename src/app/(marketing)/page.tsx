@@ -92,6 +92,7 @@ export default async function HomePage() {
             <p>Cursor</p>
             <p>GitHub Actions</p>
             <p>Vitest</p>
+            <p>Jest</p>
             <p>Playwright</p>
           </div>
         </div>

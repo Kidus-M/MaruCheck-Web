@@ -79,7 +79,7 @@ evidence_policy:
               </li>
               <li>
                 <i />
-                Mapped to Vitest + Playwright
+                Mapped to Vitest, Jest + Playwright
               </li>
               <li>
                 <i />

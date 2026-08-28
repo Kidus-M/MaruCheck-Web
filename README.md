@@ -30,7 +30,13 @@ requirement coverage across runs, and read findings without SSH-ing into a CI jo
 
 New to MaruCheck? Start with the runnable example in the CLI repository — an AI change that keeps
 the test suite green and gets blocked anyway:
-[`examples/quota-app`](https://github.com/Kidus-M/MaruCheck/tree/main/examples/quota-app).
+[`examples/quota-app`](https://github.com/Kidus-M/MaruCheck/tree/main/examples/quota-app), or
+the Jest version at
+[`examples/quota-app-jest`](https://github.com/Kidus-M/MaruCheck/tree/main/examples/quota-app-jest).
+
+The marketing and docs pages this repository serves describe the CLI, so a CLI release usually needs
+a change here too: `src/lib/public-release.ts` holds the version every install command renders, and
+`/docs` pages are plain React under `src/app/(marketing)/docs`.
 
 ## Quick start
 
@@ -100,10 +106,10 @@ Any supported MCP client can launch the public CLI directly:
 ```toml
 [mcp_servers.maru]
 command = "npx"
-args = ["--yes", "marucheck@0.3.0", "mcp"]
+args = ["--yes", "marucheck@0.4.0", "mcp"]
 ```
 
-For reproducible teams, install `marucheck@0.3.0` exactly and replace the arguments with `["--no-install", "maru", "mcp"]`. The server is not marked as required, so contributors who use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Current Codex, Claude Code, and Cursor setup instructions are served at `/docs/mcp` by the application and maintained in the [CLI repository guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).
+For reproducible teams, install `marucheck@0.4.0` exactly and replace the arguments with `["--no-install", "maru", "mcp"]`. The server is not marked as required, so contributors who use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Current Codex, Claude Code, and Cursor setup instructions are served at `/docs/mcp` by the application and maintained in the [CLI repository guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).
 
 ## Contributing
 

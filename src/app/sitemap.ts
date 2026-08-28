@@ -5,6 +5,7 @@ const publicPaths = [
   "",
   "/about",
   "/docs",
+  "/docs/agent-gate",
   "/docs/ci",
   "/docs/cli",
   "/docs/getting-started",

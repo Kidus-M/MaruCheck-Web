@@ -10,6 +10,7 @@ const docsLinks = [
   { href: "/docs/quality-contracts", label: "Quality Contracts" },
   { href: "/docs/ci", label: "CI integration" },
   { href: "/docs/mcp", label: "MCP workflow" },
+  { href: "/docs/agent-gate", label: "Agent gate" },
   { href: "/docs/report-ingestion", label: "Hosted reports" },
   { href: "/docs/production-feedback", label: "Production feedback" },
 ] as const;

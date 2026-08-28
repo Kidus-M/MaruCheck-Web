@@ -42,6 +42,10 @@ const commandGroups = [
         "maru challenge prepare --diff",
         "Prepare a bounded brief for a fresh AI-client QA context.",
       ],
+      [
+        "maru hook install",
+        "Register verification as a Claude Code Stop hook so an agent cannot finish on a blocked gate.",
+      ],
       ["maru ci init", "Install the least-privilege GitHub pull-request workflow."],
       ["maru mcp", "Start the local stdio MCP server."],
     ],

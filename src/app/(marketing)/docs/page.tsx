@@ -45,12 +45,18 @@ const entries = [
   ],
   [
     "06",
+    "Agent gate",
+    "Register verification as a Claude Code Stop hook so a coding agent cannot end a turn while the release gate is blocked.",
+    "/docs/agent-gate",
+  ],
+  [
+    "07",
     "Hosted reports",
     "Connect a dashboard project and explicitly send completed proof metadata without uploading source code.",
     "/docs/report-ingestion",
   ],
   [
-    "07",
+    "08",
     "Production feedback",
     "Turn bounded production failures into commit-linked, human-reviewed QA memory candidates.",
     "/docs/production-feedback",
