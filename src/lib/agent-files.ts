@@ -1,6 +1,12 @@
 import { ALL_FAQ, DEFINITION_ANSWER } from "@/lib/faq-content";
 import { absoluteUrl, AUTHOR_NAME } from "@/lib/seo";
-import { MARUCHECK_CLI_SPEC, MARUCHECK_CLI_VERSION, MARUCHECK_NPM_URL, MARUCHECK_SOURCE_URL, MARUCHECK_WEB_SOURCE_URL } from "@/lib/public-release";
+import {
+  MARUCHECK_CLI_SPEC,
+  MARUCHECK_CLI_VERSION,
+  MARUCHECK_NPM_URL,
+  MARUCHECK_SOURCE_URL,
+  MARUCHECK_WEB_SOURCE_URL,
+} from "@/lib/public-release";
 
 /**
  * Text served to AI agents and answer engines that read files instead of
