@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
+import { DocsPageSchema } from "@/components/docs-schema";
+import { docsMetadata } from "@/lib/docs-registry";
 
-export const metadata: Metadata = {
-  title: "Agent gate",
-  description:
-    "Register MaruCheck verification as a Claude Code Stop hook so a coding agent cannot end a turn while the release gate is blocked.",
-};
+export const metadata = docsMetadata("agent-gate");
 
 export default function AgentGateDocsPage() {
   return (
@@ -81,6 +78,8 @@ export default function AgentGateDocsPage() {
           network request, and no source code leaves the machine.
         </p>
       </section>
+
+      <DocsPageSchema slug="agent-gate" />
     </>
   );
 }

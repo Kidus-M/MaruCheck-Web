@@ -1,12 +1,10 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
+import { DocsPageSchema } from "@/components/docs-schema";
+import { docsMetadata } from "@/lib/docs-registry";
 
-export const metadata: Metadata = {
-  title: "CI integration",
-  description: "Run MaruCheck as an evidence-backed continuous integration gate.",
-};
+export const metadata = docsMetadata("ci");
 
 export default function CiDocsPage() {
   return (
@@ -73,6 +71,8 @@ export default function CiDocsPage() {
           <Link href="/docs/report-ingestion"> hosted report step</Link> separately.
         </p>
       </section>
+
+      <DocsPageSchema slug="ci" />
     </>
   );
 }

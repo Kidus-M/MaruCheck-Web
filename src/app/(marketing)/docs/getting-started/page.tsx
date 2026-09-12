@@ -1,17 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 import {
+import { DocsPageSchema } from "@/components/docs-schema";
+import { docsMetadata } from "@/lib/docs-registry";
   MARUCHECK_CLI_SPEC,
   MARUCHECK_CLI_VERSION,
   MARUCHECK_CONTRIBUTING_URL,
   MARUCHECK_SOURCE_URL,
 } from "@/lib/public-release";
 
-export const metadata: Metadata = {
-  title: "Getting started",
-  description: "Install MaruCheck and verify an existing project.",
-};
+export const metadata = docsMetadata("getting-started");
 
 export default function GettingStartedPage() {
   return (
@@ -140,6 +138,8 @@ export default function GettingStartedPage() {
           </li>
         </ol>
       </section>
+
+      <DocsPageSchema slug="getting-started" />
     </>
   );
 }

@@ -1,11 +1,9 @@
-import type { Metadata } from "next";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
+import { DocsPageSchema } from "@/components/docs-schema";
+import { docsMetadata } from "@/lib/docs-registry";
 
-export const metadata: Metadata = {
-  title: "MCP workflow",
-  description: "Connect MaruCheck tools to Codex and other MCP-compatible clients.",
-};
+export const metadata = docsMetadata("mcp");
 
 export default function McpDocsPage() {
   return (
@@ -166,6 +164,8 @@ npx --no-install maru challenge submit --brief .maru/artifacts/challenges/<chall
           </li>
         </ul>
       </section>
+
+      <DocsPageSchema slug="mcp" />
     </>
   );
 }

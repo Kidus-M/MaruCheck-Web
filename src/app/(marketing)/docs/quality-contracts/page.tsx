@@ -1,10 +1,8 @@
-import type { Metadata } from "next";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
+import { DocsPageSchema } from "@/components/docs-schema";
+import { docsMetadata } from "@/lib/docs-registry";
 
-export const metadata: Metadata = {
-  title: "Quality Contracts",
-  description: "Write durable, executable behavior contracts for MaruCheck.",
-};
+export const metadata = docsMetadata("quality-contracts");
 
 export default function ContractsDocsPage() {
   return (
@@ -52,6 +50,8 @@ export default function ContractsDocsPage() {
           </li>
         </ol>
       </section>
+
+      <DocsPageSchema slug="quality-contracts" />
     </>
   );
 }

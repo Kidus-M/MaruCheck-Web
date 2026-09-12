@@ -1,10 +1,8 @@
-import type { Metadata } from "next";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
+import { DocsPageSchema } from "@/components/docs-schema";
+import { docsMetadata } from "@/lib/docs-registry";
 
-export const metadata: Metadata = {
-  title: "Production feedback",
-  description: "Send bounded production failures into MaruCheck's reviewed QA-memory workflow.",
-};
+export const metadata = docsMetadata("production-feedback");
 
 export default function ProductionFeedbackDocsPage() {
   return (
@@ -62,6 +60,8 @@ export default function ProductionFeedbackDocsPage() {
           <li>Production aggregates are retained for 90 days.</li>
         </ul>
       </section>
+
+      <DocsPageSchema slug="production-feedback" />
     </>
   );
 }

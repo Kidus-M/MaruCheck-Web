@@ -1,11 +1,9 @@
-import type { Metadata } from "next";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 import { MARUCHECK_CLI_SPEC, MARUCHECK_CLI_VERSION } from "@/lib/public-release";
+import { DocsPageSchema } from "@/components/docs-schema";
+import { docsMetadata } from "@/lib/docs-registry";
 
-export const metadata: Metadata = {
-  title: "CLI reference",
-  description: "Reference for the published MaruCheck CLI and its local verification commands.",
-};
+export const metadata = docsMetadata("cli");
 
 const commandGroups = [
   {
@@ -123,6 +121,8 @@ export default function CliDocsPage() {
           </li>
         </ul>
       </section>
+
+      <DocsPageSchema slug="cli" />
     </>
   );
 }

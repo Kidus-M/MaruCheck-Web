@@ -1,12 +1,10 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
+import { DocsPageSchema } from "@/components/docs-schema";
+import { docsMetadata } from "@/lib/docs-registry";
 
-export const metadata: Metadata = {
-  title: "Hosted verification reports",
-  description: "Connect a project and send completed MaruCheck proof metadata to the dashboard.",
-};
+export const metadata = docsMetadata("report-ingestion");
 
 export default function ReportIngestionDocsPage() {
   return (
@@ -100,6 +98,8 @@ export default function ReportIngestionDocsPage() {
           determines which connected project receives the run.
         </p>
       </section>
+
+      <DocsPageSchema slug="report-ingestion" />
     </>
   );
 }

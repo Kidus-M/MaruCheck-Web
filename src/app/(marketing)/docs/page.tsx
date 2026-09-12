@@ -1,16 +1,14 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { DocsCallout } from "@/components/docs-shell";
 import {
+import { DocsPageSchema } from "@/components/docs-schema";
+import { docsMetadata } from "@/lib/docs-registry";
   MARUCHECK_CLI_VERSION,
   MARUCHECK_CONTRIBUTING_URL,
   MARUCHECK_NPM_URL,
 } from "@/lib/public-release";
 
-export const metadata: Metadata = {
-  title: "Documentation",
-  description: "Learn the MaruCheck contract, verification, CI, and MCP workflows.",
-};
+export const metadata = docsMetadata("");
 
 const entries = [
   [
@@ -110,6 +108,8 @@ export default function DocsHomePage() {
           </li>
         </ol>
       </section>
+
+      <DocsPageSchema slug="" />
     </>
   );
 }
