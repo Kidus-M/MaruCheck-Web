@@ -73,10 +73,11 @@ export function softwareApplicationSchema(): JsonLdNode {
     name: SITE_NAME,
     offers: {
       "@type": "Offer",
+      availability: "https://schema.org/InStock",
       price: "0",
       priceCurrency: "USD",
-projectURL:       MARUCHECK_SOURCE_URL,
     },
+    codeRepository: MARUCHECK_SOURCE_URL,
     operatingSystem: "Linux, macOS, Windows",
     softwareRequirements: "Node.js 24 or newer, npm 11 or newer, Git",
     softwareVersion: MARUCHECK_CLI_VERSION,
