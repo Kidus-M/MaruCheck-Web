@@ -1,11 +1,17 @@
-import type { Metadata } from "next";
+import { FaqSection } from "@/components/faq-section";
+import { JsonLd } from "@/components/json-ld";
 import { MarketingCta } from "@/components/marketing-ui";
+import { PRODUCT_FAQ } from "@/lib/faq-content";
+import { buildPageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, softwareApplicationSchema } from "@/lib/structured-data";
 
-export const metadata: Metadata = {
-  title: "Product",
+export const metadata = buildPageMetadata({
   description:
-    "See how MaruCheck turns a changed line into independent, inspectable release proof.",
-};
+    "How MaruCheck turns a changed line into inspectable release proof: Quality Contracts define approved behavior, deterministic risk scoring targets the diff, QA Memory recalls past failures, and every block cites the requirement it protects.",
+  keywords: ["verification plan", "mutation testing", "QA memory", "release decision"],
+  path: "/product",
+  title: "Product",
+});
 
 export default function ProductPage() {
   return (
@@ -199,6 +205,19 @@ evidence_policy:
           <MarketingCta href="/docs/getting-started">Run your first verification</MarketingCta>
         </div>
       </section>
+
+      <FaqSection eyebrow="COMMON QUESTIONS" items={PRODUCT_FAQ} schema={false} />
+
+      <JsonLd
+        nodes={[
+          softwareApplicationSchema(),
+          faqSchema(PRODUCT_FAQ),
+          breadcrumbSchema([
+            { name: "MaruCheck", path: "/" },
+            { name: "Product", path: "/product" },
+          ]),
+        ]}
+      />
     </>
   );
 }

@@ -11,7 +11,7 @@ import { DEFINITION_ANSWER, HOME_FAQ } from "@/lib/faq-content";
 import { fetchStarCount, formatStarCount } from "@/lib/github-stars";
 import { MARUCHECK_CLI_SPEC, MARUCHECK_SOURCE_URL } from "@/lib/public-release";
 import { buildPageMetadata } from "@/lib/seo";
-import { softwareApplicationSchema } from "@/lib/structured-data";
+import { faqSchema, softwareApplicationSchema } from "@/lib/structured-data";
 
 const INSTALL_COMMAND = `npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}`;
 
@@ -108,6 +108,44 @@ export default async function HomePage() {
             <p>Jest</p>
             <p>Playwright</p>
           </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="what-is-marucheck" className="aeo-definition">
+        <div className="marketing-container aeo-definition__inner">
+          <div className="aeo-definition__answer">
+            <p className="section-index">DEFINITION</p>
+            <h2 id="what-is-marucheck">What is MaruCheck?</h2>
+            <p className="aeo-definition__lead">{DEFINITION_ANSWER}</p>
+          </div>
+          <dl className="aeo-definition__facts">
+            <div>
+              <dt>Category</dt>
+              <dd>Independent verification for AI-generated code</dd>
+            </div>
+            <div>
+              <dt>License</dt>
+              <dd>MIT, free and open source</dd>
+            </div>
+            <div>
+              <dt>Install</dt>
+              <dd>
+                <code>npm i -D {MARUCHECK_CLI_SPEC}</code>
+              </dd>
+            </div>
+            <div>
+              <dt>Requires</dt>
+              <dd>Node.js 24+, npm 11+, Git</dd>
+            </div>
+            <div>
+              <dt>Runs</dt>
+              <dd>Locally or in your own CI runner — no source upload</dd>
+            </div>
+            <div>
+              <dt>Works with</dt>
+              <dd>Codex, Claude Code, Cursor, GitHub Actions, Vitest, Jest, Playwright</dd>
+            </div>
+          </dl>
         </div>
       </section>
 
@@ -316,6 +354,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <FaqSection eyebrow="08 — COMMON QUESTIONS" items={HOME_FAQ} schema={false} />
+
+      <JsonLd nodes={[softwareApplicationSchema(), faqSchema(HOME_FAQ)]} />
     </>
   );
 }
