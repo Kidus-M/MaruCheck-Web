@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
-import {
 import { DocsPageSchema } from "@/components/docs-schema";
-import { docsMetadata } from "@/lib/docs-registry";
+import {
   MARUCHECK_CLI_SPEC,
   MARUCHECK_CLI_VERSION,
   MARUCHECK_CONTRIBUTING_URL,
   MARUCHECK_SOURCE_URL,
 } from "@/lib/public-release";
+import { docsMetadata } from "@/lib/docs-registry";
+import { howToSchema } from "@/lib/structured-data";
 
 export const metadata = docsMetadata("getting-started");
 
@@ -139,7 +140,47 @@ export default function GettingStartedPage() {
         </ol>
       </section>
 
-      <DocsPageSchema slug="getting-started" />
+      <DocsPageSchema
+        extraNodes={[
+          howToSchema({
+            description:
+              "Install the MaruCheck CLI and produce a first inspectable local release decision for a real change.",
+            name: "How to verify AI-generated code with MaruCheck",
+            path: "/docs/getting-started",
+            steps: [
+              {
+                name: "Run one exact-version trial",
+                text: `Run npx --yes ${MARUCHECK_CLI_SPEC} init from the root of your repository. Initialization creates the .maru/ workspace without overwriting existing configuration.`,
+              },
+              {
+                name: "Pin it before regular use",
+                text: `Install the verifier as an exact dev dependency with npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC} so contributors and CI execute the same release.`,
+              },
+              {
+                name: "Inspect the repository",
+                text: "Run maru doctor to report missing prerequisites, then maru scan to record detected routes, tests, dependencies, CI, and source structure.",
+              },
+              {
+                name: "Start with one feature contract",
+                text: "Create a Quality Contract for the feature being changed with maru contract create --from requirements.md, validate it, and have an accountable owner approve it.",
+              },
+              {
+                name: "Verify the current change",
+                text: "Run maru risk --diff, maru plan --diff, then maru verify --diff. Verification prints a passed or blocked gate and writes the full report under .maru/artifacts/runs/.",
+              },
+              {
+                name: "Connect the agent you already use",
+                text: "Register MaruCheck's MCP server so Codex, Claude Code, or Cursor can call its bounded local tools instead of scraping terminal output.",
+              },
+              {
+                name: "Add shared infrastructure when useful",
+                text: "Optionally connect a dashboard project to upload reports, then add the GitHub pull-request gate once the local workflow behaves as intended.",
+              },
+            ],
+          }),
+        ]}
+        slug="getting-started"
+      />
     </>
   );
 }

@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { DocsCallout } from "@/components/docs-shell";
-import {
 import { DocsPageSchema } from "@/components/docs-schema";
-import { docsMetadata } from "@/lib/docs-registry";
+import {
   MARUCHECK_CLI_VERSION,
   MARUCHECK_CONTRIBUTING_URL,
   MARUCHECK_NPM_URL,
 } from "@/lib/public-release";
+import { docsMetadata } from "@/lib/docs-registry";
 
 export const metadata = docsMetadata("");
 

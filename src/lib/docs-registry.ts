@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import type { FaqItem } from "@/lib/structured-data";
-import {
-  CI_FAQ,
-  CONTRACTS_FAQ,
-  GETTING_STARTED_FAQ,
-  MCP_FAQ,
-} from "@/lib/faq-content";
+import { CI_FAQ, CONTRACTS_FAQ, GETTING_STARTED_FAQ, MCP_FAQ } from "@/lib/faq-content";
 import { buildPageMetadata } from "@/lib/seo";
 
 /**
