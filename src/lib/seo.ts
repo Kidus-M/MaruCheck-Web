@@ -22,11 +22,19 @@ export const SOCIAL_PROFILES = [
 ] as const;
 
 /**
- * The social card itself is produced by the `opengraph-image` file convention,
- * which injects its own cache-busted URL into every page. This constant exists
- * only so JSON-LD nodes can reference the same image by a stable path.
+ * The card is rendered by the `opengraph-image` route, but it is referenced
+ * explicitly here: pages that declare their own `openGraph` block do not pick
+ * up the file convention automatically, and a social card that silently goes
+ * missing is invisible in every preview and AI answer that shows one.
  */
 export const OG_IMAGE_PATH = "/opengraph-image";
+
+export const OG_IMAGE = {
+  alt: `${SITE_NAME} — ${SITE_TAGLINE}`,
+  height: 630,
+  url: OG_IMAGE_PATH,
+  width: 1200,
+} as const;
 
 export function absoluteUrl(path: string): string {
   return `${MARUCHECK_PRODUCTION_ORIGIN}${path}`;
@@ -77,6 +85,7 @@ export function buildPageMetadata({
     keywords: [...SITE_KEYWORDS, ...keywords],
     openGraph: {
       description,
+      images: [OG_IMAGE],
       locale: "en_US",
       ...(type === "article" && updated ? { modifiedTime: updated } : {}),
       siteName: SITE_NAME,
@@ -90,6 +99,7 @@ export function buildPageMetadata({
     twitter: {
       card: "summary_large_image",
       description,
+      images: [OG_IMAGE_PATH],
       title: fullTitle,
     },
   };

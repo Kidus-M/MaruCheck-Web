@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { JsonLd } from "@/components/json-ld";
-import { AUTHOR_NAME, SITE_NAME, SITE_SHORT_DESCRIPTION, SITE_TAGLINE } from "@/lib/seo";
+import {
+  AUTHOR_NAME,
+  OG_IMAGE,
+  OG_IMAGE_PATH,
+  SITE_NAME,
+  SITE_SHORT_DESCRIPTION,
+  SITE_TAGLINE,
+} from "@/lib/seo";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
 import { MARUCHECK_SOURCE_URL } from "@/lib/public-release";
 import { MARUCHECK_PRODUCTION_ORIGIN } from "@/lib/public-site";
@@ -20,6 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(MARUCHECK_PRODUCTION_ORIGIN),
   openGraph: {
     description: SITE_SHORT_DESCRIPTION,
+    images: [OG_IMAGE],
     locale: "en_US",
     siteName: SITE_NAME,
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
@@ -50,6 +58,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     description: SITE_SHORT_DESCRIPTION,
+    images: [OG_IMAGE_PATH],
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
   },
 };
