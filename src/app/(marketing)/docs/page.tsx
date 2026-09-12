@@ -7,6 +7,7 @@ import {
   MARUCHECK_NPM_URL,
 } from "@/lib/public-release";
 import { docsMetadata } from "@/lib/docs-registry";
+import { absoluteUrl } from "@/lib/seo";
 
 export const metadata = docsMetadata("");
 
@@ -31,30 +32,36 @@ const entries = [
   ],
   [
     "04",
+    "QA Memory",
+    "Recall confirmed past failures and force their regression tests back into the plan when related code changes.",
+    "/docs/qa-memory",
+  ],
+  [
+    "05",
     "CI integration",
     "Install the least-privilege pull-request workflow and retain evidence even when the gate blocks.",
     "/docs/ci",
   ],
   [
-    "05",
+    "06",
     "MCP workflow",
     "Connect the coding agent you already use, then run local verification and isolated Challenger review without another model provider.",
     "/docs/mcp",
   ],
   [
-    "06",
+    "07",
     "Agent gate",
     "Register verification as a Claude Code Stop hook so a coding agent cannot end a turn while the release gate is blocked.",
     "/docs/agent-gate",
   ],
   [
-    "07",
+    "08",
     "Hosted reports",
     "Connect a dashboard project and explicitly send completed proof metadata without uploading source code.",
     "/docs/report-ingestion",
   ],
   [
-    "08",
+    "09",
     "Production feedback",
     "Turn bounded production failures into commit-linked, human-reviewed QA memory candidates.",
     "/docs/production-feedback",
@@ -109,7 +116,20 @@ export default function DocsHomePage() {
         </ol>
       </section>
 
-      <DocsPageSchema slug="" />
+      <DocsPageSchema
+        extraNodes={[
+          {
+            "@type": "ItemList",
+            itemListElement: entries.map(([, name, description, path], index) => ({
+              "@type": "ListItem",
+              item: { "@type": "TechArticle", description, name, url: absoluteUrl(path) },
+              position: index + 1,
+            })),
+            name: "MaruCheck documentation",
+          },
+        ]}
+        slug=""
+      />
     </>
   );
 }

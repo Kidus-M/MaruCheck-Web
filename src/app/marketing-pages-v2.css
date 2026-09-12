@@ -1082,3 +1082,214 @@
     gap: 1rem;
   }
 }
+
+/* ------------------------------------------------------------------ *
+ * Answer-engine surfaces: definition block, FAQ lists, and the
+ * standalone FAQ page. Structured so a single question and its answer
+ * stay legible — and extractable — on their own.
+ * ------------------------------------------------------------------ */
+
+.aeo-definition {
+  padding: 5rem 0;
+  border-bottom: 1px solid var(--marketing-line);
+  background: var(--marketing-paper);
+}
+
+.aeo-definition__inner {
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: start;
+}
+
+.aeo-definition__answer h2 {
+  margin: 0.7rem 0 1.2rem;
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.aeo-definition__lead {
+  margin: 0;
+  max-width: 34rem;
+  color: #3c4750;
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.aeo-definition__facts {
+  margin: 0;
+  border-top: 1px solid var(--marketing-line);
+}
+
+.aeo-definition__facts > div {
+  display: grid;
+  gap: 0.35rem 1.5rem;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--marketing-line);
+}
+
+.aeo-definition__facts dt {
+  color: #6a747c;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.aeo-definition__facts dd {
+  margin: 0;
+  color: var(--marketing-ink);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.aeo-definition__facts code {
+  font-size: 0.85rem;
+  word-break: break-all;
+}
+
+.aeo-faq {
+  padding: 5.5rem 0;
+  border-top: 1px solid var(--marketing-line);
+  background: var(--marketing-paper-deep);
+}
+
+.aeo-faq__inner {
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+  align-items: start;
+}
+
+.aeo-faq__heading h2 {
+  margin: 0.7rem 0 0;
+  font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.aeo-faq__list {
+  margin: 0;
+  border-top: 1px solid var(--marketing-line);
+}
+
+.aeo-faq__item {
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--marketing-line);
+}
+
+.aeo-faq__list dt {
+  margin-bottom: 0.6rem;
+  color: var(--marketing-ink);
+  font-size: 1.06rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.aeo-faq__list dd {
+  margin: 0;
+  max-width: 46rem;
+  color: #4a555e;
+  font-size: 0.97rem;
+  line-height: 1.72;
+}
+
+.aeo-faq--page {
+  scroll-margin-top: 5rem;
+  background: var(--marketing-paper);
+}
+
+.aeo-faq--page:nth-of-type(even) {
+  background: var(--marketing-paper-deep);
+}
+
+.faq-hero {
+  padding: 7rem 0 3.5rem;
+  background: var(--marketing-paper);
+}
+
+.faq-hero h1 {
+  margin: 1.4rem 0 0;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+.faq-hero__lead {
+  margin: 1.8rem 0 0;
+  max-width: 40rem;
+  color: #47525b;
+  font-size: 1.1rem;
+  line-height: 1.65;
+}
+
+.faq-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 2.4rem;
+}
+
+.faq-jump a {
+  padding: 0.5rem 0.95rem;
+  border: 1px solid var(--marketing-line);
+  border-radius: 999px;
+  color: #4a555e;
+  font-size: 0.82rem;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.faq-jump a:hover {
+  border-color: var(--indigo);
+  color: var(--indigo);
+}
+
+.faq-outro {
+  padding: 5.5rem 0 7rem;
+  border-top: 1px solid var(--marketing-line);
+  background: var(--marketing-paper);
+  text-align: center;
+}
+
+.faq-outro h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  letter-spacing: -0.03em;
+}
+
+.faq-outro p {
+  margin: 0 auto 2rem;
+  max-width: 36rem;
+  color: #4a555e;
+  line-height: 1.7;
+}
+
+.faq-outro .marketing-actions {
+  justify-content: center;
+}
+
+.faq-outro__machine {
+  margin-top: 2.4rem;
+  color: #6a747c;
+  font-size: 0.85rem;
+}
+
+.faq-outro__machine a {
+  color: var(--indigo);
+}
+
+@media (max-width: 900px) {
+  .aeo-definition__inner,
+  .aeo-faq__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .aeo-definition__facts > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

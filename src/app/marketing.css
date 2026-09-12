@@ -4112,3 +4112,34 @@
     transform: none;
   }
 }
+
+/* Documentation FAQ block and freshness line — see components/faq-section.tsx. */
+.docs-faq__list {
+  margin: 0;
+  border-top: 1px solid var(--marketing-line);
+}
+
+.docs-faq__list > div {
+  padding: 1.35rem 0;
+  border-bottom: 1px solid var(--marketing-line);
+}
+
+.docs-faq__list dt {
+  margin-bottom: 0.5rem;
+  color: var(--marketing-ink);
+  font-weight: 600;
+}
+
+.docs-faq__list dd {
+  margin: 0;
+  color: #5c6870;
+  line-height: 1.7;
+}
+
+.docs-updated {
+  margin-top: 2.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--marketing-line);
+  color: #6a747c;
+  font-size: 0.82rem;
+}

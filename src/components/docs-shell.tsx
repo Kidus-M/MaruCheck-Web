@@ -8,6 +8,7 @@ const docsLinks = [
   { href: "/docs/getting-started", label: "Getting started" },
   { href: "/docs/cli", label: "CLI reference" },
   { href: "/docs/quality-contracts", label: "Quality Contracts" },
+  { href: "/docs/qa-memory", label: "QA Memory" },
   { href: "/docs/ci", label: "CI integration" },
   { href: "/docs/mcp", label: "MCP workflow" },
   { href: "/docs/agent-gate", label: "Agent gate" },

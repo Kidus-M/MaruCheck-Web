@@ -26,6 +26,7 @@ const footerColumns = [
       ["Overview", "/product"],
       ["How it works", "/#workflow"],
       ["Proof console", "/dashboard"],
+      ["FAQ", "/faq"],
       ["About", "/about"],
     ],
   },
@@ -34,6 +35,7 @@ const footerColumns = [
     links: [
       ["Getting started", "/docs/getting-started"],
       ["Quality Contracts", "/docs/quality-contracts"],
+      ["QA Memory", "/docs/qa-memory"],
       ["CLI reference", "/docs/cli"],
       ["CI integration", "/docs/ci"],
     ],
