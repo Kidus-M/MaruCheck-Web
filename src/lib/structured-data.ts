@@ -1,7 +1,7 @@
 import {
   absoluteUrl,
   AUTHOR_NAME,
-  OG_IMAGE,
+  OG_IMAGE_PATH,
   SITE_DEFINITION,
   SITE_NAME,
   SOCIAL_PROFILES,
@@ -144,7 +144,7 @@ export function techArticleSchema({
     datePublished: published ?? updated,
     description,
     headline: title,
-    image: absoluteUrl(OG_IMAGE.url),
+    image: absoluteUrl(OG_IMAGE_PATH),
     inLanguage: "en",
     isPartOf: { "@id": WEBSITE_ID },
     mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(path) },

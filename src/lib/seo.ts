@@ -21,12 +21,12 @@ export const SOCIAL_PROFILES = [
   "https://www.npmjs.com/package/marucheck",
 ] as const;
 
-export const OG_IMAGE = {
-  alt: `${SITE_NAME} — ${SITE_TAGLINE}`,
-  height: 630,
-  url: "/opengraph-image",
-  width: 1200,
-} as const;
+/**
+ * The social card itself is produced by the `opengraph-image` file convention,
+ * which injects its own cache-busted URL into every page. This constant exists
+ * only so JSON-LD nodes can reference the same image by a stable path.
+ */
+export const OG_IMAGE_PATH = "/opengraph-image";
 
 export function absoluteUrl(path: string): string {
   return `${MARUCHECK_PRODUCTION_ORIGIN}${path}`;
@@ -77,7 +77,6 @@ export function buildPageMetadata({
     keywords: [...SITE_KEYWORDS, ...keywords],
     openGraph: {
       description,
-      images: [OG_IMAGE],
       locale: "en_US",
       ...(type === "article" && updated ? { modifiedTime: updated } : {}),
       siteName: SITE_NAME,
@@ -85,11 +84,12 @@ export function buildPageMetadata({
       type,
       url: canonical,
     },
-    title,
+    // The home page owns the brand title outright; every other page inherits
+    // the "%s · MaruCheck" template from the root layout.
+    title: path === "/" ? { absolute: fullTitle } : title,
     twitter: {
       card: "summary_large_image",
       description,
-      images: [OG_IMAGE.url],
       title: fullTitle,
     },
   };
