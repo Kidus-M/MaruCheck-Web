@@ -1,14 +1,27 @@
 import Link from "next/link";
 import { CopyButton } from "@/components/copy-button";
+import { FaqSection } from "@/components/faq-section";
 import { Icon } from "@/components/icon";
+import { JsonLd } from "@/components/json-ld";
 import { MarketingTerminal } from "@/components/marketing-terminal";
 import { MarketingCta } from "@/components/marketing-ui";
 import { PressureSequence } from "@/components/pressure-sequence";
 import { VerificationDemo } from "@/components/verification-demo";
+import { DEFINITION_ANSWER, HOME_FAQ } from "@/lib/faq-content";
 import { fetchStarCount, formatStarCount } from "@/lib/github-stars";
 import { MARUCHECK_CLI_SPEC, MARUCHECK_SOURCE_URL } from "@/lib/public-release";
+import { buildPageMetadata } from "@/lib/seo";
+import { softwareApplicationSchema } from "@/lib/structured-data";
 
 const INSTALL_COMMAND = `npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}`;
+
+export const metadata = buildPageMetadata({
+  description:
+    "MaruCheck is an open-source verifier that checks whether AI-generated code still satisfies approved product behavior. Quality Contracts, risk-targeted verification, and a release decision with receipts.",
+  keywords: ["AI code review alternative", "MCP verification server", "AI agent code testing"],
+  path: "/",
+  title: "MaruCheck",
+});
 
 export default async function HomePage() {
   const stars = await fetchStarCount();
