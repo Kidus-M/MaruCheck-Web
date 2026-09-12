@@ -1,11 +1,16 @@
-import type { Metadata } from "next";
+import { JsonLd } from "@/components/json-ld";
 import { MarketingCta } from "@/components/marketing-ui";
 import { MARUCHECK_CONTRIBUTING_URL, MARUCHECK_SOURCE_URL } from "@/lib/public-release";
+import { absoluteUrl, AUTHOR_NAME, buildPageMetadata, SITE_DEFINITION } from "@/lib/seo";
+import { breadcrumbSchema, organizationSchema } from "@/lib/structured-data";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
+  description:
+    "Why Kidus Mesfin Teferi built MaruCheck: a maru is the comfortable test, and the comfortable test is rarely the one that reveals whether AI-authored software can be trusted.",
+  keywords: ["MaruCheck founder", "who made MaruCheck", "Kidus Mesfin Teferi"],
+  path: "/about",
   title: "About",
-  description: "Why Kidus Mesfin Teferi created MaruCheck to independently test AI-coded software.",
-};
+});
 
 export default function AboutPage() {
   return (
@@ -178,6 +183,28 @@ export default function AboutPage() {
           <MarketingCta href="/docs/getting-started">Verify your first change</MarketingCta>
         </div>
       </section>
+
+      <JsonLd
+        nodes={[
+          organizationSchema(),
+          {
+            "@type": "AboutPage",
+            description: SITE_DEFINITION,
+            mainEntity: {
+              "@type": "Person",
+              jobTitle: "Creator and maintainer of MaruCheck",
+              name: AUTHOR_NAME,
+              url: MARUCHECK_SOURCE_URL,
+            },
+            name: "About MaruCheck",
+            url: absoluteUrl("/about"),
+          },
+          breadcrumbSchema([
+            { name: "MaruCheck", path: "/" },
+            { name: "About", path: "/about" },
+          ]),
+        ]}
+      />
     </>
   );
 }

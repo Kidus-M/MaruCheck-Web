@@ -1,6 +1,10 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { FaqSection } from "@/components/faq-section";
+import { JsonLd } from "@/components/json-ld";
 import { MarketingCta } from "@/components/marketing-ui";
+import { OPEN_SOURCE_FAQ } from "@/lib/faq-content";
+import { buildPageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, softwareApplicationSchema } from "@/lib/structured-data";
 import {
   MARUCHECK_CLI_SPEC,
   MARUCHECK_CONTRIBUTING_URL,
@@ -11,11 +15,13 @@ import {
   MARUCHECK_WEB_SOURCE_URL,
 } from "@/lib/public-release";
 
-export const metadata: Metadata = {
-  title: "Open source",
+export const metadata = buildPageMetadata({
   description:
-    "Inspect, run, and contribute to MaruCheck—the MIT-licensed verifier for AI-authored software.",
-};
+    "MaruCheck is MIT licensed and fully public: the CLI verifier and the web proof console are two open repositories you can read, run, fork, and contribute to before trusting either in a release path.",
+  keywords: ["MIT license", "open source AI testing tool", "self-hosted verification"],
+  path: "/open-source",
+  title: "Open source",
+});
 
 const repositories = [
   {
@@ -136,6 +142,19 @@ export default function OpenSourcePage() {
           </div>
         </div>
       </section>
+
+      <FaqSection eyebrow="COMMON QUESTIONS" items={OPEN_SOURCE_FAQ} schema={false} />
+
+      <JsonLd
+        nodes={[
+          softwareApplicationSchema(),
+          faqSchema(OPEN_SOURCE_FAQ),
+          breadcrumbSchema([
+            { name: "MaruCheck", path: "/" },
+            { name: "Open source", path: "/open-source" },
+          ]),
+        ]}
+      />
     </>
   );
 }
