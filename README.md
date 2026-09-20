@@ -106,10 +106,10 @@ Any supported MCP client can launch the public CLI directly:
 ```toml
 [mcp_servers.maru]
 command = "npx"
-args = ["--yes", "marucheck@0.4.0", "mcp"]
+args = ["--yes", "marucheck@0.5.0", "mcp"]
 ```
 
-For reproducible teams, install `marucheck@0.4.0` exactly and replace the arguments with `["--no-install", "maru", "mcp"]`. The server is not marked as required, so contributors who use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Current Codex, Claude Code, and Cursor setup instructions are served at `/docs/mcp` by the application and maintained in the [CLI repository guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).
+For reproducible teams, install `marucheck@0.5.0` exactly and replace the arguments with `["--no-install", "maru", "mcp"]`. The server is not marked as required, so contributors who use another coding client can work normally. Non-Codex clients ignore `.codex/config.toml`. Current Codex, Claude Code, and Cursor setup instructions are served at `/docs/mcp` by the application and maintained in the [CLI repository guide](https://github.com/Kidus-M/MaruCheck/blob/main/docs/guides/phase-3-mcp-integration.md).
 
 ## Contributing
 
