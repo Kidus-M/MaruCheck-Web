@@ -134,11 +134,8 @@ export default async function ChangelogPage({
   readonly searchParams: Promise<{ kind?: string | string[] }>;
 }) {
   const { kind } = await searchParams;
-  const selected = isChangeKind(Array.isArray(kind) ? kind[0] : kind)
-    ? Array.isArray(kind)
-      ? kind[0]
-      : kind
-    : undefined;
+  const requested = Array.isArray(kind) ? kind[0] : kind;
+  const selected = isChangeKind(requested) ? requested : undefined;
   const feed = await fetchChangelog();
   const visible =
     selected === undefined ? feed.entries : feed.entries.filter((entry) => entry.kind === selected);
