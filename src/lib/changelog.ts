@@ -66,7 +66,8 @@ const REPOSITORIES: Readonly<Record<ChangeRepository, string>> = {
 };
 
 const CONVENTIONAL_PREFIX = /^([a-z]+)(?:\([^)]*\))?!?:\s*(.+)$/u;
-const ISSUE_REFERENCE = /\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+(?:[\w.-]+\/[\w.-]+)?#(\d+)/giu;
+const ISSUE_REFERENCE =
+  /\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+(?:[\w.-]+\/[\w.-]+)?#(\d+)/giu;
 const KIND_BY_TYPE: Readonly<Record<string, ChangeKind>> = {
   build: "improved",
   chore: "improved",
@@ -293,7 +294,10 @@ function summarizeContributors(entries: readonly ChangeEntry[]): ContributorSumm
       ...item,
       total: Object.values(item.counts).reduce((sum, count) => sum + count, 0),
     }))
-    .sort((left, right) => right.total - left.total || left.author.login.localeCompare(right.author.login));
+    .sort(
+      (left, right) =>
+        right.total - left.total || left.author.login.localeCompare(right.author.login),
+    );
 }
 
 /** Pure assembly of a feed from already-fetched GitHub payloads; testable without the network. */
@@ -351,7 +355,12 @@ async function fetchRepositoryPayloads(
   try {
     const [commits, issues, pulls, releases] = await Promise.all([
       fetchJson(fetcher, slug, "commits?per_page=60", token),
-      fetchJson(fetcher, slug, "issues?state=closed&sort=updated&direction=desc&per_page=30", token),
+      fetchJson(
+        fetcher,
+        slug,
+        "issues?state=closed&sort=updated&direction=desc&per_page=30",
+        token,
+      ),
       fetchJson(fetcher, slug, "pulls?state=closed&sort=updated&direction=desc&per_page=30", token),
       fetchJson(fetcher, slug, "releases?per_page=10", token),
     ]);

@@ -14,6 +14,7 @@ const links = [
   { href: "/docs", label: "Docs" },
   { href: "/faq", label: "FAQ" },
   { href: "/open-source", label: "Open source" },
+  { href: "/changelog", label: "What's new" },
   { href: "/about", label: "About" },
 ] as const;
 

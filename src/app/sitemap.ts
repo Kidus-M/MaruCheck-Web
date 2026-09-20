@@ -19,6 +19,7 @@ const marketingEntries: readonly PublicEntry[] = [
   { changeFrequency: "monthly", lastModified: "2026-09-12", path: "/product", priority: 0.9 },
   { changeFrequency: "monthly", lastModified: "2026-09-12", path: "/faq", priority: 0.9 },
   { changeFrequency: "monthly", lastModified: "2026-09-12", path: "/open-source", priority: 0.7 },
+  { changeFrequency: "daily", lastModified: "2026-09-20", path: "/changelog", priority: 0.6 },
   { changeFrequency: "yearly", lastModified: "2026-09-12", path: "/about", priority: 0.6 },
   { changeFrequency: "monthly", lastModified: "2026-09-12", path: "/llms.txt", priority: 0.5 },
   { changeFrequency: "monthly", lastModified: "2026-09-12", path: "/pricing.md", priority: 0.5 },

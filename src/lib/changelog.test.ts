@@ -151,7 +151,9 @@ describe("changelog", () => {
         total: 1,
       },
     ]);
-    expect(groupChangesByMonth(feed.entries).map((group) => [group.month, group.entries.length])).toEqual([
+    expect(
+      groupChangesByMonth(feed.entries).map((group) => [group.month, group.entries.length]),
+    ).toEqual([
       ["September 2026", 3],
       ["August 2026", 3],
     ]);

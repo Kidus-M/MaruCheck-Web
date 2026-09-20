@@ -27,6 +27,7 @@ const footerColumns = [
       ["How it works", "/#workflow"],
       ["Proof console", "/dashboard"],
       ["FAQ", "/faq"],
+      ["What's new", "/changelog"],
       ["About", "/about"],
     ],
   },

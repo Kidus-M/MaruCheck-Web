@@ -1293,3 +1293,365 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* ---------------------------------------------------------------------------
+   What's new / changelog
+   --------------------------------------------------------------------------- */
+
+.changelog-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 11rem 0 6rem;
+  color: #edf2f0;
+  background:
+    radial-gradient(ellipse at 18% 20%, rgba(168, 230, 207, 0.18), transparent 38%),
+    radial-gradient(ellipse at 82% 10%, rgba(102, 120, 232, 0.28), transparent 40%),
+    linear-gradient(150deg, #091119, #14202c 65%, #0b151f);
+}
+.changelog-hero h1 {
+  max-width: 1050px;
+  margin: 3.5rem 0 0;
+  font-size: clamp(5rem, 9.5vw, 10rem);
+  font-weight: 580;
+  line-height: 0.82;
+  letter-spacing: -0.085em;
+}
+.changelog-hero h1 em {
+  color: #a8e6cf;
+  font-style: normal;
+}
+.changelog-hero__latest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.8rem;
+  align-items: center;
+  margin: 2.6rem 0 0;
+  color: #b8c1c1;
+  font-size: 0.95rem;
+}
+.changelog-hero__latest span {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid rgba(168, 230, 207, 0.5);
+  border-radius: 999px;
+  color: #a8e6cf;
+  font:
+    700 0.64rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  letter-spacing: 0.1em;
+}
+.changelog-hero__latest a {
+  color: #edf2f0;
+  text-decoration: underline;
+  text-decoration-color: rgba(237, 242, 240, 0.35);
+  text-underline-offset: 0.2em;
+}
+.changelog-hero__latest a:hover {
+  text-decoration-color: currentColor;
+}
+
+.changelog-people {
+  padding: 9rem 0;
+  color: #edf2f0;
+  background: #0a1119;
+}
+.changelog-people h2,
+.changelog-log h2 {
+  margin: 2rem 0 0;
+  font-size: clamp(3.2rem, 5.6vw, 6rem);
+  font-weight: 560;
+  line-height: 0.94;
+  letter-spacing: -0.065em;
+}
+.changelog-people .oss-repositories__heading h2 {
+  margin: 0;
+}
+.changelog-contributors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.changelog-contributor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem 1.2rem;
+  padding: 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+.changelog-contributor > strong {
+  color: #a8e6cf;
+  font-size: 2.4rem;
+  font-weight: 560;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.changelog-contributor > ul {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.changelog-contributor > ul li {
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  color: #b8c1c1;
+  font-size: 0.78rem;
+  background: rgba(255, 255, 255, 0.06);
+}
+.changelog-contributor > ul li b {
+  color: #edf2f0;
+}
+
+.changelog-author {
+  display: inline-flex;
+  gap: 0.55rem;
+  align-items: center;
+  min-width: 0;
+  color: inherit;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.changelog-author img,
+.changelog-author i {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(135, 150, 240, 0.25);
+}
+.changelog-author i {
+  display: grid;
+  place-items: center;
+  color: #8796f0;
+  font:
+    700 0.75rem "Cascadia Mono",
+    Consolas,
+    monospace;
+}
+.changelog-author span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+a.changelog-author:hover span {
+  text-decoration: underline;
+}
+.changelog-author--unknown {
+  color: #7f8d92;
+}
+
+.changelog-log {
+  padding: 9rem 0 10rem;
+  color: #17212b;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(102, 120, 232, 0.1), transparent 30rem),
+    linear-gradient(180deg, #f6f7f2, #eceee8);
+}
+.changelog-log__heading h2 {
+  margin: 1.4rem 0 2.2rem;
+}
+.changelog-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.changelog-filters a {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(17, 28, 39, 0.16);
+  border-radius: 999px;
+  color: #4a555e;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+.changelog-filters a b {
+  margin-left: 0.35rem;
+  color: #8a949b;
+  font-weight: 600;
+}
+.changelog-filters a:hover {
+  border-color: #17212b;
+  color: #17212b;
+}
+.changelog-filters a[aria-current="page"] {
+  border-color: #17212b;
+  color: #f6f7f2;
+  background: #17212b;
+}
+.changelog-filters a[aria-current="page"] b {
+  color: #a8e6cf;
+}
+.changelog-note,
+.changelog-empty {
+  max-width: 720px;
+  margin: 1.6rem 0 0;
+  color: #526067;
+  line-height: 1.65;
+}
+.changelog-empty a {
+  color: #17212b;
+}
+
+.changelog-month {
+  margin-top: 4.5rem;
+}
+.changelog-month h3 {
+  margin: 0 0 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(17, 28, 39, 0.18);
+  color: #526067;
+  font:
+    700 0.72rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.changelog-month ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.changelog-entry {
+  display: grid;
+  grid-template-columns: 4.2rem 6.6rem minmax(0, 1fr);
+  gap: 1.2rem 1.5rem;
+  align-items: start;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(17, 28, 39, 0.1);
+}
+.changelog-entry time {
+  padding-top: 0.2rem;
+  color: #6a747c;
+  font:
+    600 0.78rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  white-space: nowrap;
+}
+.changelog-kind {
+  justify-self: start;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  color: #3e4a53;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(17, 28, 39, 0.08);
+}
+.changelog-entry[data-kind="added"] .changelog-kind {
+  color: #0f6d4c;
+  background: rgba(168, 230, 207, 0.45);
+}
+.changelog-entry[data-kind="fixed"] .changelog-kind {
+  color: #8a3b12;
+  background: rgba(244, 168, 96, 0.35);
+}
+.changelog-entry[data-kind="solved"] .changelog-kind {
+  color: #2f3f9e;
+  background: rgba(135, 150, 240, 0.3);
+}
+.changelog-entry[data-kind="released"] .changelog-kind {
+  color: #f6f7f2;
+  background: #17212b;
+}
+.changelog-entry[data-kind="documented"] .changelog-kind {
+  color: #5b4b8a;
+  background: rgba(171, 152, 230, 0.35);
+}
+.changelog-entry__body {
+  min-width: 0;
+}
+.changelog-entry__body > a {
+  display: inline-block;
+  color: #17212b;
+  font-size: 1.12rem;
+  font-weight: 560;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  text-decoration: none;
+}
+.changelog-entry__body > a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+.changelog-entry__body > p {
+  max-width: 760px;
+  margin: 0.45rem 0 0;
+  color: #526067;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.changelog-entry__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  margin-top: 0.9rem;
+  color: #4a555e;
+}
+.changelog-entry__meta .changelog-author i {
+  background: rgba(102, 120, 232, 0.16);
+}
+.changelog-entry__meta > a {
+  color: #4a555e;
+  font:
+    600 0.78rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  text-decoration: none;
+}
+.changelog-entry__meta > a:hover {
+  color: #17212b;
+  text-decoration: underline;
+}
+.changelog-repository {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(17, 28, 39, 0.18);
+  border-radius: 0.3rem;
+  font:
+    700 0.64rem "Cascadia Mono",
+    Consolas,
+    monospace;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 760px) {
+  .changelog-hero {
+    padding: 9rem 0 5rem;
+  }
+  .changelog-hero h1 {
+    font-size: clamp(4.2rem, 19vw, 6rem);
+  }
+  .changelog-people,
+  .changelog-log {
+    padding: 6.5rem 0;
+  }
+  .changelog-people h2,
+  .changelog-log h2 {
+    font-size: clamp(2.8rem, 13vw, 4.4rem);
+  }
+  .changelog-contributors {
+    margin-top: 3rem;
+  }
+  .changelog-entry {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem;
+  }
+  .changelog-entry time {
+    padding-top: 0;
+  }
+}

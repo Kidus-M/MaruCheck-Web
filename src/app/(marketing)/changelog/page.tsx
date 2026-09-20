@@ -41,6 +41,16 @@ function isChangeKind(value: string | undefined): value is ChangeKind {
   return value !== undefined && (KIND_ORDER as readonly string[]).includes(value);
 }
 
+function avatarSource(url: string): string {
+  try {
+    const sized = new URL(url);
+    sized.searchParams.set("s", "56");
+    return sized.toString();
+  } catch {
+    return url;
+  }
+}
+
 function Avatar({ author }: { readonly author: ChangeAuthor | null }) {
   if (author === null) {
     return (
@@ -57,7 +67,7 @@ function Avatar({ author }: { readonly author: ChangeAuthor | null }) {
       ) : (
         // GitHub avatars are remote and decorative; a plain img avoids the image-domain allowlist.
         // eslint-disable-next-line @next/next/no-img-element
-        <img alt="" height={28} loading="lazy" src={`${author.avatarUrl}&s=56`} width={28} />
+        <img alt="" height={28} loading="lazy" src={avatarSource(author.avatarUrl)} width={28} />
       )}
       <span>@{author.login}</span>
     </>
@@ -88,7 +98,13 @@ function Contributor({ summary }: { readonly summary: ContributorSummary }) {
   );
 }
 
-function Filters({ feed, selected }: { readonly feed: ChangelogFeed; readonly selected?: ChangeKind }) {
+function Filters({
+  feed,
+  selected,
+}: {
+  readonly feed: ChangelogFeed;
+  readonly selected?: ChangeKind;
+}) {
   const counts = KIND_ORDER.map((kind) => ({
     count: feed.entries.filter((entry) => entry.kind === kind).length,
     kind,
@@ -119,10 +135,13 @@ export default async function ChangelogPage({
 }) {
   const { kind } = await searchParams;
   const selected = isChangeKind(Array.isArray(kind) ? kind[0] : kind)
-    ? (Array.isArray(kind) ? kind[0] : kind)
+    ? Array.isArray(kind)
+      ? kind[0]
+      : kind
     : undefined;
   const feed = await fetchChangelog();
-  const visible = selected === undefined ? feed.entries : feed.entries.filter((entry) => entry.kind === selected);
+  const visible =
+    selected === undefined ? feed.entries : feed.entries.filter((entry) => entry.kind === selected);
   const months = groupChangesByMonth(visible);
   const latest = feed.entries[0];
 
@@ -167,8 +186,8 @@ export default async function ChangelogPage({
             <p className="section-index">01 — WHO DID WHAT</p>
             <h2>Every change has a name on it.</h2>
             <p>
-              Counts cover the {feed.entries.length} most recent changes. Solved issues are
-              credited to whoever closed them through a commit or pull request.
+              Counts cover the {feed.entries.length} most recent changes. Solved issues are credited
+              to whoever closed them through a commit or pull request.
             </p>
           </div>
           {feed.contributors.length === 0 ? (
@@ -195,7 +214,9 @@ export default async function ChangelogPage({
             <Filters feed={feed} selected={selected} />
             {feed.unavailable.length === 0 ? null : (
               <p className="changelog-note">
-                {feed.unavailable.map((repository) => CHANGE_REPOSITORY_LABELS[repository]).join(" and ")}{" "}
+                {feed.unavailable
+                  .map((repository) => CHANGE_REPOSITORY_LABELS[repository])
+                  .join(" and ")}{" "}
                 activity is temporarily unavailable from GitHub and is not shown below.
               </p>
             )}
@@ -226,7 +247,12 @@ export default async function ChangelogPage({
                             {CHANGE_REPOSITORY_LABELS[entry.repository]}
                           </span>
                           {entry.references.map((reference) => (
-                            <a href={reference.url} key={reference.url} rel="noreferrer" target="_blank">
+                            <a
+                              href={reference.url}
+                              key={reference.url}
+                              rel="noreferrer"
+                              target="_blank"
+                            >
                               {reference.label}
                             </a>
                           ))}
