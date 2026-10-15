@@ -21,6 +21,7 @@ const checks = [
   ["/api/health/live", '"status":"alive"'],
   ["/api/health/ready", '"status":"ready"'],
   ["/", "Test what"],
+  ["/guides/verify-ai-generated-code", "How to verify AI-generated code"],
   ["/open-source", "The verifier"],
   ["/docs/production-feedback", "Production feedback"],
   ["/sign-in", "Sign in to your workspace"],

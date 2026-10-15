@@ -17,6 +17,7 @@
     "auth:generate": "npx --yes auth@1.7.0 generate --config better-auth.config.ts --output src/db/schema/auth.ts --yes",
     "deploy:env:check": "node scripts/verify-production-env.ts",
     "deploy:smoke": "node scripts/smoke-deployment.mjs",
+    "seo:indexnow": "node scripts/submit-indexnow.mjs",
     "build": "next build",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build",
     "dev": "next dev",

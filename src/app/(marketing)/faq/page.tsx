@@ -19,7 +19,7 @@ export const metadata = buildPageMetadata({
     "Direct answers about MaruCheck: what it is, why a green test suite is not enough for AI-generated code, what a Quality Contract is, whether source code leaves your machine, how to connect Codex or Claude Code, and what it costs.",
   keywords: ["MaruCheck FAQ", "how does MaruCheck work", "MaruCheck questions"],
   path: "/faq",
-  title: "FAQ",
+  title: "FAQ: Verifying AI-Generated Code With MaruCheck",
 });
 
 /**

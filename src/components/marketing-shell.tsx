@@ -32,6 +32,17 @@ const footerColumns = [
     ],
   },
   {
+    title: "Guides",
+    links: [
+      ["Verify AI-generated code", "/guides/verify-ai-generated-code"],
+      ["AI changed my tests", "/guides/ai-agent-changed-tests"],
+      ["Review AI pull requests", "/guides/review-ai-generated-pull-requests"],
+      ["Claude Code hooks for tests", "/guides/claude-code-hooks-run-tests"],
+      ["Mutation testing", "/guides/mutation-testing-typescript"],
+      ["All guides", "/guides"],
+    ],
+  },
+  {
     title: "Documentation",
     links: [
       ["Getting started", "/docs/getting-started"],

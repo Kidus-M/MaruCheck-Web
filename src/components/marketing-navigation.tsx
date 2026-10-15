@@ -8,28 +8,60 @@ import { MaruMark } from "@/components/maru-mark";
 import { formatStarCount } from "@/lib/github-stars";
 import { MARUCHECK_SOURCE_URL } from "@/lib/public-release";
 
-const links = [
-  { href: "/product", label: "Product" },
-  { href: "/#workflow", label: "How it works" },
-  { href: "/docs", label: "Docs" },
-  { href: "/faq", label: "FAQ" },
+type NavLink = { readonly description?: string; readonly href: string; readonly label: string };
+type NavGroup = { readonly items: readonly NavLink[]; readonly label: string };
+type NavEntry = NavGroup | NavLink;
+
+/**
+ * Four top-level entries. Grouped links stay in the server-rendered HTML (the
+ * panels are only visually hidden), so crawlers still follow every one of them.
+ */
+const entries: readonly NavEntry[] = [
+  {
+    items: [
+      {
+        description: "The path from a changed line to a release decision",
+        href: "/product",
+        label: "Overview",
+      },
+      { description: "Watch one change get challenged", href: "/#workflow", label: "How it works" },
+      {
+        description: "Releases across the CLI and the web app",
+        href: "/changelog",
+        label: "What's new",
+      },
+    ],
+    label: "Product",
+  },
+  {
+    items: [
+      { description: "Testing and verifying AI-written code", href: "/guides", label: "Guides" },
+      { description: "Install, contracts, CI, and MCP", href: "/docs", label: "Docs" },
+      { description: "Short answers to common questions", href: "/faq", label: "FAQ" },
+    ],
+    label: "Resources",
+  },
   { href: "/open-source", label: "Open source" },
-  { href: "/changelog", label: "What's new" },
   { href: "/about", label: "About" },
-] as const;
+];
 
 type GliderRect = { readonly left: number; readonly width: number };
 
+function isGroup(entry: NavEntry): entry is NavGroup {
+  return "items" in entry;
+}
+
 function isActive(href: string, pathname: string): boolean {
-  if (href === "/docs") return pathname.startsWith("/docs");
+  if (href === "/docs" || href === "/guides") return pathname.startsWith(href);
   if (href.startsWith("/#")) return false;
   return pathname === href;
 }
 
 export function MarketingNavigation({ stars = null }: { readonly stars?: number | null }) {
   const pathname = usePathname();
-  const lightPage = pathname.startsWith("/docs");
+  const lightPage = pathname.startsWith("/docs") || pathname.startsWith("/guides");
   const [open, setOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
   const [glider, setGlider] = useState<GliderRect | null>(null);
@@ -40,6 +72,24 @@ export function MarketingNavigation({ stars = null }: { readonly stars?: number 
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
+
+  // Close an open dropdown on navigation, Escape, or a click anywhere else.
+  useEffect(() => setOpenGroup(null), [pathname]);
+  useEffect(() => {
+    if (!openGroup) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenGroup(null);
+    };
+    const onPointer = (event: PointerEvent) => {
+      if (!navRef.current?.contains(event.target as Node)) setOpenGroup(null);
+    };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onPointer);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onPointer);
+    };
+  }, [openGroup]);
 
   const measure = useCallback((element: HTMLElement | null) => {
     const nav = navRef.current;
@@ -53,9 +103,9 @@ export function MarketingNavigation({ stars = null }: { readonly stars?: number 
     });
   }, []);
 
-  /** Park the glider on the active link, and keep it parked through resizes. */
+  /** Park the glider on the active entry, and keep it parked through resizes. */
   const settle = useCallback(() => {
-    measure(navRef.current?.querySelector<HTMLElement>("a.is-active") ?? null);
+    measure(navRef.current?.querySelector<HTMLElement>("[data-nav-top].is-active") ?? null);
   }, [measure]);
 
   useEffect(() => {
@@ -73,7 +123,10 @@ export function MarketingNavigation({ stars = null }: { readonly stars?: number 
         <nav
           aria-label="Primary navigation"
           className="marketing-nav"
-          onMouseLeave={settle}
+          onMouseLeave={() => {
+            settle();
+            setOpenGroup(null);
+          }}
           ref={navRef}
         >
           <span
@@ -85,20 +138,73 @@ export function MarketingNavigation({ stars = null }: { readonly stars?: number 
                 : undefined
             }
           />
-          {links.map((link) => {
-            const active = isActive(link.href, pathname);
+          {entries.map((entry) => {
+            if (!isGroup(entry)) {
+              const active = isActive(entry.href, pathname);
+              return (
+                <Link
+                  aria-current={active ? "page" : undefined}
+                  className={active ? "is-active" : ""}
+                  data-nav-top
+                  href={entry.href}
+                  key={entry.href}
+                  onFocus={(event) => {
+                    measure(event.currentTarget);
+                    setOpenGroup(null);
+                  }}
+                  onMouseEnter={(event) => {
+                    measure(event.currentTarget);
+                    setOpenGroup(null);
+                  }}
+                >
+                  {entry.label}
+                </Link>
+              );
+            }
+
+            const groupActive = entry.items.some((item) => isActive(item.href, pathname));
+            const expanded = openGroup === entry.label;
+            const panelId = `nav-group-${entry.label.toLowerCase()}`;
             return (
-              <Link
-                aria-current={active ? "page" : undefined}
-                className={active ? "is-active" : ""}
-                href={link.href}
-                key={link.href}
-                onClick={() => setOpen(false)}
-                onFocus={(event) => measure(event.currentTarget)}
-                onMouseEnter={(event) => measure(event.currentTarget)}
+              <div
+                className={`marketing-nav__group${expanded ? " is-open" : ""}`}
+                key={entry.label}
+                onMouseEnter={() => setOpenGroup(entry.label)}
               >
-                {link.label}
-              </Link>
+                <button
+                  aria-controls={panelId}
+                  aria-expanded={expanded}
+                  className={`marketing-nav__trigger${groupActive ? " is-active" : ""}`}
+                  data-nav-top
+                  onClick={() => setOpenGroup(expanded ? null : entry.label)}
+                  onFocus={(event) => measure(event.currentTarget)}
+                  onMouseEnter={(event) => measure(event.currentTarget)}
+                  type="button"
+                >
+                  {entry.label}
+                  <svg aria-hidden="true" fill="none" height="10" viewBox="0 0 10 10" width="10">
+                    <path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" strokeWidth="1.4" />
+                  </svg>
+                </button>
+                <div className="marketing-nav__panel" id={panelId}>
+                  {entry.items.map((item) => {
+                    const active = isActive(item.href, pathname);
+                    return (
+                      <Link
+                        aria-current={active ? "page" : undefined}
+                        className={active ? "is-current" : ""}
+                        href={item.href}
+                        key={item.href}
+                        onClick={() => setOpenGroup(null)}
+                        onFocus={() => setOpenGroup(entry.label)}
+                      >
+                        <strong>{item.label}</strong>
+                        {item.description ? <span>{item.description}</span> : null}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
             );
           })}
         </nav>
@@ -144,11 +250,22 @@ export function MarketingNavigation({ stars = null }: { readonly stars?: number 
       </div>
       <div className={`marketing-mobile-panel${open ? " is-open" : ""}`}>
         <nav aria-label="Mobile navigation">
-          {links.map((link) => (
-            <Link href={link.href} key={link.href} onClick={() => setOpen(false)}>
-              {link.label}
-            </Link>
-          ))}
+          {entries.map((entry) =>
+            isGroup(entry) ? (
+              <div className="marketing-mobile-panel__group" key={entry.label}>
+                <p>{entry.label}</p>
+                {entry.items.map((item) => (
+                  <Link href={item.href} key={item.href} onClick={() => setOpen(false)}>
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <Link href={entry.href} key={entry.href} onClick={() => setOpen(false)}>
+                {entry.label}
+              </Link>
+            ),
+          )}
           <a href={MARUCHECK_SOURCE_URL} rel="noreferrer" target="_blank">
             GitHub
             <span aria-hidden="true">{stars === null ? "↗" : `★ ${formatStarCount(stars)}`}</span>

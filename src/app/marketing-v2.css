@@ -1515,8 +1515,8 @@
 /* Directory */
 .marketing-footer__columns {
   display: grid;
-  grid-template-columns: 1.7fr repeat(3, 1fr);
-  gap: 4rem;
+  grid-template-columns: 1.5fr repeat(4, 1fr);
+  gap: 3rem;
   padding-block: 5rem 4rem;
 }
 .marketing-footer__brand > p {
@@ -2073,5 +2073,157 @@
   .pressure-sequence__steps article {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Grouped navigation: a trigger shares the glider with plain links, and its
+   panel stays in the DOM so every grouped link remains crawlable. */
+.marketing-nav__group {
+  position: relative;
+  z-index: 1;
+}
+.marketing-nav__trigger {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.56rem 0.78rem;
+  border: 0;
+  border-radius: 0.62rem;
+  background: transparent;
+  color: #9daab0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.83rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  transition: color 0.2s ease;
+}
+.marketing-nav__trigger svg {
+  opacity: 0.7;
+  transition: transform 0.2s ease;
+}
+.marketing-nav__trigger:hover,
+.marketing-nav__trigger.is-active,
+.marketing-nav__group.is-open .marketing-nav__trigger {
+  color: #ffffff;
+}
+.marketing-nav__group.is-open .marketing-nav__trigger svg {
+  transform: rotate(180deg);
+}
+.marketing-header.is-light-context .marketing-nav__trigger {
+  color: #59656b;
+}
+.marketing-header.is-light-context .marketing-nav__trigger:hover,
+.marketing-header.is-light-context .marketing-nav__trigger.is-active,
+.marketing-header.is-light-context .marketing-nav__group.is-open .marketing-nav__trigger {
+  color: var(--v2-ink);
+}
+.marketing-nav__trigger.is-active::before {
+  position: absolute;
+  bottom: 0.24rem;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  margin-left: -1.5px;
+  border-radius: 50%;
+  background: var(--v2-mint);
+  content: "";
+}
+.marketing-header.is-light-context .marketing-nav__trigger.is-active::before {
+  background: var(--v2-coral);
+}
+.marketing-nav__panel {
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  left: 50%;
+  display: grid;
+  width: 18.5rem;
+  padding: 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.9rem;
+  background: rgba(13, 20, 29, 0.98);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -6px);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0.18s;
+  visibility: hidden;
+}
+/* Bridges the gap between trigger and panel so the pointer can cross it. */
+.marketing-nav__panel::before {
+  position: absolute;
+  top: -0.8rem;
+  right: 0;
+  left: 0;
+  height: 0.8rem;
+  content: "";
+}
+.marketing-nav__group.is-open .marketing-nav__panel {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+  visibility: visible;
+}
+.marketing-nav .marketing-nav__panel a {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 0.6rem;
+  color: #dce3e1;
+  transition: background 0.15s ease;
+}
+.marketing-nav .marketing-nav__panel a:hover,
+.marketing-nav .marketing-nav__panel a:focus-visible,
+.marketing-nav .marketing-nav__panel a.is-current {
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+}
+.marketing-nav__panel strong {
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+.marketing-nav__panel span {
+  color: #8a969c;
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.marketing-header.is-light-context .marketing-nav__panel {
+  border-color: var(--marketing-line);
+  background: rgba(252, 253, 250, 0.99);
+  box-shadow: 0 24px 60px rgba(24, 31, 38, 0.16);
+}
+.marketing-header.is-light-context .marketing-nav .marketing-nav__panel a {
+  color: var(--v2-ink);
+}
+.marketing-header.is-light-context .marketing-nav .marketing-nav__panel a:hover,
+.marketing-header.is-light-context .marketing-nav .marketing-nav__panel a:focus-visible,
+.marketing-header.is-light-context .marketing-nav .marketing-nav__panel a.is-current {
+  background: rgba(16, 23, 32, 0.05);
+}
+.marketing-header.is-light-context .marketing-nav__panel span {
+  color: #66727a;
+}
+
+.marketing-mobile-panel__group {
+  display: grid;
+}
+.marketing-mobile-panel__group p {
+  margin: 0.9rem 0 0.1rem;
+  color: #7b878d;
+  font-family: "Cascadia Mono", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+@media (max-width: 1040px) {
+  .marketing-mobile-panel.is-open {
+    max-height: calc(100dvh - 6.5rem);
+    overflow-y: auto;
   }
 }

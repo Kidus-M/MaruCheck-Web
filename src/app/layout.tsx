@@ -7,7 +7,8 @@ import {
   OG_IMAGE_PATH,
   SITE_NAME,
   SITE_SHORT_DESCRIPTION,
-  SITE_TAGLINE,
+  SITE_TITLE,
+  siteVerification,
 } from "@/lib/seo";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
 import { MARUCHECK_SOURCE_URL } from "@/lib/public-release";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     images: [OG_IMAGE],
     locale: "en_US",
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    title: SITE_TITLE,
     type: "website",
     url: MARUCHECK_PRODUCTION_ORIGIN,
   },
@@ -52,15 +53,16 @@ export const metadata: Metadata = {
     "max-video-preview": -1,
   },
   title: {
-    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    default: SITE_TITLE,
     template: `%s · ${SITE_NAME}`,
   },
   twitter: {
     card: "summary_large_image",
     description: SITE_SHORT_DESCRIPTION,
     images: [OG_IMAGE_PATH],
-    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    title: SITE_TITLE,
   },
+  verification: siteVerification(),
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

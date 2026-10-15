@@ -25,6 +25,16 @@ export const HOME_FAQ: readonly FaqItem[] = [
   },
   {
     answer:
+      "Check the change against a record of required behavior the AI could not edit. Review test changes before code changes, focus on high-risk paths such as authorization and billing, run the relevant tests where the agent cannot skip them, and confirm those tests fail when the behavior breaks. MaruCheck automates each of those steps.",
+    question: "How do I verify code written by an AI coding agent?",
+  },
+  {
+    answer:
+      "Yes. MaruCheck verifies the Git diff, so it works no matter which assistant wrote the code: Claude Code, Cursor, GitHub Copilot, OpenAI Codex, Windsurf, or a person. Clients that support the Model Context Protocol can also call MaruCheck directly as a tool during a coding session.",
+    question: "Does MaruCheck work with Claude Code, Cursor, and GitHub Copilot?",
+  },
+  {
+    answer:
       "MaruCheck reads the real Git diff, scores risk on a deterministic 0-100 scale, builds a requirement-linked verification plan, recalls confirmed regressions from QA Memory, runs the targeted checks, and writes reproducible evidence under .maru/. The result is a ship-or-block decision with receipts, not a confidence score.",
     question: "How does MaruCheck verify a change?",
   },

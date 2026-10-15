@@ -1655,3 +1655,187 @@ a.changelog-author:hover span {
     padding-top: 0;
   }
 }
+
+/* Guides — long-form articles that reuse the documentation frame. */
+.docs-article .guide-title {
+  font-size: clamp(2.6rem, 5.4vw, 4.6rem);
+  line-height: 0.98;
+}
+
+.guide-byline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.6rem;
+  align-items: center;
+  margin: 1.6rem 0 0;
+  color: #6a747c;
+  font-size: 0.86rem;
+}
+
+.guide-byline a {
+  color: var(--marketing-ink);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.guide-byline a:hover {
+  color: var(--indigo);
+}
+
+.guide-answer {
+  margin: 2.2rem 0 3rem;
+  padding: 1.4rem 1.6rem;
+  border-left: 3px solid var(--indigo);
+  background: rgba(69, 90, 181, 0.06);
+}
+
+.guide-answer span {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: var(--indigo);
+  font-family: "Cascadia Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.guide-answer p {
+  margin: 0;
+  color: var(--marketing-ink);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.docs-section h3 {
+  margin: 2rem 0 0.4rem;
+  font-size: 1.12rem;
+  letter-spacing: -0.02em;
+}
+
+.docs-card-grid h3 {
+  margin: 2rem 0 0.5rem;
+  font-size: 1.12rem;
+  letter-spacing: -0.02em;
+}
+
+.docs-card-grid p {
+  font-size: 0.86rem;
+}
+
+.guide-prose p a,
+.guide-prose li a,
+.guide-prose td a {
+  color: var(--indigo);
+  text-underline-offset: 0.18em;
+}
+
+.guide-table-wrap {
+  overflow-x: auto;
+  margin-block: 1.6rem;
+  border: 1px solid var(--marketing-line);
+}
+
+.guide-table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.guide-table caption {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--marketing-line);
+  color: #6a747c;
+  font-family: "Cascadia Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.guide-table th,
+.guide-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--marketing-line);
+  color: #4f5c62;
+  line-height: 1.55;
+  text-align: left;
+  vertical-align: top;
+}
+
+.guide-table thead th {
+  background: rgba(69, 90, 181, 0.05);
+  color: var(--marketing-ink);
+  font-weight: 650;
+}
+
+.guide-table tbody th {
+  color: var(--marketing-ink);
+  font-weight: 650;
+}
+
+.guide-table tr:last-child th,
+.guide-table tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .docs-article .guide-title {
+    font-size: 2.4rem;
+  }
+
+  .guide-answer {
+    padding: 1.1rem 1.2rem;
+  }
+}
+
+/* Home page guide links — reuses the .aeo-faq frame. */
+.home-guides .aeo-faq__heading > p:not(.section-index) {
+  margin: 1rem 0 1.4rem;
+  color: #59666c;
+  line-height: 1.6;
+}
+
+.home-guides__list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--marketing-line);
+  list-style: none;
+}
+
+.home-guides__list a {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1.3rem 0;
+  border-bottom: 1px solid var(--marketing-line);
+  text-decoration: none;
+  transition:
+    padding 180ms ease,
+    background 180ms ease;
+}
+
+.home-guides__list a:hover {
+  padding-inline: 1rem;
+  background: white;
+}
+
+.home-guides__list strong {
+  color: var(--marketing-ink);
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+}
+
+.home-guides__list span {
+  color: #637078;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+/* On narrow screens a guide leads with its answer; the guide list follows it. */
+@media (max-width: 860px) {
+  .guides-shell .docs-sidebar {
+    order: 2;
+  }
+}

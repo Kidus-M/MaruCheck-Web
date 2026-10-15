@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { DOCS_PAGES, docsPath } from "@/lib/docs-registry";
+import { GUIDE_SLUGS, GUIDES, GUIDES_HUB, guidePath } from "@/lib/guides-registry";
 import { MARUCHECK_PRODUCTION_ORIGIN } from "@/lib/public-site";
 
 type PublicEntry = {
@@ -15,13 +16,14 @@ type PublicEntry = {
  * as changed on every deploy teaches crawlers to ignore its dates.
  */
 const marketingEntries: readonly PublicEntry[] = [
-  { changeFrequency: "weekly", lastModified: "2026-09-12", path: "", priority: 1 },
+  { changeFrequency: "weekly", lastModified: "2026-10-15", path: "", priority: 1 },
   { changeFrequency: "monthly", lastModified: "2026-09-12", path: "/product", priority: 0.9 },
-  { changeFrequency: "monthly", lastModified: "2026-09-12", path: "/faq", priority: 0.9 },
+  { changeFrequency: "monthly", lastModified: "2026-10-15", path: "/faq", priority: 0.9 },
+  { changeFrequency: "weekly", lastModified: GUIDES_HUB.updated, path: "/guides", priority: 0.9 },
   { changeFrequency: "monthly", lastModified: "2026-09-12", path: "/open-source", priority: 0.7 },
   { changeFrequency: "daily", lastModified: "2026-09-20", path: "/changelog", priority: 0.6 },
   { changeFrequency: "yearly", lastModified: "2026-09-12", path: "/about", priority: 0.6 },
-  { changeFrequency: "monthly", lastModified: "2026-09-12", path: "/llms.txt", priority: 0.5 },
+  { changeFrequency: "monthly", lastModified: "2026-10-15", path: "/llms.txt", priority: 0.5 },
   { changeFrequency: "monthly", lastModified: "2026-09-12", path: "/pricing.md", priority: 0.5 },
 ];
 
@@ -43,7 +45,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: docsPriority[slug as keyof typeof DOCS_PAGES] ?? 0.7,
   }));
 
-  return [...marketingEntries, ...docsEntries].map((entry) => ({
+  // Guides answer unbranded searches, which is where new visitors come from,
+  // so they rank alongside the product pages rather than below the docs.
+  const guideEntries: readonly PublicEntry[] = GUIDE_SLUGS.map((slug) => ({
+    changeFrequency: "monthly",
+    lastModified: GUIDES[slug].updated,
+    path: guidePath(slug),
+    priority: 0.9,
+  }));
+
+  return [...marketingEntries, ...guideEntries, ...docsEntries].map((entry) => ({
     changeFrequency: entry.changeFrequency,
     lastModified: entry.lastModified,
     priority: entry.priority,

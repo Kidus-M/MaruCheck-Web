@@ -9,6 +9,8 @@ import { PressureSequence } from "@/components/pressure-sequence";
 import { VerificationDemo } from "@/components/verification-demo";
 import { DEFINITION_ANSWER, HOME_FAQ } from "@/lib/faq-content";
 import { fetchStarCount, formatStarCount } from "@/lib/github-stars";
+import type { GuideSlug } from "@/lib/guides-registry";
+import { GUIDES, guidePath } from "@/lib/guides-registry";
 import { MARUCHECK_CLI_SPEC, MARUCHECK_SOURCE_URL } from "@/lib/public-release";
 import { buildPageMetadata } from "@/lib/seo";
 import { faqSchema, softwareApplicationSchema } from "@/lib/structured-data";
@@ -17,11 +19,19 @@ const INSTALL_COMMAND = `npm install --save-dev --save-exact ${MARUCHECK_CLI_SPE
 
 export const metadata = buildPageMetadata({
   description:
-    "MaruCheck is an open-source verifier that checks whether AI-generated code still satisfies approved product behavior. Quality Contracts, risk-targeted verification, and a release decision with receipts.",
-  keywords: ["AI code review alternative", "MCP verification server", "AI agent code testing"],
+    "Free, open-source tool to verify AI-generated code from Claude Code, Cursor, and Codex. Catches rewritten tests, behavior drift, and repeat regressions before release.",
+  keywords: ["AI code testing tool", "MCP verification server", "AI agent code testing"],
   path: "/",
   title: "MaruCheck",
 });
+
+/** The guides that answer the highest-volume unbranded questions, linked from the home page. */
+const HOME_GUIDES: readonly GuideSlug[] = [
+  "verify-ai-generated-code",
+  "ai-agent-changed-tests",
+  "review-ai-generated-pull-requests",
+  "claude-code-hooks-run-tests",
+];
 
 export default async function HomePage() {
   const stars = await fetchStarCount();
@@ -355,7 +365,30 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <FaqSection eyebrow="08 — COMMON QUESTIONS" items={HOME_FAQ} schema={false} />
+      <section aria-labelledby="home-guides-heading" className="aeo-faq home-guides">
+        <div className="marketing-container aeo-faq__inner">
+          <div className="aeo-faq__heading">
+            <p className="section-index">08 — GUIDES</p>
+            <h2 id="home-guides-heading">Verifying AI-written code, in practice</h2>
+            <p>Tool-agnostic guides for teams shipping code from Claude Code, Cursor, and Codex.</p>
+            <Link className="text-action" href="/guides">
+              All guides <Icon name="arrow" />
+            </Link>
+          </div>
+          <ul className="home-guides__list">
+            {HOME_GUIDES.map((slug) => (
+              <li key={slug}>
+                <Link href={guidePath(slug)}>
+                  <strong>{GUIDES[slug].heading}</strong>
+                  <span>{GUIDES[slug].description}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <FaqSection eyebrow="09 — COMMON QUESTIONS" items={HOME_FAQ} schema={false} />
 
       <JsonLd nodes={[softwareApplicationSchema(), faqSchema(HOME_FAQ)]} />
     </>

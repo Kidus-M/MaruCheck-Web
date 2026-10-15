@@ -24,14 +24,14 @@ export const DOCS_PAGES = {
     description:
       "Every MaruCheck guide in reading order: install the CLI, write Quality Contracts, run a risk-targeted verification, connect an MCP client, gate CI, and feed production failures back into QA Memory.",
     keywords: ["MaruCheck documentation", "MaruCheck guides"],
-    title: "Documentation",
+    title: "MaruCheck Documentation",
     updated: "2026-08-28",
   },
   "agent-gate": {
     description:
       "Register MaruCheck verification as a Claude Code Stop hook so a coding agent cannot end a turn while the release gate is blocked.",
     keywords: ["Claude Code Stop hook", "agent guardrail", "AI approval boundary"],
-    title: "Agent gate",
+    title: "Agent Gate: Claude Code Stop Hook for Verification",
     updated: "2026-08-28",
   },
   ci: {
@@ -39,14 +39,14 @@ export const DOCS_PAGES = {
       "Install MaruCheck's least-privilege GitHub Actions pull-request workflow so every change is verified in CI and the run's evidence is retained even when the gate blocks.",
     faq: CI_FAQ,
     keywords: ["GitHub Actions", "CI release gate", "pull request verification"],
-    title: "CI integration",
+    title: "GitHub Actions Gate for AI-Generated Pull Requests",
     updated: "2026-08-21",
   },
   cli: {
     description:
       "Every MaruCheck command in one reference: contracts, risk scoring, verification plans, drift checks, QA Memory search, mutation testing, Git hooks, CI setup, and the MCP server.",
     keywords: ["maru verify", "maru risk", "maru contract", "CLI commands"],
-    title: "CLI reference",
+    title: "MaruCheck CLI Reference",
     updated: "2026-08-28",
   },
   "getting-started": {
@@ -54,7 +54,7 @@ export const DOCS_PAGES = {
       "Install the MaruCheck CLI and produce your first inspectable local release decision in about five minutes, before connecting a dashboard, an AI client, or CI.",
     faq: GETTING_STARTED_FAQ,
     keywords: ["install MaruCheck", "MaruCheck tutorial", "first verification run"],
-    title: "Getting started",
+    title: "Getting Started: Verify Your First AI-Written Change",
     updated: "2026-08-23",
   },
   mcp: {
@@ -62,7 +62,7 @@ export const DOCS_PAGES = {
       "Connect MaruCheck's local stdio MCP server to Codex, Claude Code, Cursor, or any compatible client so an agent can inspect contracts, assess risk, and run verification without approving its own work.",
     faq: MCP_FAQ,
     keywords: ["MCP server", "Model Context Protocol", "Claude Code", "Cursor", "Codex"],
-    title: "MCP workflow",
+    title: "MCP Verification Server for Claude Code, Cursor, and Codex",
     updated: "2026-08-23",
   },
   "production-feedback": {
@@ -76,7 +76,7 @@ export const DOCS_PAGES = {
     description:
       "How MaruCheck stores confirmed failures, matches them to changed code, and forces the matching regression test back into the verification plan so a bug can only surprise you once.",
     keywords: ["QA memory", "regression recall", "repeat bug prevention"],
-    title: "QA Memory",
+    title: "QA Memory: Stop AI Code From Reintroducing Fixed Bugs",
     updated: "2026-09-12",
   },
   "quality-contracts": {
@@ -84,7 +84,7 @@ export const DOCS_PAGES = {
       "Write durable, executable Quality Contracts that record approved product behavior, protected invariants, accountable owners, and which requirement IDs block a release.",
     faq: CONTRACTS_FAQ,
     keywords: ["quality contract", "requirement ID", "evidence policy", "behavior contract"],
-    title: "Quality Contracts",
+    title: "Quality Contracts: Define Behavior AI Code Must Keep",
     updated: "2026-08-21",
   },
   "report-ingestion": {

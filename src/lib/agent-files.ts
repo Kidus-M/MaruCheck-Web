@@ -1,4 +1,5 @@
 import { ALL_FAQ, DEFINITION_ANSWER } from "@/lib/faq-content";
+import { GUIDE_SLUGS, GUIDES, guidePath } from "@/lib/guides-registry";
 import { absoluteUrl, AUTHOR_NAME } from "@/lib/seo";
 import {
   MARUCHECK_CLI_SPEC,
@@ -16,6 +17,10 @@ import {
 
 export function renderLlmsTxt(): string {
   const faq = ALL_FAQ.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n");
+  const guides = GUIDE_SLUGS.map(
+    (slug) =>
+      `- [${GUIDES[slug].title}](${absoluteUrl(guidePath(slug))}): ${GUIDES[slug].description}`,
+  ).join("\n");
 
   return `# MaruCheck
 
@@ -62,6 +67,12 @@ against it.
   when the behavior it protects breaks.
 - **Agent boundary** — Coding agents may run the verifier and read its evidence
   through MCP, but approval stays human-owned.
+
+## Guides
+
+Tool-agnostic guides to testing and verifying AI-generated code.
+
+${guides}
 
 ## Documentation
 
