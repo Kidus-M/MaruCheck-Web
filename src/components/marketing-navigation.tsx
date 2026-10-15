@@ -61,7 +61,14 @@ export function MarketingNavigation({ stars = null }: { readonly stars?: number 
   const pathname = usePathname();
   const lightPage = pathname.startsWith("/docs") || pathname.startsWith("/guides");
   const [open, setOpen] = useState(false);
-  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  // The open dropdown is remembered with the path it was opened on, so a
+  // navigation closes it without an effect.
+  const [openState, setOpenState] = useState<{ group: string; path: string } | null>(null);
+  const openGroup = openState?.path === pathname ? openState.group : null;
+  const setOpenGroup = useCallback(
+    (group: string | null) => setOpenState(group ? { group, path: pathname } : null),
+    [pathname],
+  );
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
   const [glider, setGlider] = useState<GliderRect | null>(null);
@@ -73,8 +80,7 @@ export function MarketingNavigation({ stars = null }: { readonly stars?: number 
     return () => window.removeEventListener("scroll", update);
   }, []);
 
-  // Close an open dropdown on navigation, Escape, or a click anywhere else.
-  useEffect(() => setOpenGroup(null), [pathname]);
+  // Close an open dropdown on Escape or a click anywhere else.
   useEffect(() => {
     if (!openGroup) return;
     const onKey = (event: KeyboardEvent) => {
@@ -89,7 +95,7 @@ export function MarketingNavigation({ stars = null }: { readonly stars?: number 
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("pointerdown", onPointer);
     };
-  }, [openGroup]);
+  }, [openGroup, setOpenGroup]);
 
   const measure = useCallback((element: HTMLElement | null) => {
     const nav = navRef.current;
@@ -97,9 +103,13 @@ export function MarketingNavigation({ stars = null }: { readonly stars?: number 
       setGlider(null);
       return;
     }
+    // Measured against the nav rather than offsetParent: dropdown triggers sit
+    // inside their own positioned wrapper, so offsetLeft would read as zero.
+    const navBox = nav.getBoundingClientRect();
+    const box = element.getBoundingClientRect();
     setGlider({
-      left: element.offsetLeft,
-      width: element.offsetWidth,
+      left: box.left - navBox.left,
+      width: box.width,
     });
   }, []);
 

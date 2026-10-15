@@ -7,7 +7,8 @@ test("client navigation reveals product and documentation content without a relo
   await expect(page.getByRole("heading", { level: 1, name: /Test what your AI/i })).toBeVisible();
 
   const primaryNavigation = page.getByRole("navigation", { name: "Primary navigation" });
-  await primaryNavigation.getByRole("link", { name: "Product" }).click();
+  await primaryNavigation.getByRole("button", { name: "Product" }).click();
+  await primaryNavigation.getByRole("link", { name: /^Overview/u }).click();
   await expect(page).toHaveURL(/\/product$/u);
   await expect(
     page.getByRole("heading", {
@@ -16,7 +17,8 @@ test("client navigation reveals product and documentation content without a relo
     }),
   ).toBeVisible();
 
-  await primaryNavigation.getByRole("link", { name: "Docs" }).click();
+  await primaryNavigation.getByRole("button", { name: "Resources" }).click();
+  await primaryNavigation.getByRole("link", { name: /^Docs/u }).click();
   await expect(page).toHaveURL(/\/docs$/u);
   await expect(
     page.getByRole("heading", { level: 1, name: "Build a release proof loop." }),

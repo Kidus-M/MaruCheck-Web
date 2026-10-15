@@ -28,7 +28,11 @@ export function MarketingMotion() {
           observer.unobserve(entry.target);
         });
       },
-      { rootMargin: "0px 0px -12%", threshold: 0.12 },
+      // Any visible pixel counts. A ratio threshold cannot be met at load by an
+      // element many viewports tall (a long article on a phone), which left the
+      // page blank until the reader happened to scroll. The negative
+      // bottom margin still delays the reveal until content is clearly in view.
+      { rootMargin: "0px 0px -12%", threshold: 0 },
     );
 
     revealTargets.forEach((target) => observer.observe(target));
