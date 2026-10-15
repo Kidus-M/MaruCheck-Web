@@ -2227,3 +2227,14 @@
     overflow-y: auto;
   }
 }
+/* The light panel needs dark text; the base link colour is meant for the dark panel. */
+.marketing-header.is-light-context .marketing-mobile-panel a {
+  border-bottom-color: var(--marketing-line);
+  color: var(--v2-ink);
+}
+.marketing-header.is-light-context .marketing-mobile-panel a > span {
+  color: #66727a;
+}
+.marketing-header.is-light-context .marketing-mobile-panel__group p {
+  color: #66727a;
+}
