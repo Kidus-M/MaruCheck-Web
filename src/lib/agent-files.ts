@@ -1,9 +1,8 @@
 import { ALL_FAQ, DEFINITION_ANSWER } from "@/lib/faq-content";
 import { GUIDE_SLUGS, GUIDES, guidePath } from "@/lib/guides-registry";
 import { absoluteUrl, AUTHOR_NAME } from "@/lib/seo";
+import type { CliRelease } from "@/lib/cli-release";
 import {
-  MARUCHECK_CLI_SPEC,
-  MARUCHECK_CLI_VERSION,
   MARUCHECK_NPM_URL,
   MARUCHECK_SOURCE_URL,
   MARUCHECK_WEB_SOURCE_URL,
@@ -15,7 +14,7 @@ import {
  * site renders, so they cannot drift from the visible content.
  */
 
-export function renderLlmsTxt(): string {
+export function renderLlmsTxt(cli: CliRelease): string {
   const faq = ALL_FAQ.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n");
   const guides = GUIDE_SLUGS.map(
     (slug) =>
@@ -28,7 +27,7 @@ export function renderLlmsTxt(): string {
 
 MaruCheck is free and MIT licensed. The CLI runs locally in your repository or
 CI runner; source code, tests, and secrets never leave that boundary. Current
-CLI release: v${MARUCHECK_CLI_VERSION} (\`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\`).
+CLI release: v${cli.version} (\`npm install --save-dev --save-exact ${cli.spec}\`).
 Created and maintained by ${AUTHOR_NAME}.
 
 ## What problem it solves
@@ -115,7 +114,7 @@ ${faq}
 `;
 }
 
-export function renderPricingMarkdown(): string {
+export function renderPricingMarkdown(cli: CliRelease): string {
   return `# Pricing — MaruCheck
 
 Last reviewed: ${new Date().toISOString().slice(0, 10)}
@@ -129,7 +128,7 @@ Last reviewed: ${new Date().toISOString().slice(0, 10)}
   verification plans, semantic drift detection, QA Memory, mutation checks, the
   local MCP server, and the GitHub Actions release gate
 - Requirements: Node.js 24 or newer, npm 11 or newer, Git
-- Install: \`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\`
+- Install: \`npm install --save-dev --save-exact ${cli.spec}\`
 - Source: ${MARUCHECK_SOURCE_URL}
 
 ## Hosted proof console (marucheck.dev)

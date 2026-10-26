@@ -6,7 +6,7 @@ import {
   SITE_NAME,
   SOCIAL_PROFILES,
 } from "@/lib/seo";
-import { MARUCHECK_CLI_VERSION, MARUCHECK_SOURCE_URL } from "@/lib/public-release";
+import { MARUCHECK_SOURCE_URL } from "@/lib/public-release";
 import { MARUCHECK_PRODUCTION_ORIGIN } from "@/lib/public-site";
 
 /** A single JSON-LD node. Values stay loose because schema.org shapes vary per type. */
@@ -49,7 +49,7 @@ export function websiteSchema(): JsonLdNode {
  * offer matters: agents evaluating tools filter out anything whose cost they
  * cannot read, and the CLI genuinely is free and MIT licensed.
  */
-export function softwareApplicationSchema(): JsonLdNode {
+export function softwareApplicationSchema(cliVersion: string): JsonLdNode {
   return {
     "@id": SOFTWARE_ID,
     "@type": "SoftwareApplication",
@@ -80,7 +80,7 @@ export function softwareApplicationSchema(): JsonLdNode {
     codeRepository: MARUCHECK_SOURCE_URL,
     operatingSystem: "Linux, macOS, Windows",
     softwareRequirements: "Node.js 24 or newer, npm 11 or newer, Git",
-    softwareVersion: MARUCHECK_CLI_VERSION,
+    softwareVersion: cliVersion,
     url: MARUCHECK_PRODUCTION_ORIGIN,
   };
 }
@@ -159,6 +159,7 @@ export type HowToStep = {
 };
 
 type HowToInput = {
+  readonly cliVersion: string;
   readonly description: string;
   readonly name: string;
   readonly path: string;
@@ -167,6 +168,7 @@ type HowToInput = {
 };
 
 export function howToSchema({
+  cliVersion,
   description,
   name,
   path,
@@ -188,7 +190,7 @@ export function howToSchema({
       "@type": "HowToSupply",
       name: "A Git repository with Node.js 24 or newer installed",
     },
-    tool: { "@type": "HowToTool", name: `MaruCheck CLI v${MARUCHECK_CLI_VERSION}` },
+    tool: { "@type": "HowToTool", name: `MaruCheck CLI v${cliVersion}` },
     totalTime,
   };
 }

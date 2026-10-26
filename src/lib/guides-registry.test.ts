@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import sitemap from "@/app/sitemap";
 import { renderLlmsTxt } from "@/lib/agent-files";
+import { cliRelease } from "@/lib/cli-release";
 import { GUIDE_SLUGS, GUIDES, guidePath } from "@/lib/guides-registry";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
@@ -36,7 +37,7 @@ describe("guides registry", () => {
 
   it("publishes every guide in the sitemap and llms.txt", () => {
     const sitemapUrls = sitemap().map((entry) => entry.url);
-    const llms = renderLlmsTxt();
+    const llms = renderLlmsTxt(cliRelease("1.2.3"));
 
     expect(sitemapUrls).toContain(absoluteUrl("/guides"));
     for (const slug of GUIDE_SLUGS) {
