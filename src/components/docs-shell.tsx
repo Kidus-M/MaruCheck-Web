@@ -16,7 +16,8 @@ const docsLinks = [
   { href: "/docs/production-feedback", label: "Production feedback" },
 ] as const;
 
-export function DocsShell({ children }: { readonly children: ReactNode }) {
+export async function DocsShell({ children }: { readonly children: ReactNode }) {
+  const cli = await fetchCliRelease();
   return (
     <div className="marketing-container docs-shell">
       <aside className="docs-sidebar">
@@ -29,7 +30,7 @@ export function DocsShell({ children }: { readonly children: ReactNode }) {
           ))}
         </nav>
         <div className="docs-sidebar__help">
-          <strong>CLI v{MARUCHECK_CLI_VERSION} is live</strong>
+          <strong>CLI v{cli.version} is live</strong>
           <p>Install the public npm package and run your first local verification.</p>
           <Link href="/docs/getting-started">Start in five minutes →</Link>
         </div>

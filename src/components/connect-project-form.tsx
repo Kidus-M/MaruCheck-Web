@@ -6,7 +6,6 @@ import { CopyButton } from "@/components/copy-button";
 import { GitHubAccountButton } from "@/components/github-account-button";
 import { Icon } from "@/components/icon";
 import { connectProjectAction } from "@/lib/product-actions";
-import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
 import type { GitHubRepositoryConnection } from "@/lib/github-repositories";
 import type { ConnectProjectState } from "@/lib/product-actions";
 
@@ -14,14 +13,16 @@ const initialConnectProjectState: ConnectProjectState = { message: "", status: "
 const endpoint = "/api/v1/ingest/runs";
 
 export function ConnectProjectForm({
+  cliSpec,
   github,
   hostedURL,
 }: {
+  readonly cliSpec: string;
   readonly github: GitHubRepositoryConnection;
   readonly hostedURL: string;
 }) {
   const [state, action, pending] = useActionState(connectProjectAction, initialConnectProjectState);
-  const uploadCommand = `npx --yes ${MARUCHECK_CLI_SPEC} upload`;
+  const uploadCommand = `npx --yes ${cliSpec} upload`;
 
   if (state.status === "success" && state.token && state.projectSlug) {
     return (
