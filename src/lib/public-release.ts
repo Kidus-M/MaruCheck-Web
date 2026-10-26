@@ -1,6 +1,6 @@
-export const MARUCHECK_CLI_VERSION = "0.5.0";
+/** Served only when the npm registry is unreachable; pages read the live version via fetchCliRelease. */
+export const MARUCHECK_CLI_FALLBACK_VERSION = "0.6.1";
 export const MARUCHECK_CLI_PACKAGE = "marucheck";
-export const MARUCHECK_CLI_SPEC = `${MARUCHECK_CLI_PACKAGE}@${MARUCHECK_CLI_VERSION}`;
 export const MARUCHECK_NPM_URL = `https://www.npmjs.com/package/${MARUCHECK_CLI_PACKAGE}`;
 export const MARUCHECK_SOURCE_URL = "https://github.com/Kidus-M/MaruCheck";
 export const MARUCHECK_RELEASES_URL = `${MARUCHECK_SOURCE_URL}/releases`;
