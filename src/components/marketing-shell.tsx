@@ -6,9 +6,9 @@ import { MarketingGsap } from "@/components/marketing-gsap";
 import { MaruMark } from "@/components/maru-mark";
 import { MarketingMotion } from "@/components/marketing-motion";
 import { MarketingNavigation } from "@/components/marketing-navigation";
+import { fetchCliRelease } from "@/lib/cli-release";
 import { fetchStarCount, formatStarCount } from "@/lib/github-stars";
 import {
-  MARUCHECK_CLI_SPEC,
   MARUCHECK_CONTRIBUTING_URL,
   MARUCHECK_LICENSE_URL,
   MARUCHECK_NPM_URL,
@@ -16,8 +16,6 @@ import {
   MARUCHECK_SOURCE_URL,
   MARUCHECK_WEB_SOURCE_URL,
 } from "@/lib/public-release";
-
-const INSTALL_COMMAND = `npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}`;
 
 const footerColumns = [
   {
@@ -66,7 +64,8 @@ const footerColumns = [
 ] as const;
 
 export async function MarketingShell({ children }: { readonly children: ReactNode }) {
-  const stars = await fetchStarCount();
+  const [stars, cli] = await Promise.all([fetchStarCount(), fetchCliRelease()]);
+  const installCommand = `npm install --save-dev --save-exact ${cli.spec}`;
 
   return (
     <div className="marketing-site">
@@ -111,8 +110,8 @@ export async function MarketingShell({ children }: { readonly children: ReactNod
             </div>
             <div className="footer-command">
               <span aria-hidden="true">$</span>
-              <code>{INSTALL_COMMAND}</code>
-              <CopyButton label="Copy" value={INSTALL_COMMAND} />
+              <code>{installCommand}</code>
+              <CopyButton label="Copy" value={installCommand} />
               <Link href="/docs/getting-started">Full setup →</Link>
             </div>
           </div>

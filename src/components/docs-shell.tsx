@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CopyButton } from "@/components/copy-button";
-import { MARUCHECK_CLI_VERSION } from "@/lib/public-release";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 const docsLinks = [
   { href: "/docs", label: "Documentation home" },
