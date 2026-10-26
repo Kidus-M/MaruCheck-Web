@@ -2,7 +2,6 @@ import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 import { GuideAnswer, GuideFooter, GuideHeader, GuideTable } from "@/components/guides-shell";
 import { guideMetadata, guidePath } from "@/lib/guides-registry";
-import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
 
 const SLUG = "claude-code-hooks-run-tests";
 
@@ -57,6 +56,7 @@ process.exit(2);`;
 
 const PROTECT_TESTS = `// Claude Code PreToolUse hook: block edits to existing test files.
 import { existsSync } from "node:fs";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 let input = "";
 for await (const chunk of process.stdin) input += chunk;
@@ -74,7 +74,8 @@ console.error(
 );
 process.exit(2);`;
 
-export default function ClaudeCodeHooksGuide() {
+export default async function ClaudeCodeHooksGuide() {
+  const cli = await fetchCliRelease();
   return (
     <>
       <GuideHeader kicker="Guide / Claude Code" slug={SLUG} />
@@ -212,7 +213,7 @@ export default function ClaudeCodeHooksGuide() {
           reviewed Quality Contracts for behavior drift, and blocks the turn with the exact failing
           requirement:
         </p>
-        <CodeBlock>{`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}
+        <CodeBlock>{`npm install --save-dev --save-exact ${cli.spec}
 npx --no-install maru init
 npx --no-install maru hook install`}</CodeBlock>
         <p>

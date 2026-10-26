@@ -1,7 +1,7 @@
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
-import { MARUCHECK_CLI_SPEC, MARUCHECK_CLI_VERSION } from "@/lib/public-release";
 import { DocsPageSchema } from "@/components/docs-schema";
 import { docsMetadata } from "@/lib/docs-registry";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 export const metadata = docsMetadata("cli");
 
@@ -51,10 +51,11 @@ const commandGroups = [
   },
 ] as const;
 
-export default function CliDocsPage() {
+export default async function CliDocsPage() {
+  const cli = await fetchCliRelease();
   return (
     <>
-      <span className="docs-kicker">Published package · v{MARUCHECK_CLI_VERSION}</span>
+      <span className="docs-kicker">Published package · v{cli.version}</span>
       <h1>CLI reference</h1>
       <p className="docs-lead">
         The npm package is named <code>marucheck</code>. It installs the executable named
@@ -63,10 +64,10 @@ export default function CliDocsPage() {
       </p>
       <section className="docs-section">
         <h2>Install</h2>
-        <CodeBlock>{`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\nnpx --no-install maru --help`}</CodeBlock>
+        <CodeBlock>{`npm install --save-dev --save-exact ${cli.spec}\nnpx --no-install maru --help`}</CodeBlock>
         <p>
           Use an exact project dependency for repeatable team and CI execution. A global install is
-          optional: <code>npm install --global {MARUCHECK_CLI_SPEC}</code>.
+          optional: <code>npm install --global {cli.spec}</code>.
         </p>
       </section>
       <DocsCallout>

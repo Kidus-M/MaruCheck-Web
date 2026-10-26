@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
-import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
 import { DocsPageSchema } from "@/components/docs-schema";
 import { docsMetadata } from "@/lib/docs-registry";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 export const metadata = docsMetadata("report-ingestion");
 
-export default function ReportIngestionDocsPage() {
+export default async function ReportIngestionDocsPage() {
+  const cli = await fetchCliRelease();
   return (
     <>
       <span className="docs-kicker">Optional hosted proof</span>
@@ -47,7 +48,7 @@ export default function ReportIngestionDocsPage() {
       </section>
       <section className="docs-section">
         <h2>2. Produce the local report</h2>
-        <CodeBlock>{`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\nnpx --no-install maru init\nnpx --no-install maru verify --diff`}</CodeBlock>
+        <CodeBlock>{`npm install --save-dev --save-exact ${cli.spec}\nnpx --no-install maru init\nnpx --no-install maru verify --diff`}</CodeBlock>
       </section>
       <section className="docs-section">
         <h2>3. Upload that report</h2>

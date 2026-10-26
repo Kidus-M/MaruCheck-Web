@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
-import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
 import { DocsPageSchema } from "@/components/docs-schema";
 import { docsMetadata } from "@/lib/docs-registry";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 export const metadata = docsMetadata("ci");
 
-export default function CiDocsPage() {
+export default async function CiDocsPage() {
+  const cli = await fetchCliRelease();
   return (
     <>
       <span className="docs-kicker">Automation</span>
@@ -17,7 +18,7 @@ export default function CiDocsPage() {
       </p>
       <section className="docs-section">
         <h2>1. Pin the published package</h2>
-        <CodeBlock>{`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\nnpx --no-install maru init`}</CodeBlock>
+        <CodeBlock>{`npm install --save-dev --save-exact ${cli.spec}\nnpx --no-install maru init`}</CodeBlock>
         <p>
           Commit <code>package.json</code>, <code>package-lock.json</code>, and the reviewed
           <code>.maru</code> configuration. The workflow uses <code>npm ci</code> and

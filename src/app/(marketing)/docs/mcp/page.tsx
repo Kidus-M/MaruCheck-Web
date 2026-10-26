@@ -1,11 +1,12 @@
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
-import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
 import { DocsPageSchema } from "@/components/docs-schema";
 import { docsMetadata } from "@/lib/docs-registry";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 export const metadata = docsMetadata("mcp");
 
-export default function McpDocsPage() {
+export default async function McpDocsPage() {
+  const cli = await fetchCliRelease();
   return (
     <>
       <span className="docs-kicker">Agent workflow</span>
@@ -44,8 +45,8 @@ export default function McpDocsPage() {
         <h2>Choose a package strategy</h2>
         <p>
           For a quick trial, let the MCP client start the exact npm release with <code>npx</code>.
-          For a team, install <code>{MARUCHECK_CLI_SPEC}</code> in the project and replace the
-          arguments with <code>[&quot;--no-install&quot;, &quot;maru&quot;, &quot;mcp&quot;]</code>.
+          For a team, install <code>{cli.spec}</code> in the project and replace the arguments with{" "}
+          <code>[&quot;--no-install&quot;, &quot;maru&quot;, &quot;mcp&quot;]</code>.
         </p>
       </section>
       <section className="docs-section">
@@ -53,7 +54,7 @@ export default function McpDocsPage() {
         <p>
           Add this to the trusted project’s <code>.codex/config.toml</code>:
         </p>
-        <CodeBlock label="TOML">{`[mcp_servers.maru]\ncommand = "npx"\nargs = ["--yes", "${MARUCHECK_CLI_SPEC}", "mcp"]\nrequired = false\ndefault_tools_approval_mode = "writes"`}</CodeBlock>
+        <CodeBlock label="TOML">{`[mcp_servers.maru]\ncommand = "npx"\nargs = ["--yes", "${cli.spec}", "mcp"]\nrequired = false\ndefault_tools_approval_mode = "writes"`}</CodeBlock>
         <p>
           Restart Codex after changing configuration, trust the project when prompted, and use
           <code>/mcp</code> to inspect the connection.
@@ -62,7 +63,7 @@ export default function McpDocsPage() {
       <section className="docs-section">
         <h2>Claude Code</h2>
         <p>From the repository you want MaruCheck to inspect:</p>
-        <CodeBlock>{`claude mcp add maru --scope project -- npx --yes ${MARUCHECK_CLI_SPEC} mcp\nclaude mcp list`}</CodeBlock>
+        <CodeBlock>{`claude mcp add maru --scope project -- npx --yes ${cli.spec} mcp\nclaude mcp list`}</CodeBlock>
       </section>
       <section className="docs-section">
         <h2>Cursor</h2>
@@ -73,7 +74,7 @@ export default function McpDocsPage() {
   "mcpServers": {
     "maru": {
       "command": "npx",
-      "args": ["--yes", "${MARUCHECK_CLI_SPEC}", "mcp"]
+      "args": ["--yes", "${cli.spec}", "mcp"]
     }
   }
 }`}</CodeBlock>

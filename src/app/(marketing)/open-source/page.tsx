@@ -6,7 +6,6 @@ import { OPEN_SOURCE_FAQ } from "@/lib/faq-content";
 import { buildPageMetadata } from "@/lib/seo";
 import { breadcrumbSchema, faqSchema, softwareApplicationSchema } from "@/lib/structured-data";
 import {
-  MARUCHECK_CLI_SPEC,
   MARUCHECK_CONTRIBUTING_URL,
   MARUCHECK_LICENSE_URL,
   MARUCHECK_NPM_URL,
@@ -14,6 +13,7 @@ import {
   MARUCHECK_SOURCE_URL,
   MARUCHECK_WEB_SOURCE_URL,
 } from "@/lib/public-release";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 export const metadata = buildPageMetadata({
   description:
@@ -42,7 +42,8 @@ const repositories = [
   },
 ] as const;
 
-export default function OpenSourcePage() {
+export default async function OpenSourcePage() {
+  const cli = await fetchCliRelease();
   return (
     <>
       <section className="oss-hero" data-gsap-hero>
@@ -83,7 +84,7 @@ export default function OpenSourcePage() {
               <b>MIT LICENSED</b>
             </header>
             <code>
-              <i>$</i> npm install --save-dev --save-exact {MARUCHECK_CLI_SPEC}
+              <i>$</i> npm install --save-dev --save-exact {cli.spec}
             </code>
             <code>
               <i>$</i> npx --no-install maru verify --diff
@@ -147,7 +148,7 @@ export default function OpenSourcePage() {
 
       <JsonLd
         nodes={[
-          softwareApplicationSchema(),
+          softwareApplicationSchema(cli.version),
           faqSchema(OPEN_SOURCE_FAQ),
           breadcrumbSchema([
             { name: "MaruCheck", path: "/" },

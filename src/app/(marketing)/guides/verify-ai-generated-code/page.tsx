@@ -4,6 +4,7 @@ import { GuideAnswer, GuideFooter, GuideHeader, GuideTable } from "@/components/
 import { GUIDES, guideMetadata, guidePath } from "@/lib/guides-registry";
 import type { HowToStep } from "@/lib/structured-data";
 import { howToSchema } from "@/lib/structured-data";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 const SLUG = "verify-ai-generated-code";
 
@@ -36,7 +37,8 @@ const steps: readonly HowToStep[] = [
   },
 ];
 
-export default function VerifyAiGeneratedCodeGuide() {
+export default async function VerifyAiGeneratedCodeGuide() {
+  const cli = await fetchCliRelease();
   return (
     <>
       <GuideHeader kicker="Guide / Verification" slug={SLUG} />
@@ -280,6 +282,7 @@ export default function VerifyAiGeneratedCodeGuide() {
       <GuideFooter
         extraNodes={[
           howToSchema({
+            cliVersion: cli.version,
             description: GUIDES[SLUG].description,
             name: GUIDES[SLUG].heading,
             path: guidePath(SLUG),

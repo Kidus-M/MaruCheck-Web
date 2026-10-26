@@ -4,6 +4,7 @@ import { MarketingCta } from "@/components/marketing-ui";
 import { PRODUCT_FAQ } from "@/lib/faq-content";
 import { buildPageMetadata } from "@/lib/seo";
 import { breadcrumbSchema, faqSchema, softwareApplicationSchema } from "@/lib/structured-data";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 export const metadata = buildPageMetadata({
   description:
@@ -13,7 +14,8 @@ export const metadata = buildPageMetadata({
   title: "Product",
 });
 
-export default function ProductPage() {
+export default async function ProductPage() {
+  const cli = await fetchCliRelease();
   return (
     <>
       <section className="product-v2-hero" data-gsap-hero>
@@ -210,7 +212,7 @@ evidence_policy:
 
       <JsonLd
         nodes={[
-          softwareApplicationSchema(),
+          softwareApplicationSchema(cli.version),
           faqSchema(PRODUCT_FAQ),
           breadcrumbSchema([
             { name: "MaruCheck", path: "/" },

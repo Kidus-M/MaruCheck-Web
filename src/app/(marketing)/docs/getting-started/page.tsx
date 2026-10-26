@@ -1,18 +1,15 @@
 import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 import { DocsPageSchema } from "@/components/docs-schema";
-import {
-  MARUCHECK_CLI_SPEC,
-  MARUCHECK_CLI_VERSION,
-  MARUCHECK_CONTRIBUTING_URL,
-  MARUCHECK_SOURCE_URL,
-} from "@/lib/public-release";
+import { MARUCHECK_CONTRIBUTING_URL, MARUCHECK_SOURCE_URL } from "@/lib/public-release";
 import { docsMetadata } from "@/lib/docs-registry";
 import { howToSchema } from "@/lib/structured-data";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 export const metadata = docsMetadata("getting-started");
 
-export default function GettingStartedPage() {
+export default async function GettingStartedPage() {
+  const cli = await fetchCliRelease();
   return (
     <>
       <span className="docs-kicker">Start here</span>
@@ -33,9 +30,8 @@ export default function GettingStartedPage() {
       <DocsCallout>
         <strong>Before you begin</strong>
         <p>
-          MaruCheck v{MARUCHECK_CLI_VERSION} requires Node.js 24 or newer, npm 11 or newer, and Git.
-          Run these commands from the root of the Next.js, React, or TypeScript repository you want
-          to verify.
+          MaruCheck v{cli.version} requires Node.js 24 or newer, npm 11 or newer, and Git. Run these
+          commands from the root of the Next.js, React, or TypeScript repository you want to verify.
         </p>
       </DocsCallout>
       <DocsCallout>
@@ -48,7 +44,7 @@ export default function GettingStartedPage() {
       </DocsCallout>
       <section className="docs-section">
         <h2>1. Run one exact-version trial</h2>
-        <CodeBlock>{`cd /path/to/your-project\nnpx --yes ${MARUCHECK_CLI_SPEC} --version\nnpx --yes ${MARUCHECK_CLI_SPEC} init`}</CodeBlock>
+        <CodeBlock>{`cd /path/to/your-project\nnpx --yes ${cli.spec} --version\nnpx --yes ${cli.spec} init`}</CodeBlock>
         <p>
           This is the fastest path for one local trial. Initialization creates the{" "}
           <code>.maru/</code> workspace without overwriting existing configuration. It also manages
@@ -57,7 +53,7 @@ export default function GettingStartedPage() {
       </section>
       <section className="docs-section">
         <h2>2. Pin it before regular use</h2>
-        <CodeBlock>{`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\nnpx --no-install maru init`}</CodeBlock>
+        <CodeBlock>{`npm install --save-dev --save-exact ${cli.spec}\nnpx --no-install maru init`}</CodeBlock>
         <p>
           Pinning writes the verifier into <code>package.json</code> and{" "}
           <code>package-lock.json</code>, so local contributors and CI execute the same release. Use{" "}
@@ -143,6 +139,7 @@ export default function GettingStartedPage() {
       <DocsPageSchema
         extraNodes={[
           howToSchema({
+            cliVersion: cli.version,
             description:
               "Install the MaruCheck CLI and produce a first inspectable local release decision for a real change.",
             name: "How to verify AI-generated code with MaruCheck",
@@ -150,11 +147,11 @@ export default function GettingStartedPage() {
             steps: [
               {
                 name: "Run one exact-version trial",
-                text: `Run npx --yes ${MARUCHECK_CLI_SPEC} init from the root of your repository. Initialization creates the .maru/ workspace without overwriting existing configuration.`,
+                text: `Run npx --yes ${cli.spec} init from the root of your repository. Initialization creates the .maru/ workspace without overwriting existing configuration.`,
               },
               {
                 name: "Pin it before regular use",
-                text: `Install the verifier as an exact dev dependency with npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC} so contributors and CI execute the same release.`,
+                text: `Install the verifier as an exact dev dependency with npm install --save-dev --save-exact ${cli.spec} so contributors and CI execute the same release.`,
               },
               {
                 name: "Inspect the repository",

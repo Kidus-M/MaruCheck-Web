@@ -1,13 +1,10 @@
 import Link from "next/link";
 import { DocsCallout } from "@/components/docs-shell";
 import { DocsPageSchema } from "@/components/docs-schema";
-import {
-  MARUCHECK_CLI_VERSION,
-  MARUCHECK_CONTRIBUTING_URL,
-  MARUCHECK_NPM_URL,
-} from "@/lib/public-release";
+import { MARUCHECK_CONTRIBUTING_URL, MARUCHECK_NPM_URL } from "@/lib/public-release";
 import { docsMetadata } from "@/lib/docs-registry";
 import { absoluteUrl } from "@/lib/seo";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 export const metadata = docsMetadata("");
 
@@ -68,7 +65,8 @@ const entries = [
   ],
 ] as const;
 
-export default function DocsHomePage() {
+export default async function DocsHomePage() {
+  const cli = await fetchCliRelease();
   return (
     <>
       <span className="docs-kicker">MaruCheck documentation</span>
@@ -77,7 +75,7 @@ export default function DocsHomePage() {
         Start with product intent. End with a release decision that links back to concrete evidence.
       </p>
       <DocsCallout>
-        <strong>MaruCheck CLI v{MARUCHECK_CLI_VERSION} is open source under MIT.</strong>
+        <strong>MaruCheck CLI v{cli.version} is open source under MIT.</strong>
         <p>
           Install it from <a href={MARUCHECK_NPM_URL}>npm</a>. Core verification is local-first and
           does not require a MaruCheck account; the hosted dashboard is an optional proof-sharing

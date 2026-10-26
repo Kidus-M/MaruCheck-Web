@@ -11,11 +11,12 @@ import { DEFINITION_ANSWER, HOME_FAQ } from "@/lib/faq-content";
 import { fetchStarCount, formatStarCount } from "@/lib/github-stars";
 import type { GuideSlug } from "@/lib/guides-registry";
 import { GUIDES, guidePath } from "@/lib/guides-registry";
-import { MARUCHECK_CLI_SPEC, MARUCHECK_SOURCE_URL } from "@/lib/public-release";
+import { MARUCHECK_SOURCE_URL } from "@/lib/public-release";
 import { buildPageMetadata } from "@/lib/seo";
 import { faqSchema, softwareApplicationSchema } from "@/lib/structured-data";
+import { fetchCliRelease } from "@/lib/cli-release";
 
-const INSTALL_COMMAND = `npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}`;
+const INSTALL_COMMAND = `npm install --save-dev --save-exact ${cli.spec}`;
 
 export const metadata = buildPageMetadata({
   description:
@@ -34,6 +35,7 @@ const HOME_GUIDES: readonly GuideSlug[] = [
 ];
 
 export default async function HomePage() {
+  const cli = await fetchCliRelease();
   const stars = await fetchStarCount();
 
   return (
@@ -89,7 +91,7 @@ export default async function HomePage() {
               </div>
               <div className="v2-hero__install">
                 <span aria-hidden="true">$</span>
-                <code>npm i -D {MARUCHECK_CLI_SPEC}</code>
+                <code>npm i -D {cli.spec}</code>
                 <CopyButton label="Copy" value={INSTALL_COMMAND} />
               </div>
               <a className="v2-watch-link v2-watch-link--scroll" href="#workflow">
@@ -140,7 +142,7 @@ export default async function HomePage() {
             <div>
               <dt>Install</dt>
               <dd>
-                <code>npm i -D {MARUCHECK_CLI_SPEC}</code>
+                <code>npm i -D {cli.spec}</code>
               </dd>
             </div>
             <div>
@@ -390,7 +392,7 @@ export default async function HomePage() {
 
       <FaqSection eyebrow="09 — COMMON QUESTIONS" items={HOME_FAQ} schema={false} />
 
-      <JsonLd nodes={[softwareApplicationSchema(), faqSchema(HOME_FAQ)]} />
+      <JsonLd nodes={[softwareApplicationSchema(cli.version), faqSchema(HOME_FAQ)]} />
     </>
   );
 }

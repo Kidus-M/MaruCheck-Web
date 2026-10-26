@@ -1,11 +1,12 @@
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
-import { MARUCHECK_CLI_SPEC } from "@/lib/public-release";
 import { DocsPageSchema } from "@/components/docs-schema";
 import { docsMetadata } from "@/lib/docs-registry";
+import { fetchCliRelease } from "@/lib/cli-release";
 
 export const metadata = docsMetadata("agent-gate");
 
-export default function AgentGateDocsPage() {
+export default async function AgentGateDocsPage() {
+  const cli = await fetchCliRelease();
   return (
     <>
       <span className="docs-kicker">Agent workflow</span>
@@ -19,7 +20,7 @@ export default function AgentGateDocsPage() {
       </p>
       <section className="docs-section">
         <h2>Install</h2>
-        <CodeBlock>{`npm install --save-dev --save-exact ${MARUCHECK_CLI_SPEC}\nnpx --no-install maru init\nnpx --no-install maru hook install`}</CodeBlock>
+        <CodeBlock>{`npm install --save-dev --save-exact ${cli.spec}\nnpx --no-install maru init\nnpx --no-install maru hook install`}</CodeBlock>
         <p>
           That merges one entry into <code>.claude/settings.json</code> and leaves every other
           setting and hook untouched. Running it twice is a no-op, and{" "}
