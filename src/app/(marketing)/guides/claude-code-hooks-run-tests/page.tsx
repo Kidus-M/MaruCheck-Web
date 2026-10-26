@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CodeBlock, DocsCallout } from "@/components/docs-shell";
 import { GuideAnswer, GuideFooter, GuideHeader, GuideTable } from "@/components/guides-shell";
+import { fetchCliRelease } from "@/lib/cli-release";
 import { guideMetadata, guidePath } from "@/lib/guides-registry";
 
 const SLUG = "claude-code-hooks-run-tests";
@@ -56,7 +57,6 @@ process.exit(2);`;
 
 const PROTECT_TESTS = `// Claude Code PreToolUse hook: block edits to existing test files.
 import { existsSync } from "node:fs";
-import { fetchCliRelease } from "@/lib/cli-release";
 
 let input = "";
 for await (const chunk of process.stdin) input += chunk;

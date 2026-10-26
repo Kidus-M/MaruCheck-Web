@@ -7,6 +7,7 @@ import { MarketingTerminal } from "@/components/marketing-terminal";
 import { MarketingCta } from "@/components/marketing-ui";
 import { PressureSequence } from "@/components/pressure-sequence";
 import { VerificationDemo } from "@/components/verification-demo";
+import { fetchCliRelease } from "@/lib/cli-release";
 import { DEFINITION_ANSWER, HOME_FAQ } from "@/lib/faq-content";
 import { fetchStarCount, formatStarCount } from "@/lib/github-stars";
 import type { GuideSlug } from "@/lib/guides-registry";
@@ -14,9 +15,6 @@ import { GUIDES, guidePath } from "@/lib/guides-registry";
 import { MARUCHECK_SOURCE_URL } from "@/lib/public-release";
 import { buildPageMetadata } from "@/lib/seo";
 import { faqSchema, softwareApplicationSchema } from "@/lib/structured-data";
-import { fetchCliRelease } from "@/lib/cli-release";
-
-const INSTALL_COMMAND = `npm install --save-dev --save-exact ${cli.spec}`;
 
 export const metadata = buildPageMetadata({
   description:
@@ -35,8 +33,8 @@ const HOME_GUIDES: readonly GuideSlug[] = [
 ];
 
 export default async function HomePage() {
-  const cli = await fetchCliRelease();
-  const stars = await fetchStarCount();
+  const [stars, cli] = await Promise.all([fetchStarCount(), fetchCliRelease()]);
+  const installCommand = `npm install --save-dev --save-exact ${cli.spec}`;
 
   return (
     <>
@@ -92,7 +90,7 @@ export default async function HomePage() {
               <div className="v2-hero__install">
                 <span aria-hidden="true">$</span>
                 <code>npm i -D {cli.spec}</code>
-                <CopyButton label="Copy" value={INSTALL_COMMAND} />
+                <CopyButton label="Copy" value={installCommand} />
               </div>
               <a className="v2-watch-link v2-watch-link--scroll" href="#workflow">
                 See the decision unfold <span>↓</span>
